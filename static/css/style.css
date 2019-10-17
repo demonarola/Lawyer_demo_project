@@ -1,0 +1,254 @@
+.jumbotron {
+    background-color: white;
+}
+
+
+/* LOGIN CSS */
+
+.hero-largest,
+.hero-larger,
+.hero-large,
+.hero-heading {
+    font-size: 3em;
+    line-height: 1.16667;
+}
+
+.h2 {
+    font-size: 1.25em;
+    line-height: 1.4;
+}
+
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+    background-color: white;
+}
+
+.row {
+    margin-left: -1.2rem;
+    margin-right: -1.2rem;
+}
+
+.btn-primary:hover,
+.btn.btn.btn-primary:hover,
+.btn.btn.btn-default:hover,
+.btn-default:hover {
+    background: #ff8355;
+}
+
+.btn-primary,
+.btn.btn.btn-primary,
+.btn.btn.btn-default,
+.btn-default {
+    background-color: #F55D25;
+    color: white;
+    font-family: "Circular", Helvetica, sans-serif;
+    border-color: #F55D25;
+}
+
+.social-login-button-facebook {
+    background-color: #4f6aa2;
+    border-color: #475f91;
+}
+
+.social-login-button,
+.social-login-button:focus,
+.social-login-button:hover {
+    color: white;
+}
+
+.social-login-button {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding: 0.375em 0.75em;
+    padding-left: 0.75em;
+    padding-left: 3em;
+    border: 1px solid transparent;
+    border-bottom-width: 0px;
+    vertical-align: middle;
+}
+
+
+/* .btn:hover,
+.btn:active {
+    outline: none;
+} */
+
+.btn:hover,
+.btn:focus {
+    text-decoration: none;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    margin: 0 0 0.75em;
+}
+
+.social-login-button .icon {
+    font-size: 1.25em;
+}
+
+.hero-text,
+.lead {
+    font-size: 1.25em;
+    line-height: 1.4;
+}
+
+.center-block {
+    display: block;
+    float: none !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+label.required abbr[title="required"] {
+    color: #ED4F4B;
+    text-decoration: none;
+    border: none;
+    cursor: inherit;
+}
+
+.hero-heading {
+    line-height: 1.28571;
+    color: inherit;
+    font-size: 3em;
+    line-height: 1.16667;
+}
+
+.form-control-with-icons .icon:first-child {
+    left: 0;
+}
+
+svg:not(:root).svg-inline--fa {
+    overflow: visible;
+}
+
+.form-control-with-icons .icon {
+    width: 3.8rem;
+    height: 3.8rem;
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    text-align: center;
+    color: #333333;
+    font-size: 1.8rem;
+    line-height: 3.8rem;
+    pointer-events: none;
+    padding: 0.6rem 1.2rem;
+}
+
+.form-control-with-icons {
+    position: relative;
+}
+
+.form-control-with-icons .icon~.form-control {
+    padding-left: 3.3rem;
+}
+
+.text-muted {
+    opacity: 1;
+    color: #777777
+}
+
+.u-margin-bottom-half {
+    margin-bottom: 1.2rem !important;
+}
+
+
+/* END */
+
+
+/* Drop Down */
+
+.dropdown-item:hover {
+    background-color: #F55D25;
+    border: #F55D25;
+    border-radius: 5%;
+    width: 100%;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu a::after {
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 6px;
+    top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+    margin-right: .1rem;
+}
+
+
+/* End Drop Down*/
+
+
+/* Back Ground Image */
+
+.bg-cover {
+    background-image: url('../images/law.jpg');
+}
+
+.jumbotron {
+    text-align: center;
+    padding-top: 10rem;
+    padding-bottom: 10rem;
+    text-shadow: 2px 2px #000;
+}
+
+.lead span {
+    color: orange;
+    font-weight: bold;
+}
+
+.bg-cover {
+    background-size: cover;
+    color: white;
+    background-position: center center;
+    position: relative;
+    z-index: -2;
+}
+
+.overlay {
+    background-color: #000;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -1;
+}
+
+
+/* End Back Ground Image */
+
+.register-button {
+    border-color: #F55D25;
+    background-color: #F55D25;
+    color: white;
+}

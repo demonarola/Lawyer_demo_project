@@ -1,0 +1,115 @@
+.container {
+    width: 1170px;
+}
+
+.u-margin-top-2 {
+    margin-top: 4.8rem !important;
+}
+
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1.2rem;
+}
+
+.card,
+.card-cells {
+    margin-bottom: 1.2rem;
+    background-color: white;
+}
+
+.row {
+    margin-left: -1.2rem;
+    margin-right: -1.2rem;
+}
+
+.text-center-align {
+    text-align: center;
+}
+
+.u-margin-top-half {
+    margin-top: 1.2rem !important;
+}
+
+.u-margin-bottom-0 {
+    margin-bottom: 0rem !important;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.form-control-with-icons {
+    position: relative;
+}
+
+.form-control-with-icons .icon:first-child {
+    left: 0;
+}
+
+svg:not(:root).svg-inline--fa {
+    overflow: visible;
+}
+
+.form-control-with-icons .icon {
+    width: 3.8rem;
+    height: 3.8rem;
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 3;
+    text-align: center;
+    color: #333333;
+    font-size: 1.8rem;
+    line-height: 3.8rem;
+    pointer-events: none;
+    padding: 0.6rem 1.2rem;
+}
+
+.form-control-with-icons .icon~.form-control {
+    padding-left: 3.3rem;
+}
+
+.u-vertical-margin-1 {
+    margin-top: 2.4rem !important;
+    margin-bottom: 2.4rem !important;
+}
+
+.form-control-with-icons {
+    position: relative;
+}
+
+.u-vertical-margin-1 {
+    margin-top: 2.4rem !important;
+    margin-bottom: 2.4rem !important;
+}
+
+.btn-primary,
+.btn.btn.btn-primary,
+.btn.btn.btn-default,
+.btn-default {
+    background-color: #F55D25;
+    color: white;
+    font-family: "Circular", Helvetica, sans-serif;
+    border-color: #F55D25;
+}
+
+.small {
+    font-size: 87%;
+}
+
+.social-login-button {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding: 0.375em 0.75em;
+    padding-left: 0.75em;
+    padding-left: 3em;
+    border: 1px solid transparent;
+    border-bottom-width: 0px;
+    vertical-align: middle;
+}
+
+.col-sm-offset-2 {
+    margin-left: 16.66667%;
+}
