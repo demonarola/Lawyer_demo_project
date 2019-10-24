@@ -1,10 +1,92 @@
-{% extends 'client/base.html' %}  {% load crispy_forms_tags %}  {% block body_block %}
-<form name='' method='POST'>
-{% csrf_token %}
+{% extends 'client/base.html' %} {% load crispy_forms_tags %} {% block body_block %}
+<form name='' method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container">
+        {% if msg %}
+        <p style='color: red;'> {{msg}} </p>{% endif %}
+        <div class="card" style='justify-content: center !important;margin-top:5%;'>
+            <div class='panel panel-success'>
+                <div class="row">
+                    <div class="col">
+                        <h1>Lawyer Registration</h1>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{user_form.username|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{user_form.first_name|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{user_form.last_name|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{user_form.email|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{user_form.password|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{user_form.confirm_password|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{lawyer_form.address1|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_form.address2|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_form.city|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{lawyer_form.state|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_form.zipcode|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_form.phone_number|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{lawyer_form.license_in|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_form.license_id|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_form.year_admitted|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{lawyer_form.profile_image|as_crispy_field}}
+                    </div>
 
-{{user_form|crispy}}
-{{lawyer_form|crispy}}
-<input type='submit' value='Submit'>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+
+                        <div class="g-recaptcha" data-sitekey="6LdnKbYUAAAAAI9SCXcoi8k4jE6xcHJTv0Pyi393"></div>
+                        <input type='submit' value='Sign Up' class='btn btn-primary'>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
 </form>
 
 {% endblock %}

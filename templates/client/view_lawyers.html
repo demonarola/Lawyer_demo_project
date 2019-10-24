@@ -1,1 +1,13 @@
-{% extends 'client/base.html' %} {% block body_block %} {{ practice_area }} {% endblock %}
+{% extends 'client/base.html' %} {% block body_block %} 
+
+{% for i in d1 %}
+{{i.lawyer_id.user.first_name}}
+{{i.lawyer_id.user.email}}
+
+{{i.sub_practice_area}}
+
+
+<br/><br/>
+{% endfor %}
+
+{% endblock %}

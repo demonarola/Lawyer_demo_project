@@ -27,7 +27,7 @@ SECRET_KEY = '&u^go%ps+86uo&j4(maykr8j#0lv=k*)pylpcj!j+5c3rjmo5u'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'lawyer',
 
-    
 ]
 
 MIDDLEWARE = [
