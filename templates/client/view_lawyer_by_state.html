@@ -1,0 +1,58 @@
+{% extends 'client/base.html' %}
+
+{% block  body_block %}
+
+
+<div class='container-fluid' style='margin-top:5%'>
+<table class="table table-striped" >
+    
+<tbody id="myTable">
+    {% if state_wise_lawyer %}
+    <thead>
+        <tr>
+            <th>Profile</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th>Address1</th>
+            <th>Address2</th>
+            <th>State</th>
+            <th>Phone Number</th>
+            <th>License In</th>
+            <th>Practice Area</th>
+            <th>Sub Practice Area</th>
+         
+
+        </tr>
+    </thead>
+    {% for s in state_wise_lawyer %}
+
+
+    <tr>
+
+        <td><img src="{{ MEDIA_URL }}/{{s.lawyer_id.profile_image}}" width="50px" height="50px" style="border-radius:50%;"></td>
+        <td>{{ s.lawyer_id.user.first_name }}</td>
+        <td>{{ s.lawyer_id.user.last_name }}</td>
+        <td>{{ s.lawyer_id.user.email }}</td>
+        <td>{{ s.lawyer_id.address1 }} </td>
+        <td>{{ s.lawyer_id.address2 }}</td>
+        <td>{{ s.lawyer_id.state }}</td>
+        <td>{{ s.lawyer_id.phone_number }}</td>
+        <td>{{ s.lawyer_id.license_in }}</td>
+        <td>{{ s.practice_area.practice  }}</td>
+        <td>{{ s.sub_practice_area }}</td>
+    </tr>
+</tbody>
+
+{% endfor %}
+{% else %}
+
+    <div class="alert alert-danger">    
+    Ooops! No Lawyer Available for this state...
+</div>
+
+ {% endif %}
+
+</div>
+</table>
+{% endblock  %}

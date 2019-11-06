@@ -1,4 +1,24 @@
 {% extends 'client/base.html' %} {% load staticfiles %} {% block body_block %}
+<style>
+    .rating-stars ul {
+        list-style-type: none;
+        padding-left: -50px;
+       
+    }
+    
+    .rating-stars ul>li.star {
+        display: inline-block;
+    }
+    /* Idle State of the stars */
+    
+    .rating-stars ul>li.star>i.fa {
+        font-size: 1.2em;
+        /* Change the size of the stars */
+        color: #FF912C;
+        /* Color on idle state */
+    }
+    
+</style>
 <div class="jumbotron jumbotron bg-cover">
     <div class="overlay"></div>
     <h1>Experienced lawyers are</h1>
@@ -24,132 +44,79 @@
     </ol>
     <!--/.Indicators-->
 
+
     <!--Slides-->
     <div class="carousel-inner" role="listbox">
 
         <!--First slide-->
         <div class="carousel-item active">
-
-            <div class="col-md-4">
-
-                <div class="card mb-2">
-
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(34).jpg" alt="Card image cap">
-
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
-                    </div>
-                </div>
-
-            </div>
-
+        {% for l in lawyer  %}
             <div class="col-md-4">
                 <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(18).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
+                    <div class='row'>
+                        <div class='col-sm-4'>
+                            <a href='{% url "lawyer_profile" l.user.id %}'><img class="card-img-top" src="{{ MEDIA_URL }}/{{ l.profile_image }}" alt="Card image cap" height='100px'></a>
+                        </div>
+                        <div class='col-sm-8'>
+                            <h2 class='lawyer_name_review'><a href='{% url "lawyer_profile" l.user.id %}'>{{l.user.first_name}} {{l.user.last_name}}</a></h2>
+                             <i class="fa fa-map-marker" style='color:grey;padding-right:8px;'></i><strong class='lawyer_address_review'>{{l.address1}}</strong>
+                                                
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/4-col/img%20(35).jpg" alt="Card image cap">
+                
+                    <hr>
+                   
+                    <div class='row'> 
                     <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
+                    <div style='max-height:120px;overflow:hidden;'>
+                    {% for r in review_lawyer %}
+                        
+                    {% if l.user.id == r.lawyer_id.user.id %}
+                
+                     {% comment %} {% if forloop.counter == forloop.parentloop.counter %} {% endcomment %}
+                      
+                 
+                        <strong>{{r.title}}</strong>
+                    
+                        <section class='rating-widget'>
+                            
+                    <!-- Rating Stars Box -->
+                    <div class='row'>
+                   
+                    <div class='rating-stars' style='margin-left:-6%;'>
+
+                        <ul>
+                        {% for i in "x"|rjust:r.rating %}
+                            <li class='star'>
+                                <i class='star fa fa-star fa-fw'></i>
+                            </li>
+                        {% endfor %}
+                        </ul>
                     </div>
-                </div>
-            </div>
-
-        </div>
-        <!--/.First slide-->
-
-        <!--Second slide-->
-        <div class="carousel-item">
-
-            <div class="col-md-4">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
+                    <div class='text-muted-review'>By {{r.user.first_name}} <span class='text-muted-review'> {{r.date}}</span></div>
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(47).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
+                </section>
+                   
+                   {% endif %}
+                    {% endfor %}
                     </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(48).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
+                        
+                        <a class="btn btn-primary" href='{% url "viewall_review_lawyer" l.user.id %}'>View All Reviews</a>
                     </div>
-                </div>
-            </div>
-
-        </div>
-        <!--/.Second slide-->
-
-        <!--Third slide-->
-        <div class="carousel-item">
-
-            <div class="col-md-4">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(53).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
                     </div>
-                </div>
+                 </div>
             </div>
-
-            <div class="col-md-4">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(45).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card mb-2">
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/Food/4-col/img%20(51).jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a class="btn btn-primary">Button</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--/.Third slide-->
+            {% if forloop.counter|divisibleby:3 and not forloop.last %}
     </div>
+     <div class="carousel-item">
+
+
+
+     {% endif %}
+     
+     {% endfor %}
     <!--/.Slides-->
 </div>
 <!--/.Carousel Wrapper-->
-
 
 {% endblock %}

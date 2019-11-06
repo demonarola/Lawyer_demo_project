@@ -73,7 +73,7 @@
 
 /* .btn:hover,
 .btn:active {
-    outline: none;
+outline: none;
 } */
 
 .btn:hover,
@@ -142,7 +142,6 @@ svg:not(:root).svg-inline--fa {
 
 .form-control-with-icons .icon {
     width: 3.8rem;
-    height: 3.8rem;
     display: block;
     position: absolute;
     top: 0;
@@ -258,3 +257,313 @@ svg:not(:root).svg-inline--fa {
 
 
 /* End */
+
+.u-margin-top-2 {
+    margin-top: 4.8rem !important;
+}
+
+.col-sm-offset-2 {
+    margin-left: 16.66667%;
+}
+
+
+/* CAROUSEL CSS */
+
+.lawyer_name_review {
+    font-size: 1.25em;
+    line-height: 1.4;
+    color: #008CC9;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    font-style: bold;
+}
+
+.lawyer_address_review {
+    font-size: 0.8rem !important;
+    opacity: 0.7;
+    letter-spacing: 0.18em;
+    line-height: 1.57143;
+    text-transform: uppercase;
+}
+
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1.2rem;
+}
+
+.text-muted-review {
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+
+/* END */
+
+
+/* VIEW_REVIEW */
+
+.control-label {
+    display: block;
+    font-weight: 500;
+}
+
+.error {
+    color: red;
+    font-size: 1.1rem;
+}
+
+.u-vertical-padding-1 {
+    padding-top: 2.4rem !important;
+    padding-bottom: 2.4rem !important;
+}
+
+.remove-right-gutter {
+    padding-right: 0;
+}
+
+.u-bg-cool-gray {
+    background-color: #CDCFCE !important;
+}
+
+.img-responsive {
+    max-width: 100%;
+    height: 100%;
+}
+
+[class*='u-spacer-'] {
+    margin-bottom: 1.2rem;
+}
+
+.u-vertical-margin-0 {
+    margin-top: 0rem !important;
+    margin-bottom: 0rem !important;
+}
+
+.name-review {
+    font-size: 1.50em;
+    line-height: 1.2857142857;
+}
+
+.btn-outline-review {
+    color: #008CC9;
+    background-color: transparent;
+    border: 1px solid currentColor;
+}
+
+.btn-review {
+    padding: 0.6rem 1.2rem;
+    font-size: 1em;
+    line-height: 1.5;
+    border-radius: 3px;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 0;
+    background-image: none;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.3s ease;
+}
+
+.rating-stars ul {
+    list-style-type: none;
+    padding-left: -50px;
+}
+
+.rating-stars ul>li.star {
+    display: inline-block;
+}
+
+
+/* Idle State of the stars */
+
+.rating-stars ul>li.star>i.fa {
+    font-size: 1.2em;
+    /* Change the size of the stars */
+    color: #FF912C;
+    /* Color on idle state */
+}
+
+.u-vertical-padding-1 {
+    padding-top: 2.4rem !important;
+    padding-bottom: 2.4rem !important;
+}
+
+.unstyled-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.u-vertical-margin-2 {
+    margin-top: 4.8rem !important;
+    margin-bottom: 4.8rem !important;
+}
+
+.u-vertical-margin-0 {
+    margin-top: 0rem !important;
+    margin-bottom: 0rem !important;
+}
+
+.u-text-color-coral {
+    color: #F27760 !important;
+}
+
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.v-show-tooltip {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.all_review_name {
+    font-size: 1em;
+    line-height: 1.5;
+    font-weight: 700;
+}
+
+.lawyer_review_list {
+    margin: 0 0 0.75em;
+    font-size: 0.9rem;
+}
+
+.paginator-margin-top {
+    margin-top: 5%;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+
+/* END */
+
+
+/* CRISPY */
+
+.asteriskField {
+    color: red;
+}
+
+
+/* END */
+
+
+/* VIEW LAWYER */
+
+.block-link {
+    display: block;
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.small {
+    font-size: 87%;
+}
+
+.u-margin-bottom-half {
+    margin-bottom: 1.2rem !important;
+}
+
+.btn-message {
+    text-decoration: none;
+    width: 96%;
+    background-color: #F55D25;
+    color: white;
+    border-radius: 3px;
+    padding: 0.6rem 1.2rem;
+    font-size: 1em;
+    line-height: 1.5;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 0;
+    background-image: none;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 0.3s ease
+}
+
+.btn-message:hover {
+    background-color: #F55D25;
+    color: white;
+}
+
+.u-text-color-yellow {
+    margin-left: 15%;
+}
+
+.lawyer-text {
+    font-size: 16px;
+    font-weight: 350;
+    text-decoration: none;
+    margin-left: 6.5%;
+}
+
+.lawyer-text:hover {
+    font-size: 16px;
+    font-weight: 350;
+}
+
+.remove-right-gutter {
+    padding-right: 0;
+}
+
+.svg-inline--fa.fa-w-16 {
+    width: 1em;
+    padding-left: 20px;
+}
+
+.u-text-color-dark-gray {
+    color: #666666 !important;
+}
+
+.svg-inline--fa {
+    display: inline-block;
+    font-size: inherit;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -.125em;
+}
+
+.text-muted-lawyer {
+    opacity: 1;
+    padding-left: 20px;
+    padding-top: 1px;
+}
+
+.u-margin-bottom-0 {
+    margin-bottom: 0rem !important;
+}
+
+.lawyer-row {
+    margin-top: -3%;
+    margin-left: 2%;
+}
+
+.lawyer-email {
+    font-size: 0.8rem;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.img-responsive-lawyer {
+    max-width: 100%;
+    height: 70%;
+}
+
+.margin-lawyer-top {
+    margin-top: 3.5%;
+}
+
+.hr {
+    width: 73%;
+    margin-left: 33%;
+}
+
+
+/* END */

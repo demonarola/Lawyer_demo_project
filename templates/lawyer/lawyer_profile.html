@@ -1,0 +1,63 @@
+{% extends 'client/base.html' %} {% block body_block %}
+<div class='container'>
+
+    <table class="table table-stripped table-bordered">
+        <thead>
+            <tr>
+
+                <td colspan='2'> <img class="img-circle" src="{{ MEDIA_URL }}/{{ lawyer1.profile_image }}" alt="Card image cap" height='150px'></td>
+            </tr>
+            <tr>
+                <th>Username:</th>
+                <td>{{lawyer1.user.username}}</td>
+            </tr>
+            <tr>
+                <th>Name:</th>
+                <td>{{lawyer1.user.first_name}}</td>
+            </tr>
+            <tr>
+                <th>Last Name:</th>
+                <td>{{lawyer1.user.last_name}}</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td>{{lawyer1.user.email}}</td>
+            </tr>
+            <tr>
+                <th>Address1:</th>
+                <td>{{lawyer1.address1}}</td>
+            </tr>
+            <tr>
+                <th>Address2:</th>
+                <td>{{lawyer1.address2}}</td>
+            </tr>
+            <tr>
+                <th>Phone Number:</th>
+                <td>{{lawyer1.phone_number}}</td>
+            </tr>
+            <tr>
+                <th>License In:</th>
+                <td>{{lawyer1.license_in}}</td>
+            </tr>
+            <tr>
+                <th>Year Admitted:</th>
+                <td>{{lawyer1.year_admitted}}</td>
+            </tr>
+            <tr>
+                <th>Practice area:</th>
+                <td>
+                    {% for l2 in lawyer2 %} {{l2.practice_area}}:{{l2.sub_practice_area}} <br/>{% endfor %}
+                </td><br/>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<div class='container paginator-margin-top'>
+    {% if user.is_authenticated and user.is_staff %}
+        <a href='{% url "review_lawyer" lawyer1.user.id %}'>Review Lawyer</a>
+    {% endif %}
+</div>
+
+
+{% endblock %}

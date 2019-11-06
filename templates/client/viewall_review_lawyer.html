@@ -1,0 +1,111 @@
+ {% extends 'client/base.html' %} {% block body_block %}
+
+<style>
+   
+</style>
+<div class="container u-vertical-padding-1">
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4 col-sm-1 col-sm-offset-0 remove-right-gutter">
+            <div class="text-right text-center-xs"><img class="img-responsive u-bg-cool-gray" style="width: 112px;" src="{{ MEDIA_URL }}/{{ lawyer.profile_image }}">
+                <div class="u-spacer-half"></div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-11 text-center-xs">
+            <h1 class="u-vertical-margin-0 name-review">{{lawyer.user.first_name}} {{lawyer.user.last_name}} reviews</h1>
+
+            <p class="h2 u-vertical-margin-0 rating-stars">
+                {% comment %} <div class='rating-stars' style='margin-left:-4%;'>
+                    {% for r in review_lawyer %}
+                    <ul>
+                        {% if forloop.counter == 1 %} {% for i in "x"|rjust:r.rating %}
+                        <li class='star'>
+                            <i class='star fa fa-star fa-fw'></i>
+                        </li>
+                        {% endfor %} {% endif %}
+                    </ul>
+
+                    {% endfor %}
+                </div> {% endcomment %}
+                 <div class='rating-stars'  style='margin-left:-4%;'>
+            <ul id='stars'>
+                <li class='star' title='Poor' data-value='1' value='Poor'>
+                    <i class='fa fa-star fa-fw'></i>
+                </li>
+                <li class='star' title='Fair' data-value='2'>
+                    <i class='fa fa-star fa-fw'></i>
+                </li>
+                <li class='star' title='Good' data-value='3'>
+                    <i class='fa fa-star fa-fw'></i>
+                </li>
+                <li class='star' title='Excellent' data-value='4'>
+                    <i class='fa fa-star fa-fw'></i>
+                </li>
+                <li class='star' title='WOW!!!' data-value='5'>
+                    <i class='fa fa-star fa-fw'></i>
+                </li>
+            </ul>
+        </div>
+            </p>
+
+            </span>
+
+            <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;' href="{% url "review_lawyer" lawyer.user.id %}">Review {{lawyer.user.first_name}} {{lawyer.user.last_name}}</a></div>
+    </div>
+</div>
+
+
+
+<div class='container'>
+ {% for r in review_lawyer %}
+    <div class="row" style='margin-top:3%;'>
+        <div class="col-xs-12 col-md-3">
+            <div class='rating-stars' style='margin-left:-18%;'>
+                <ul>
+                    {% for i in "x"|rjust:r.rating %}
+                    <li class='star'>
+                        <i class='star fa fa-star fa-fw'></i>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <small>
+                <span class="text-muted" style='padding-top:-5px;'>Posted by</span> {{r.user}} {{r.user.last_name}}
+                <br class="hidden-xs">
+                <span class="text-muted"><time datetime="2019-09-02T22:58:43Z" data-local="time" data-format="%B %e, %Y" title="September 3, 2019 at 4:28am IST" data-localized="true">{{r.date}}</time>
+                </span>
+            </small>
+        </div>
+        <div class="col-xs-12 col-md-9 pull-right">
+        <h3 class="u-vertical-margin-0 all_review_name" itemprop="headline"><b>{{r.title}}</b></h3>
+           <p class='lawyer_review_list'>{{r.review}}</p>
+        </div>
+    </div>
+         {% endfor %}
+</div>
+
+<div class='container paginator-margin-top text-xs-center'>
+    <nav>
+        <div id='pagination_change'>
+
+            <ul class="pagination">
+
+                {% if review_lawyer.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ review_lawyer.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %} {% for i in review_lawyer.paginator.page_range %} {% if review_lawyer.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+                </li>
+                {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %} {% endfor %} {% if data.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ review_lawyer.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </nav>
+</div>
+{% endblock %}

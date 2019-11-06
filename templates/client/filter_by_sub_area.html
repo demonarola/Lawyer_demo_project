@@ -1,0 +1,127 @@
+{% load calculate_experience %}
+
+
+<div class="col-xs-12 col-md-12" id='myTable1'>
+    {% for p in practice_area %}
+
+
+    <div class="row" style='margin-top:5%;'>
+        <div class="col-xs-3 col-sm-2 remove-right-gutter">
+            <div class="labeled-img u-font-size-xs">
+
+                <img class="img-responsive-lawyer loaded" src="{{ MEDIA_URL }}/{{p.lawyer_id.profile_image}}">
+            </div>
+
+        </div>
+        <div class="col-xs-9 col-sm-10">
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <a href=''>
+                        <h3 class="u-vertical-margin-0 lawyer-text">{{p.lawyer_id.user.first_name}} {{p.lawyer_id.user.last_name}}</h3>
+                    </a>
+
+                    <div class="row lawyer-row">
+                        <div class="col-xs-6">
+                            <div class="u-margin-bottom-0 u-font-size-small">
+                                <p class="visible-xs"><span class="u-text-color-yellow">
+                                                <div class='rating-stars'  style='margin-left:-14%;margin-top:-12%;'>
+                                                        <ul id='stars'>
+                                                            <li class='star' title='Poor' data-value='1' value='Poor'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Fair' data-value='2'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Good' data-value='3'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Excellent' data-value='4'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='WOW!!!' data-value='5'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+
+                            <div class="col-xs-12 remove-right-gutter">
+                                <div class="row lawyer-row">
+                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter v-js-serp-lawyer-licensed">
+                                        <i class="svg-inline--fa fa fa-university fa-w-16 u-text-color-dark-gray"></i>
+                                        <span class="small text-muted-lawyer"> {{ p.lawyer_id.year_admitted|experience }} years licensed</span></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 remove-right-gutter">
+                        <div class="row lawyer-row">
+                            <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                <h3 class="u-vertical-margin-0 lawyer-email">{{ p.lawyer_id.user.email}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 remove-right-gutter">
+                        <div class="row lawyer-row">
+                            <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                <h3 class="u-vertical-margin-0 lawyer-email">{{ p.practice_area.practice }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 remove-right-gutter">
+                        <div class="row lawyer-row">
+
+                            <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                <div style='max-height:100px;overflow:hidden;'>
+                                    {% for r in review %} {% if r.lawyer_id.user.id == p.lawyer_id.user.id %}
+                                    <h3 class="u-vertical-margin-0 lawyer-email"><b>Review:</b>{{r.review|slice:":200"}}</h3>
+                                    {% else %}
+                                    <h3 class="u-vertical-margin-0 lawyer-email"><b></b></h3>
+                                    {% endif %} {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="col-xs-12 col-md-4 v-optimizely-card hidden-xs hidden-sm v-js-serp-lawyer-ctas" data-gtm-vis-first-on-screen-223405_568="6829" data-gtm-vis-total-visible-time-223405_568="100" data-gtm-vis-has-fired-223405_568="1">
+
+                            <div class="row small text-center">
+                                <div class="col-sm-12 u-margin-top-half">
+                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;' href="">Message</a></div>
+                            </div>
+                            <div class="col-sm-12 u-margin-top-half">B</div>
+                            <div class="col-xs-6 col-sm-12 u-margin-top-half">C</div>
+                        </div> -->
+            </div>
+
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+<ul class="pagination">
+
+    {% if practice_area.has_previous %}
+    <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ practice_area.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %} {% for i in practice_area.paginator.page_range %} {% if practice_area.number == i %}
+    <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+    </li>
+    {% else %}
+    <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ i }}">{{ i }}</a></li>
+    {% endif %} {% endfor %} {% if data.has_next %}
+    <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ practice_area.next_page_number }}">&raquo;</a></li>
+    {% else %}
+    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+</ul>
+</div>
+</div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from lawyer.models import Lawyer,State,Data,Practice_area,Sub_practice_area,Lawyer_practice_area
+from lawyer.models import Lawyer,State,Practice_area,Sub_practice_area,Lawyer_practice_area,Review_Lawyer
 # Register your models here.
 
 
@@ -14,4 +14,4 @@ admin.site.register(State)
 admin.site.register(Practice_area)
 admin.site.register(Sub_practice_area,data1_list)
 admin.site.register(Lawyer_practice_area,data_list)
-admin.site.register(Data)
+admin.site.register(Review_Lawyer)

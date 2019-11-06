@@ -1,0 +1,72 @@
+{% extends 'client/base.html' %} {% load crispy_forms_tags %} {% block body_block %}
+<form name='' method='POST' enctype="multipart/form-data" action='{% url "lawyer_edit_profile" %}'>
+    {% csrf_token %}
+    <div class="container">
+
+        <div class="card" style='justify-content: center !important;margin-top:5%;'>
+            <div class='panel panel-success'>
+                <div class="row">
+                    <div class="col">
+                        <h1>Edit Profile</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{user_editform.username|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{user_editform.first_name|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{user_editform.last_name|as_crispy_field}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{user_editform.email|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_editform.address1|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_editform.address2|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{lawyer_editform.city|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_editform.state|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_editform.zipcode|as_crispy_field}}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        {{lawyer_editform.phone_number|as_crispy_field}}
+                    </div>
+                    <div class="col-sm-4">
+                        {{lawyer_editform.profile_image|as_crispy_field}}
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+
+                        <div class="g-recaptcha" data-sitekey="6LdnKbYUAAAAAI9SCXcoi8k4jE6xcHJTv0Pyi393"></div>
+                        {% if msg %}
+                        <p style='color: red;'> {{msg}} </p>{% endif %}
+                        <input type='submit' value='Edit' class='btn btn-primary'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+{% endblock %}

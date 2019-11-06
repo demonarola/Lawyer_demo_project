@@ -6,6 +6,8 @@ from django.core.validators import RegexValidator
 # Create your models here.
 
 
+# title_valid = '^[A-Za-z]+|,| |/|{2}[a-z0-9]{1,30}'
+# title_review = '^[A-Za-z0-9]+|,| |/|[A-Za-z]+)+[A-Za-z0-9]+|,| |$'
 
 class State(models.Model):
     state_name = models.CharField(max_length=400,null=True,blank=True)
@@ -41,17 +43,17 @@ class Lawyer(models.Model):
     
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     address1 = models.CharField(max_length=400,blank=False,null=False,validators=[
-        RegexValidator(regex='^[A-Za-z0-9]*$',message='Enter Valid Address1')
+        RegexValidator(regex='(^[A-Za-z0-9]+|,| |/|[A-Za-z]+)+[A-Za-z0-9]+|,| |$',message='Enter Valid Address1')
     ])
     address2 = models.CharField(max_length=400,blank=False,null=False,validators=[
-        RegexValidator(regex='^[A-Za-z0-9]*$',message='Enter Valid Address2')
+        RegexValidator(regex='(^[A-Za-z0-9]+|,| |/|[A-Za-z]+)+[A-Za-z0-9]+|,| |$',message='Enter Valid Address2')
     ])
     city = models.CharField(max_length=128,blank=False,null=False,validators=[
         RegexValidator(regex='[A-Za-z]{2}[a-z]+$',message='City should only contain letters..')
     ])
     state = models.ForeignKey(State,on_delete=models.CASCADE,null=False,blank=False)
     zipcode = models.CharField(max_length=128,blank=False,null=False,validators=[
-        RegexValidator('^[0-9]{6}$',message='Enter Valid Zipcode')
+        RegexValidator(regex='^[0-9]{6}$',message='Enter Valid Zipcode')
     ])
     phone_number = models.CharField(max_length=128,blank=False,null=False,validators=[
         RegexValidator(regex='^[6|7|8|9]+[0-9]{9}$',message='Enter 10 digit number')
@@ -68,14 +70,6 @@ class Lawyer(models.Model):
 
 
 
-
-class Data(models.Model):
-    name = models.CharField(max_length=100,null=True,blank=True)
-    value = models.CharField(max_length=250,null=True,blank=True)
-    
-    
-    def __str__(self):
-        return self.name
 
 
 class Practice_area(models.Model):
@@ -106,3 +100,18 @@ class Lawyer_practice_area(models.Model):
 
     def __str__(self):
         return self.sub_practice_area
+
+
+class Review_Lawyer(models.Model):
+    lawyer_id = models.ForeignKey(Lawyer,on_delete=models.CASCADE, blank=False, null=False)
+    user = models.ForeignKey(User,on_delete=models.CASCADE, blank=False, null=False)
+    title = models.CharField(max_length=228, blank=False, null=False)
+    review = models.CharField(max_length=5000, blank=False, null=False)
+    rating = models.IntegerField(blank=False)
+    date = models.DateField(blank=False, null=False,auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = 'Review Lawyer'

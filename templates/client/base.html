@@ -1,12 +1,14 @@
 <html>
 {% load staticfiles %}
-
+{% load crispy_forms_tags %} 
 
 <head>
 
     <link href='{% static "css/bootstrap.css" %}' rel='stylesheet' />
     <link href='{% static "css/style.css" %}' rel='stylesheet' />
     <link href='{% static "css/carousel.css" %}' rel='stylesheet' />
+    <link href='{% static "css/glyphicon.css" %}' rel='stylesheet' />
+    {% comment %} <link href='{% static "css/client_register.css" %}' rel='stylesheet' /> {% endcomment %}
     <!-- <link href='{% static "css/font-awesome.css" %}' rel='stylesheet' /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -22,27 +24,15 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+                
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'index' %}">Dashboard<span class="sr-only">(current)</span></a>
                 </li>
 
-                <!-- <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        View Lawyer
-                      </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Practice Area</a>
-                        <a class="dropdown-item" href="#">State</a>
-
-                    </div>
-                </li> -->
-
-
-
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          View Layer
-        </a>
+                        View Layer
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">By Practice Area</a>
                             <ul class="dropdown-menu">
@@ -53,9 +43,26 @@
                                 <li><a class="dropdown-item" href="{% url 'view_lawyers' %}?practice_area=FAMILY">FAMILY</a></li>
                             </ul>
                         </li>
-                        <li><a class="dropdown-item" href="#">By State</a></li>
+                        
+                        <li><a class="dropdown-item" href="{% url 'state_list' %}">By State</a></li>
+                        {% comment %} <li><a class="dropdown-item" href="">By City</a></li> {% endcomment %}
                     </ul>
                 </li>
+                
+                  {% if user.is_superuser %}
+                   <li class="nav-item">
+                    <a class="nav-link" href="{% url "lawyer_profile" user.id  %}">View Profile<span class="sr-only"></span></a>
+                </li>
+                   <li class="nav-item">
+                    <a class="nav-link" href="{% url 'lawyer_edit_profile' %}">Edit Profile<span class="sr-only"></span></a>
+                </li>
+                        <li class="nav-item">
+                    <a class="nav-link" href="{% url 'add_practice_area' %}">Add Practice Area<span class="sr-only"></span></a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="#">Change Password<span class="sr-only">(current)</span></a>
+                </li>
+                  {% endif %}
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Sign Out <span class="sr-only"></span></a>
@@ -87,7 +94,7 @@
         $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
             if (!$(this).next().hasClass('show')) {
                 $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
-            }   
+            }
             var $subMenu = $(this).next(".dropdown-menu");
             $subMenu.toggleClass('show');
 
@@ -95,11 +102,11 @@
             $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
                 $('.dropdown-submenu .show').removeClass("show");
             });
-            
+
             return false;
         });
     </script>
-<script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </body>
 
 </html>

@@ -1,0 +1,32 @@
+{% extends 'client/base.html' %} {% block body_block %}
+
+<style>
+    .statelist {
+        padding-top: 0px;
+    }
+</style>
+
+<div class='container' style='margin-top:5%;'>
+    <div class="row">
+
+        <div class="col-sm-4">
+            {% for states1 in state1 %}
+            <div><a class="statelist" href='{% url "practice_area_for_state" %}?state={{states1.id}}'>{{states1.state_name}}</a></div>
+            </p><br/> {% endfor %}
+
+        </div>
+        <div class="col-sm-4">
+            {% for states2 in state2 %}
+            <div><a href='{% url "practice_area_for_state" %}?state={{states2.id}}'>{{states2.state_name}}</a></div>
+            </p><br/> {% endfor %}
+
+        </div>
+        <div class="col-sm-4">
+            {% for states3 in state3 %}
+            <div><a href='{% url "practice_area_for_state" %}?state={{states3.id}}'>{{states3.state_name}}</a></div>
+            </p><br/> {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
