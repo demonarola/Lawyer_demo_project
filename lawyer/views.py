@@ -91,15 +91,15 @@ def user_logout(request):
 
 def view_lawyer(request):
     pname = request.GET['practice_area']
+   
     practice_area1 = Lawyer_practice_area.objects.filter(practice_area__practice=pname)
     page = request.GET.get('page', 1)
     paginator = Paginator(practice_area1, 3)
-    review = Review_Lawyer.objects.filter(lawyer_id__user_id__in=Subquery(
-                Lawyer.objects.all().values('user_id')))
+    # review = Review_Lawyer.objects.filter(lawyer_id__user_id__in=Subquery(
+    #             Lawyer.objects.all().values('user_id')))
 
-    review1 = Review_Lawyer.objects.filter(lawyer_id__user_id__in=Subquery(
+    review = Review_Lawyer.objects.filter(lawyer_id__user_id__in=Subquery(
                 Lawyer_practice_area.objects.filter(practice_area__practice=pname).values('lawyer_id__user_id')))
-    print(review1)
     sub_practice_area = Sub_practice_area.objects.filter(practice_id__practice=pname)
 
     try:
@@ -251,10 +251,8 @@ def lawyer_edit_profile(request):
 
 
 def state_list(request):
-    state1 = State.objects.all().order_by('state_name')[1:12]
-    state2 = State.objects.all().order_by('state_name')[13:24]
-    state3 = State.objects.all().order_by('state_name')[25:]
-    return render(request,'client/state.html',{'state1':state1,'state2':state2,'state3':state3})
+    state = State.objects.all()
+    return render(request,'client/state.html',{'state':state})
 
 def practice_area_for_state(request):
     state = request.GET['state']
@@ -276,27 +274,6 @@ def lawyer_profile(request,lid):
     lawyer1 = Lawyer.objects.get(user_id=lid) 
     lawyer2 = Lawyer_practice_area.objects.filter(lawyer_id__user_id=lid)
     return render(request,'lawyer/lawyer_profile.html',{'lawyer1':lawyer1,'lawyer2':lawyer2})
-
-def filter_by_sub_area(request):
-    sub_area = request.GET['value']
-    page = request.GET.get('page', 1)
-    pname = request.GET['practice_area']
-    review = Review_Lawyer.objects.filter(practice_area__practice=pname,lawyer_id__user_id__in=Subquery(
-                Lawyer.objects.all().values('user_id')))
-    if sub_area == 'all':
-        filter_sub_area1 = Lawyer_practice_area.objects.filter(practice_area__practice=pname)
-       
-    else:
-        filter_sub_area1 = Lawyer_practice_area.objects.filter(sub_practice_area__contains=sub_area)
-    
-    paginator = Paginator(filter_sub_area1, 3)
-    try:
-        filter_sub_area = paginator.page(page)
-    except PageNotAnInteger:
-        filter_sub_area = paginator.page(1)
-    except EmptyPage:
-        filter_sub_area = paginator.page(paginator.num_pages)
-    return render(request,'client/filter_by_sub_area.html',{'practice_area':filter_sub_area,'sub_area':sub_area,'pname':pname,'review':review})
 
 
 # def paginator_page(request):
@@ -323,22 +300,21 @@ def filter_by_sub_area(request):
 def review_lawyer(request,lid):
     review_form = Review_lawyer_form()
     lawyer1 = Lawyer.objects.get(user_id=lid) 
+   
     msg = ''
     if request.method == 'POST':
-        print(request.POST.get('lawyer'))
         review_form = Review_lawyer_form(data=request.POST)
         lawyer = Lawyer.objects.get(user_id=request.POST.get('lawyer')) 
         user = User.objects.get(id=request.POST.get('client'))
         try:
 
-            if Review_Lawyer.objects.get(user_id=request.POST.get('client')):
-                l = Review_Lawyer.objects.get(user_id=request.POST.get('client'))
+            if Review_Lawyer.objects.get(user_id=request.POST.get('client'),lawyer_id__user_id=request.POST.get('lawyer')):
+                l = Review_Lawyer.objects.get(user_id=request.POST.get('client'),lawyer_id__user_id=request.POST.get('lawyer'))
                 review_form = Review_lawyer_form(request.POST,instance=l)
         except:
             review_form = Review_lawyer_form(data=request.POST)
 
         if review_form.is_valid():
-            print('-- yes---')
             review = review_form.save(commit=False)
             review.lawyer_id = lawyer
             review.user = user
@@ -350,11 +326,11 @@ def review_lawyer(request,lid):
         #     review.lawyer_id = lawyer
         #     review.user = user
 
-            if request.recaptcha_is_valid:
-                review.save()
-                return HttpResponseRedirect(reverse('viewall_review_lawyer'))
-            else:
-                msg= 'Invalid reCAPTCHA. Please try again.'
+            # if request.recaptcha_is_valid:
+            review.save()
+            #     return HttpResponseRedirect(reverse('viewall_review_lawyer'))
+            # else:
+            #     msg= 'Invalid reCAPTCHA. Please try again.'
     return render(request,'client/review_lawyer.html',{'lawyer1':lawyer1,'review_form':review_form,'msg':msg})
 
 
@@ -372,3 +348,66 @@ def viewall_review_lawyer(request,lid):
     except EmptyPage:
         review_lawyer = paginator.page(paginator.num_pages)
     return render(request,'client/viewall_review_lawyer.html',{'lawyer':lawyer,'review_lawyer':review_lawyer})
+
+
+def filter_by_sub_area(request): 
+    sub_area = request.GET['value']
+    page = request.GET.get('page', 1)
+    pname = request.GET['practice_area']
+    # review = Review_Lawyer.objects.filter(practice_area__practice=pname,lawyer_id__user_id__in=Subquery(
+    #             Lawyer.objects.all().values('user_id')))
+    review = Review_Lawyer.objects.filter(lawyer_id__user_id__in=Subquery(
+                Lawyer_practice_area.objects.filter(practice_area__practice=pname).values('lawyer_id__user_id'))).count()
+    if sub_area == 'all':
+        filter_sub_area1 = Lawyer_practice_area.objects.filter(practice_area__practice=pname)
+       
+    else:
+        filter_sub_area1 = Lawyer_practice_area.objects.filter(sub_practice_area__contains=sub_area)
+    
+    paginator = Paginator(filter_sub_area1, 3)
+    try:
+        filter_sub_area = paginator.page(page)
+    except PageNotAnInteger:
+        filter_sub_area = paginator.page(1)
+    except EmptyPage:
+        filter_sub_area = paginator.page(paginator.num_pages)
+    
+    sub_practice_area = Sub_practice_area.objects.filter(practice_id__practice=pname)
+    return render(request,'client/filter_by_sub_area.html',{'practice_area':filter_sub_area,'sub_area':sub_area,'pname':pname,'review':review,'sub_practice_area':sub_practice_area})
+
+
+def filter_by_experience(request):
+    pname = request.GET['practice_area']
+    experience_id = request.GET['value']
+    r1 = ''
+    r2 = ''
+    
+    if experience_id == '1':
+        r1 = 20
+        r2 = 100
+    elif experience_id == '2':
+        r1 = 10
+        r2 = 20
+    elif experience_id == '3':
+        r1 = 5
+        r2 = 10
+    elif experience_id == '4':
+        r1 = 0
+        r2 = 5
+    lawyer = Lawyer_practice_area.objects.filter(practice_area__practice=pname)
+    page = request.GET.get('page',1)
+    paginator = Paginator(lawyer,5)
+    
+    sub_practice_area = Sub_practice_area.objects.filter(practice_id__practice=pname)
+    
+    try:
+        lawyer_experience = paginator.page(page)
+    except PageNotAnInteger:
+        lawyer_experience = paginator.page(1)
+    except EmptyPage:
+        lawyer_experience = paginator.page(paginator.num_pages)
+
+    review = Review_Lawyer.objects.filter(lawyer_id__user_id__in=Subquery(
+                Lawyer_practice_area.objects.filter(practice_area__practice=pname).values('lawyer_id__user_id')))
+    
+    return render(request,'client/filter_by_experience.html',{'lawyer':lawyer_experience,"experience_id":experience_id,'pname':pname,'sub_practice_area':sub_practice_area,'r1':r1,'r2':r2,'review':review})

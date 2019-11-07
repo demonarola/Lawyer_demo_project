@@ -38,5 +38,6 @@ urlpatterns = [
     # path('paginator_page/',views.paginator_page,name='paginator_page'),
     path('review_lawyer/<lid>',views.review_lawyer,name='review_lawyer'),
     path('viewall_review_lawyer/<lid>',views.viewall_review_lawyer,name='viewall_review_lawyer'),
+    path('filter_by_experience/',views.filter_by_experience,name='filter_by_experience'),
     path('admin/', admin.site.urls),
 ]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

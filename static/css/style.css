@@ -435,6 +435,7 @@ svg:not(:root).svg-inline--fa {
 }
 
 .pagination {
+    margin-top: 10%;
     justify-content: center;
 }
 
@@ -552,8 +553,9 @@ svg:not(:root).svg-inline--fa {
 }
 
 .img-responsive-lawyer {
-    max-width: 100%;
-    height: 70%;
+    width: 100%;
+    height: 85%;
+    margin-left: 17px;
 }
 
 .margin-lawyer-top {
@@ -563,6 +565,24 @@ svg:not(:root).svg-inline--fa {
 .hr {
     width: 73%;
     margin-left: 33%;
+}
+
+.text-columns-max-3 {
+    column-count: 3;
+}
+
+.u-margin-bottom-half {
+    margin-bottom: 1.2rem !important;
+}
+
+.col-md-offset-1 {
+    margin-left: 8.33333%;
+}
+
+.marker-icon-css {
+    color: red;
+    padding-right: 8px;
+    font-size: 14px;
 }
 
 

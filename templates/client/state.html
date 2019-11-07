@@ -8,25 +8,18 @@
 
 <div class='container' style='margin-top:5%;'>
     <div class="row">
-
-        <div class="col-sm-4">
-            {% for states1 in state1 %}
-            <div><a class="statelist" href='{% url "practice_area_for_state" %}?state={{states1.id}}'>{{states1.state_name}}</a></div>
-            </p><br/> {% endfor %}
-
-        </div>
-        <div class="col-sm-4">
-            {% for states2 in state2 %}
-            <div><a href='{% url "practice_area_for_state" %}?state={{states2.id}}'>{{states2.state_name}}</a></div>
-            </p><br/> {% endfor %}
-
-        </div>
-        <div class="col-sm-4">
-            {% for states3 in state3 %}
-            <div><a href='{% url "practice_area_for_state" %}?state={{states3.id}}'>{{states3.state_name}}</a></div>
-            </p><br/> {% endfor %}
-
+        <div class='col-xs-12 col-md-10 col-md-offset-1'>
+            <div id="js-top-state-link-farm" class="text-columns text-columns-narrowest text-columns-max-3 u-margin-bottom-0">
+                <ol class="unstyled-list">
+                    {% for s in state %}
+                        <li class="u-margin-bottom-half"><a title="Alabama Child Custody Lawyers" href="{% url "practice_area_for_state" %}?state={{s.id}}">{{s.state_name}}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
         </div>
     </div>
 </div>
+
+
+
 {% endblock %}
