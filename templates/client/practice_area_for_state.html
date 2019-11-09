@@ -7,7 +7,7 @@
         <div class='row'>
             <div class='col-md-6'>
                {% for p in practice_area %}
-                <div><a href='{% url "view_lawyer_by_state" %}?state={{state}}&pid={{p.id}}'>{{p.practice}}</a></div><br/> {% endfor %}
+                <div><a href='{% url "view_lawyer_by_state" %}?state={{state}}&practice={{p.practice}}'>{{p.practice}}</a></div><br/> {% endfor %}
                 <div>
                 </div>
 {% endblock %}

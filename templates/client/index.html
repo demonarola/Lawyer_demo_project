@@ -21,7 +21,7 @@
 </style>
 <div class="jumbotron jumbotron bg-cover">
     <div class="overlay"></div>
-    <h1>Experienced lawyers are</h1>
+    <h1>Experienced lawyers area</h1>
     <h1>ready to help</h1>
     <p></p>
 </div>
@@ -79,6 +79,15 @@
                                                                     <li class='star' title='WOW!!!' data-value='5'>
                                                                         <i class='fa fa-star fa-fw'></i>
                                                                     </li> 
+                                                                    <li class='star'>
+
+                                                                        {% for c in review_count %}
+                                                                       
+                                                                        {% if l.user_id == c.lawyer_id__user_id%}
+                                                                            {{c.dcount}}<small> reviews</small>
+                                                                        {% endif %}
+                                                                        {% endfor %}
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                              <i class="fa fa-map-marker marker-icon-css"></i><strong class='lawyer_address_review'>{{l.address1}}</strong>

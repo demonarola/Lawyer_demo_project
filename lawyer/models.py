@@ -49,7 +49,7 @@ class Lawyer(models.Model):
         RegexValidator(regex='(^[A-Za-z0-9]+|,| |/|[A-Za-z]+)+[A-Za-z0-9]+|,| |$',message='Enter Valid Address2')
     ])
     city = models.CharField(max_length=128,blank=False,null=False,validators=[
-        RegexValidator(regex='[A-Za-z]{2}[a-z]+$',message='City should only contain letters..')
+        RegexValidator(regex='[A-Za-z]{2}[a-z]+$',message='City should only contain letters and mustcontains atleast 2 chracters..')
     ])
     state = models.ForeignKey(State,on_delete=models.CASCADE,null=False,blank=False)
     zipcode = models.CharField(max_length=128,blank=False,null=False,validators=[

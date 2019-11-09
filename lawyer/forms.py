@@ -36,7 +36,7 @@ class RegisterForm(forms.ModelForm):
         RegexValidator(regex='^[A-Za-z]{2}[a-z]{1,30}',message='Last Name should only contain letters and  must atleast 2 characters')
     ])
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}),required=True,validators=[
-        RegexValidator(regex='(^[a-zA-Z]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',message='Enter Valid Email Address..')
+        RegexValidator(regex='(^[a-zA-Z]+[a-zA-Z0-9-.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',message='Enter Valid Email Address..')
     ])
     password=forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}),required=True,validators=[
         RegexValidator(regex='.{6,10}',message='Password must be between 6 to 10 characters long')
@@ -59,11 +59,9 @@ class RegisterForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         username = self.cleaned_data.get('username')
-        if User.objects.filter(username=username):
-            pass
-        else:
-            if email and User.objects.filter(email=email).count():
-                raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
+     
+        if email and User.objects.filter(email=email).count():
+            raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
         return email
 
     
@@ -77,15 +75,10 @@ class LawyerForm(forms.ModelForm):
         exclude = ('user',)
 
     def clean_email(self):
-        
-        email = self.cleaned_data.get('email')
-        username = self.cleaned_data.get('username')
-        if User.objects.get(username=username):
-            pass
-        else:
-            if email and User.objects.filter(email=email).count():
-                raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
-        return email
+        phone = self.cleaned_data.get('phone_number')
+        if phone and User.objects.filter(phone_number=phone).count():
+            raise forms.ValidationError(_("Phone Number already exists"))
+        return phone
 
 
 class User_EditForm(forms.ModelForm):
@@ -95,8 +88,10 @@ class User_EditForm(forms.ModelForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=True,validators=[
         RegexValidator(regex='^[A-Za-z]{2}[a-z]{1,30}',message='Last Name should only contain letters and  must atleast 2 characters')
     ])
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}),required=True)
-    
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}),required=True,validators=[
+        RegexValidator(regex='(^[a-zA-Z]+[a-zA-Z0-9-.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',message='Enter Valid Email Address..')
+    ])
+    # username = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control'}),required=True,disabled=True)
    
     class Meta:
         model = User
@@ -114,13 +109,12 @@ class User_EditForm(forms.ModelForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         username = self.cleaned_data.get('username')
-        if User.objects.filter(username=username):
+        if User.objects.filter(email=email):
             pass
         else:
             if email and User.objects.filter(email=email).count():
                 raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
         return email
-
 
 
 class Lawyer_EditForm(forms.ModelForm):

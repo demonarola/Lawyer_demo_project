@@ -8,8 +8,10 @@
                 <div class='col-xs-6'>
 
                     <section>
+                      <form name='form' method='GET' action='{% url "filter_by_sub_area" %}'>
+                         <input type='hidden' type='text' name='practice_area' value='{{pname}}'/>
                         <label>Select Sub Practice Area </label>
-                        <select name='sub_practice_area' class='form-control' id='show_area'>
+                        <select name='sub_area' class='form-control' id='show_area'  onchange="this.form.submit()">
                         
                                 <option value='all'>--ALL--</option>
                                 {% if sub_area %}
@@ -28,6 +30,8 @@
                                      {% endfor %}
                                 {% endif %}
                             </select>
+                          
+                              </form>
                     </section>
                 </div>
 
@@ -100,48 +104,54 @@
                 <div class='col-xs-6'>
 
                     <section>
-
+                        <form name='form' method='GET' id='' action="{% url 'filter_by_experience' %}">
                         <label>EXPERIENCE
-                            </label>
+                        </label>
+                         <input type='hidden' type='text' name='practice_area' value='{{pname}}'/>
                         <div class='rating-stars' style='margin-left:-18%;font-size:15px;'>
                             <ul id='stars'>
-                                {% if experience_id == '1' %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='1' checked>20+YEARS</li>
+                                {% if experience_id == '>20' %}
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='>20' onclick="this.form.submit()"  checked>20+YEARS</li>
                                 {% else %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='1'>20+YEARS</li>
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='>20' onclick="this.form.submit()">20+YEARS</li>
 
                                 {% endif %}
                             </ul>
                             <ul id='stars'>
-                                {% if experience_id == '2' %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='2' checked>10-20 YEARS</li>
+                                {% if experience_id == '10-20' %}
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='10-20' onclick="this.form.submit()"  checked>10-20 YEARS</li>
                                 {% else %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='2'>10-20 YEARS</li>
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='10-20' onclick="this.form.submit()">10-20 YEARS</li>
                                 {% endif %}
                             </ul>
                             <ul id='stars'>
-                                {% if experience_id == '3' %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='3' checked>5-10 YEARS</li>
+                                {% if experience_id == '5-10' %}
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='5-10' onclick="this.form.submit()"  checked>5-10 YEARS</li>
                                 {% else %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='3'>5-10 YEARS</li>
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='5-10' onclick="this.form.submit()">5-10 YEARS</li>
                                 {% endif %}
                             </ul>
                             <ul id='stars'>
-                                {% if experience_id == '4' %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='4' checked>0-5 YEARS</li>
+                                {% if experience_id == '0-5' %}
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='0-5' onclick="this.form.submit()"  checked>0-5 YEARS</li>
                                 {% else %}
-                                <li> <input type="radio" class="form-check-input" name="optradio" id='rating' value='4'>0-5 YEARS</li>
+                                <li> <input type="radio" class="form-check-input" name="range" id='rating' value='0-5' onclick="this.form.submit()">0-5 YEARS</li>
                                 {% endif %}
                             </ul>
                         </div>
-
+                    </form>
                     </section>
                 </div>
 
             </div>
         </div>
         <div class="col-xs-12 col-md-8">
-            {% for p in lawyer %} {% if p.lawyer_id.year_admitted|experience >= r1 and p.lawyer_id.year_admitted|experience <= r2 %} <div class="row" style='margin-top:5%;'>
+       
+        
+            {% for p in lawyer %} 
+            
+            
+            {% if p.lawyer_id.year_admitted|experience >= r1 and p.lawyer_id.year_admitted|experience <= r2 %} <div class="row" style='margin-top:5%;'>
                 <div class="col-xs-3 col-sm-2 remove-right-gutter">
                     <div class="labeled-img u-font-size-xs">
                         <img class="img-responsive-lawyer loaded" src="{{ MEDIA_URL }}/{{p.lawyer_id.profile_image}}">
@@ -200,6 +210,13 @@
                             <div class="col-xs-12 remove-right-gutter">
                                 <div class="row lawyer-row">
                                     <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                        <h3 class="u-vertical-margin-0 lawyer-email">{{ p.lawyer_id.state}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 remove-right-gutter">
+                                <div class="row lawyer-row">
+                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
                                         <h3 class="u-vertical-margin-0 lawyer-email">{{ p.practice_area.practice }}</h3>
                                     </div>
                                 </div>
@@ -216,11 +233,7 @@
 
                                     <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
                                         <div style='max-height: 83px;overflow:hidden;'>
-                                            {% comment %} {% for r in review %} {% if r.lawyer_id.user.id == p.lawyer_id.user.id %}
-                                            <h3 class="u-vertical-margin-0 lawyer-email"><b>Review:</b>{{r.review|slice:":200"}}</h3>
-                                            {% else %}
-                                            <h3 class="u-vertical-margin-0 lawyer-email"><b></b></h3>
-                                            {% endif %} {% endfor %} {% endcomment %}
+                                       
                                         </div>
                                     </div>
 
@@ -235,31 +248,39 @@
                             </div>
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
-                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View Reviews</a></div>
+                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
                             </div>
 
                         </div>
                     </div>
                 </div>
         </div>
-        {% endif %} {% endfor %}
+      
+       {% endif %}
+     
+       
+        
+        {% endfor %}
+     
         <ul class="pagination">
 
             {% if lawyer.has_previous %}
-            <li class="page-item"><a class="page-link" href="{% url 'filter_by_experience' %}?practice_area={{pname}}&value={{experience_id}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
+            <li class="page-item"><a class="page-link" href="{% url 'filter_by_experience' %}?practice_area={{pname}}&range={{experience_id}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
             {% else %}
             <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
             {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
             <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
             </li>
             {% else %}
-            <li class="page-item"><a class="page-link" href="{% url 'filter_by_experience' %}?practice_area={{pname}}&value={{experience_id}}&page={{ i }}">{{ i }}</a></li>
+            <li class="page-item"><a class="page-link" href="{% url 'filter_by_experience' %}?practice_area={{pname}}&range={{experience_id}}&page={{ i }}">{{ i }}</a></li>
             {% endif %} {% endfor %} {% if data.has_next %}
-            <li class="page-item"><a class="page-link" href="{% url 'filter_by_experience' %}?practice_area={{pname}}&value={{experience_id}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
+            <li class="page-item"><a class="page-link" href="{% url 'filter_by_experience' %}?practice_area={{pname}}&range={{experience_id}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
             {% else %}
             <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
             {% endif %}
         </ul>
+      
+
     </div>
 </div>
 
@@ -273,45 +294,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $(document).ready(function() {
-        var area = '{{ pname }}'
-        $('#show_area').change(function() {
-            var area_id;
-            area_id = $('#show_area').val();
-
-            $.ajax({
-                type: "GET",
-                url: "/filter_by_sub_area/",
-                data: {
-                    value: area_id,
-                    practice_area: area,
-
-                },
-
-                success: function(data) {
-                    $('#myTable1').html(data);
-                }
-            })
-
-        });
-        $('input:radio[name="optradio"]').change(function() {
-            var area = '{{ pname }}'
-            var experience_id = $(this).val();
-            console.log(experience_id);
-            $.ajax({
-                type: "GET",
-                url: "/filter_by_experience/",
-                data: {
-                    value: experience_id,
-                    practice_area: area,
-
-                },
-                success: function(data) {
-                    $('#myTable1').html(data);
-                }
-            });
-
-        });
-
+       
+       
     });
 </script>
 {% endblock %}

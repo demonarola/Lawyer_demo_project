@@ -39,5 +39,7 @@ urlpatterns = [
     path('review_lawyer/<lid>',views.review_lawyer,name='review_lawyer'),
     path('viewall_review_lawyer/<lid>',views.viewall_review_lawyer,name='viewall_review_lawyer'),
     path('filter_by_experience/',views.filter_by_experience,name='filter_by_experience'),
+    path('filter_by_sub_area_state/',views.filter_by_sub_area_state,name='filter_by_sub_area_state'),
+    path('filter_by_experience_state/',views.filter_by_experience_state,name='filter_by_experience_state'),
     path('admin/', admin.site.urls),
 ]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
