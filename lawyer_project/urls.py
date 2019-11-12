@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,re_path
+from django.urls import path,re_path,include
 from lawyer import views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -44,6 +44,6 @@ urlpatterns = [
     path('filter_by_rating/',views.filter_by_rating,name='filter_by_rating'),
     path('filter_by_rating_state/',views.filter_by_rating_state,name='filter_by_rating_state'),
     path('send_messages/',views.send_messages,name="send_messages"),
-    
+ 
     path('admin/', admin.site.urls),
 ]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -13,6 +13,7 @@ from django.db.models import Count
 from django.core.paginator import Paginator
 from django.core.mail import get_connection, send_mail
 from django.contrib.auth.decorators import login_required
+
 # from django.core.mail.message import EmailMessage
 # Create your views here.
 
@@ -23,6 +24,8 @@ def index(request):
     
     review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
     return render(request,'client/index.html',{'lawyer':lawyer,'review_lawyer':review_lawyer,'review_count':review_count})
+
+
 
 
 def user_login(request):
