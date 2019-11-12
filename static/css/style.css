@@ -554,7 +554,7 @@ svg:not(:root).svg-inline--fa {
 
 .img-responsive-lawyer {
     width: 100%;
-    height: 85%;
+    height: auto;
     margin-left: 17px;
 }
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import render,HttpResponse,HttpResponseRedirect,reverse
+from django.shortcuts import render,HttpResponse,HttpResponseRedirect,reverse,redirect
 from lawyer.forms import LoginForm,RegisterForm,LawyerForm,Lawyer_EditForm,User_EditForm,Review_lawyer_form
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -11,12 +11,16 @@ from lawyer.decorators import check_recaptcha
 from django.db.models import Q,Subquery
 from django.db.models import Count
 from django.core.paginator import Paginator
+from django.core.mail import get_connection, send_mail
+from django.contrib.auth.decorators import login_required
+# from django.core.mail.message import EmailMessage
 # Create your views here.
 
 
 def index(request):
     lawyer = Lawyer.objects.all()
     review_lawyer = Review_Lawyer.objects.all()
+    
     review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
     return render(request,'client/index.html',{'lawyer':lawyer,'review_lawyer':review_lawyer,'review_count':review_count})
 
@@ -105,6 +109,49 @@ def view_lawyer(request):
 
 
 @check_recaptcha
+def send_messages(request):
+    if request.method == 'POST':
+        lawyer_email = request.POST.get('lawyer_email')
+        client_email = request.POST.get('client_email')
+        lawyer_first_name = request.POST.get('lawyer_first_name')
+        lawyer_last_name = request.POST.get('lawyer_last_name')
+        password = request.POST.get('password')
+        message = request.POST.get('message')
+
+        EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+        EMAIL_HOST = 'smtp.gmail.com'
+        EMAIL_USE_TLS = True
+        EMAIL_PORT = 587
+        EMAIL_HOST_USER = client_email
+        EMAIL_HOST_PASSWORD = password
+        connection = get_connection(host=EMAIL_HOST, 
+                                    port=EMAIL_PORT, 
+                                    username=EMAIL_HOST_USER, 
+                                    password=EMAIL_HOST_PASSWORD, 
+                                    use_tls=EMAIL_USE_TLS) 
+
+        subject = 'Lawyer'
+        message = message
+        recipient_list = [lawyer_email,]
+        send_mail(subject, message, EMAIL_HOST_USER, recipient_list, connection=connection)
+        # if request.recaptcha_is_valid:
+        # else:
+        #     msg= 'Invalid reCAPTCHA. Please try again.'
+        #     return render(request, 'client/send_message.html', {'msg':msg})
+    else:
+        user_id = request.GET.get('user_id')
+        try:
+            lawyer_message = Lawyer.objects.get(user_id=user_id)
+            
+            return render(request, 'client/send_message.html', {'lawyer_message':lawyer_message})
+        except Exception as e:
+            print(e)
+    return render(request, 'client/send_message.html')
+
+
+
+
+@check_recaptcha
 def lawyer(request):
     user_form = RegisterForm()
     lawyer_form = LawyerForm()
@@ -142,34 +189,9 @@ def state_data():
             for row in reader:
                 s = State(state_name=row['State'])
                 s.save()
-                
-    
     return data
 state_data()
 
-#Update Code
-# def dropdown(request):
-#     sarea2=''
-#     if request.method == 'POST':
-#         uid = request.POST.get('uid')
-        
-#         pid = request.POST.get('practice_area')
-#         # select = request.POST.getlist('sub_area')
-#         select = request.POST.getlist('sub_area[]')
-#         ganga = request.POST.getlist('area')
-#         print('--- Ganga ---',ganga)
-#         # u = User.objects.get(id=uid)
-#         # s = Lawyer.objects.get(user_id=uid)
-
-    
-#         sarea = request.POST['s_area']
-#         print(sarea)
-#         # sarea2 = Lawyer_practice_area.objects.filter(lawyer_id__user=uid)
-#         sarea2 = Lawyer_practice_area.objects.filter(sub_practice_area__contains=sarea)
-#         print(sarea2)
-#     srea = Sub_practice_area.objects.all()
-#     practice = Practice_area.objects.all()
-#     return render(request,'lawyer/dropdown.html',{'practice':practice,'sarea':srea,'sarea2':sarea2})
 
 
 def subarea_dependent_dropdown(request):
@@ -269,7 +291,7 @@ def view_lawyer_by_state(request):
         state_wise_lawyer = paginator.page(1)
     except EmptyPage:
         state_wise_lawyer = paginator.page(paginator.num_pages)
-    return render(request,'client/view_lawyer_by_state.html',{'state_wise_lawyer':state_wise_lawyer,'review_count':review_count,'pname':practice,'sub_practice_area':sub_practice_area,'state':state})
+    return render(request,'client/view_lawyer_by_state.html',{'state_wise_lawyer':state_wise_lawyer,'review_count':review_count,'pname':practice,'sub_practice_area':sub_practice_area,'state':state,'lawyer_state':lawyer_state})
 
 
 def lawyer_profile(request,lid):
@@ -444,12 +466,13 @@ def filter_by_sub_area_state(request):
         state_wise_lawyer = paginator.page(1)
     except EmptyPage:
         state_wise_lawyer = paginator.page(paginator.num_pages)
-    return render(request,'client/filter_by_sub_area_state.html',{'state_wise_lawyer':state_wise_lawyer,'review_count':review_count,'pname':practice,'sub_practice_area':sub_practice_area,'state':state,'sub_area':sub_area})
+    return render(request,'client/filter_by_sub_area_state.html',{'state_wise_lawyer':state_wise_lawyer,'review_count':review_count,'pname':practice,'sub_practice_area':sub_practice_area,'state':state,'sub_area':sub_area,'lawyer_state':lawyer_state})
 
 
 def filter_by_experience_state(request):
     pname = request.GET['practice_area']
     state = request.GET['state']
+    print('=========',state)
     experience_id = request.GET['range']
     lawyer_state = State.objects.get(id=state)
     parea = Practice_area.objects.get(practice=pname)
@@ -485,4 +508,46 @@ def filter_by_experience_state(request):
     # review = Review_Lawyer.objects.filter(lawyer_id__user_id__in=Subquery(
     #             Lawyer_practice_area.objects.filter(practice_area__practice=pname).values('lawyer_id__user_id')))
    
-    return render(request,'client/filter_by_experience_state.html',{'lawyer':lawyer_experience,"experience_id":experience_id,'state':state,'pname':pname,'sub_practice_area':sub_practice_area,'r1':r1,'r2':r2})
+    return render(request,'client/filter_by_experience_state.html',{'lawyer':lawyer_experience,"experience_id":experience_id,'state':state,'pname':pname,'sub_practice_area':sub_practice_area,'r1':r1,'r2':r2,'lawyer_state':lawyer_state})
+
+
+def filter_by_rating(request):
+    pname = request.GET['practice_area']
+    rating = request.GET['rating']
+    lawyer_rating_wise = Review_Lawyer.objects.filter(rating__gte=rating,lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname).values('lawyer_id__user_id'))).order_by('-rating')
+    # project.objects.filter(id__in=Subquery(
+    #             project_assingment.objects.all().values('project')))
+    page = request.GET.get('page',1)
+    paginator = Paginator(lawyer_rating_wise,5)
+    
+    sub_practice_area = Sub_practice_area.objects.filter(practice_id__practice=pname)
+    review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
+    try:
+        lawyer_rating_wise = paginator.page(page)
+    except PageNotAnInteger:
+        lawyer_rating_wise = paginator.page(1)
+    except EmptyPage:
+        lawyer_rating_wise = paginator.page(paginator.num_pages)
+    return render(request,'client/filter_by_rating.html',{'lawyer_rating_wise':lawyer_rating_wise,'pname':pname,'sub_practice_area':sub_practice_area,'review_count':review_count,'rating':rating})
+
+
+def filter_by_rating_state(request):
+    pname = request.GET['practice_area']
+    rating = request.GET['rating']
+    state = request.GET['state']
+    lawyer_state = State.objects.get(id=state)
+    lawyer_rating_wise = Review_Lawyer.objects.filter(rating__gte=rating,lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__state=state).values('lawyer_id__user_id'))).order_by('-rating')
+    # project.objects.filter(id__in=Subquery(
+    #             project_assingment.objects.all().values('project')))
+    page = request.GET.get('page',1)
+    paginator = Paginator(lawyer_rating_wise,5)
+    
+    sub_practice_area = Sub_practice_area.objects.filter(practice_id__practice=pname)
+    review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
+    try:
+        lawyer_rating_wise = paginator.page(page)
+    except PageNotAnInteger:
+        lawyer_rating_wise = paginator.page(1)
+    except EmptyPage:
+        lawyer_rating_wise = paginator.page(paginator.num_pages)
+    return render(request,'client/filter_by_rating_state.html',{'lawyer_rating_wise':lawyer_rating_wise,'pname':pname,'sub_practice_area':sub_practice_area,'review_count':review_count,'rating':rating,'state':state,'lawyer_state':lawyer_state})
