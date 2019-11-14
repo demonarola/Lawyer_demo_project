@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 
 # Create your views here.
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect,reverse,redirect
@@ -12,8 +12,9 @@ from django.db.models import Q,Subquery
 from django.db.models import Count
 from django.core.paginator import Paginator
 from django.core.mail import get_connection, send_mail
-from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth.decorators import login_required,user_passes_test
+from hashlib import sha1
+from django.contrib.auth.hashers import check_password
 # from django.core.mail.message import EmailMessage
 # Create your views here.
 
@@ -26,19 +27,20 @@ def index(request):
     return render(request,'client/index.html',{'lawyer':lawyer,'review_lawyer':review_lawyer,'review_count':review_count})
 
 
-
-
 def user_login(request):
     form = LoginForm()
     msg = ''
+
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        
         try:
             username = User.objects.get(email=email).username      
             user = authenticate(username=username,password=password)
             if user:
                 if user.is_active and user.is_staff:
+                    print('hello')
                     login(request,user)
                     request.session['id'] = user.id
                     return HttpResponseRedirect(reverse('index'))
@@ -82,7 +84,7 @@ def client_signup(request):
                 msg= 'Invalid reCAPTCHA. Please try again.' 
     return render(request,'client/client_signup.html',{'form':form,'msg':msg})
 
-
+@login_required(login_url='/login/')
 def user_logout(request):    
     logout(request)
     return HttpResponseRedirect(reverse('index'))
@@ -111,6 +113,7 @@ def view_lawyer(request):
     return render(request,'client/view_lawyers.html',{'practice_area':practice_area,'sub_practice_area':sub_practice_area,'pname':pname,'review_count':review_count})
 
 
+@login_required(login_url='/login/')
 @check_recaptcha
 def send_messages(request):
     if request.method == 'POST':
@@ -136,7 +139,7 @@ def send_messages(request):
         subject = 'Lawyer'
         message = message
         recipient_list = [lawyer_email,]
-        send_mail(subject, message, EMAIL_HOST_USER, recipient_list, connection=connection)
+        # send_mail(subject, message, EMAIL_HOST_USER, recipient_list, connection=connection)
         # if request.recaptcha_is_valid:
         # else:
         #     msg= 'Invalid reCAPTCHA. Please try again.'
@@ -203,7 +206,7 @@ def subarea_dependent_dropdown(request):
     return render(request,'lawyer/sub_area.html',{'sub_area':sub_area})
 
 
-
+@login_required(login_url='/login/')
 def add_practice_area(request):
     practice_area = Practice_area.objects.all()
     sub_practice_area = Sub_practice_area.objects.all()
@@ -238,7 +241,7 @@ def add_practice_area(request):
                 lawyer_sub_area.save()
     return render(request,'lawyer/add_practice_area.html',{'practice_area':practice_area,'sub_practice_area':sub_practice_area})
 
-
+@login_required(login_url='/login/')
 @check_recaptcha
 def lawyer_edit_profile(request):
     uid = request.session.get('id')
@@ -300,7 +303,9 @@ def view_lawyer_by_state(request):
 def lawyer_profile(request,lid):
     lawyer1 = Lawyer.objects.get(user_id=lid) 
     lawyer2 = Lawyer_practice_area.objects.filter(lawyer_id__user_id=lid)
-    return render(request,'lawyer/lawyer_profile.html',{'lawyer1':lawyer1,'lawyer2':lawyer2})
+    review_lawyer = Review_Lawyer.objects.filter(lawyer_id__user_id=lid).first()
+    lawyer3 = Lawyer_practice_area.objects.filter(lawyer_id__user_id=lid).annotate(count=Count('practice_area'))
+    return render(request,'lawyer/lawyer_profile.html',{'lawyer1':lawyer1,'lawyer2':lawyer2,'review_lawyer':review_lawyer,'lawyer3':lawyer3})
 
 
 # def paginator_page(request):
@@ -323,6 +328,8 @@ def lawyer_profile(request,lid):
     #     practice_area = paginator.page(paginator.num_pages)
     # return render(request,'client/paginator_page.html',{'sub_area':sub_area,'practice_area':practice_area})
 
+
+@login_required(login_url='/login/')
 @check_recaptcha
 def review_lawyer(request,lid):
     review_form = Review_lawyer_form()
@@ -554,3 +561,27 @@ def filter_by_rating_state(request):
     except EmptyPage:
         lawyer_rating_wise = paginator.page(paginator.num_pages)
     return render(request,'client/filter_by_rating_state.html',{'lawyer_rating_wise':lawyer_rating_wise,'pname':pname,'sub_practice_area':sub_practice_area,'review_count':review_count,'rating':rating,'state':state,'lawyer_state':lawyer_state})
+
+@login_required(login_url='/login/')
+def change_password(request):   
+    status =''
+    mag = ''
+    if request.method == 'POST':
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+        if check_password(old_password, request.user.password):
+            
+            if new_password == confirm_password:
+                print('here')
+                request.user.set_password(new_password)
+                request.user.save()
+            else:
+                msg = 'Password and Confirm Password must be same..'
+        else:
+            msg = 'Enter Valid Old Password..'     
+        
+    return render(request,'client/change_password.html')
+
+def password_reset(request):
+    return render(request,'registration/password_reset_form.html')

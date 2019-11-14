@@ -18,6 +18,7 @@ from django.urls import path,re_path,include
 from lawyer import views
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',views.index,name='index'),
@@ -44,6 +45,7 @@ urlpatterns = [
     path('filter_by_rating/',views.filter_by_rating,name='filter_by_rating'),
     path('filter_by_rating_state/',views.filter_by_rating_state,name='filter_by_rating_state'),
     path('send_messages/',views.send_messages,name="send_messages"),
- 
+    path('change_password/',views.change_password,name="change_password"),
+    path('', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
 ]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

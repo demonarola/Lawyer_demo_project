@@ -587,3 +587,175 @@ svg:not(:root).svg-inline--fa {
 
 
 /* END */
+
+
+/* PROFILE */
+
+[class*='u-spacer-'] {
+    margin-bottom: 1.2rem;
+}
+
+.v-lawyer-card-wrapper {
+    position: relative;
+}
+
+.isSticky {
+    position: fixed;
+    top: 0;
+}
+
+.profile-card {
+    border: 1px solid rgba(0, 0, 0, .1);
+    background-color: #fff;
+    width: 100%;
+    min-height: 1px;
+    margin: 1.2rem 0;
+    padding: 1.2rem;
+}
+
+.u-bg-cool-gray {
+    background-color: #CDCFCE !important;
+}
+
+.u-vertical-padding-gutter,
+.u-vertical-padding-half {
+    padding-top: 1.2rem !important;
+    padding-bottom: 1.2rem !important;
+}
+
+.icon-list {
+    padding-left: 0;
+    list-style: none;
+}
+
+.u-margin-bottom-half {
+    margin-bottom: 1.2rem !important;
+}
+
+.u-margin-top-0 {
+    margin-top: 0rem !important;
+}
+
+.v-profile-media-thumbnails {
+    display: flex;
+    align-items: center;
+}
+
+.u-vertical-margin-half {
+    margin-top: 1.2rem !important;
+    margin-bottom: 1.2rem !important;
+}
+
+.icon-list>li {
+    position: relative;
+}
+
+.profile-text {
+    font-size: 27px;
+    margin-left: 0px;
+}
+
+.v-profile-media-thumbnails {
+    display: flex;
+    align-items: center;
+}
+
+.subnav {
+    border-bottom: 1px solid #ccc;
+}
+
+.subnav-content {
+    font-weight: 400;
+}
+
+.subnav-content .nav-items {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.subnav-content a.nav-item.nav-item-active {
+    border-top: 4px solid #F55D25;
+    background-color: white;
+    font-weight: 700;
+}
+
+.subnav-content a.nav-item {
+    width: 25%;
+    border: 1px solid white;
+    border-top: 4px solid #eaeaea;
+    border-bottom: none;
+    background-color: #eaeaea;
+    color: #333333;
+    display: inline-block;
+    padding: 13px 0 10px;
+    white-space: nowrap;
+}
+
+.profile-card {
+    border: 1px solid rgba(0, 0, 0, .1);
+    background-color: #fff;
+    width: 100%;
+    min-height: 1px;
+    margin: 19.2px 0;
+    margin: 1.2rem 0;
+    padding: 19.2px;
+    padding: 1.2rem;
+}
+
+.v-internal-nav {
+    z-index: 999;
+}
+
+.isSticky {
+    position: fixed;
+    top: 0;
+}
+
+.u-bg-white {
+    background-color: white !important;
+}
+
+.v-mobile-lawyer-overview {
+    display: none;
+    position: relative;
+}
+
+.u-bg-lighter-gray {
+    background-color: #eaeaea !important;
+}
+
+.v-mobile-lawyer-overview .v-flex-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.v-profile-subnav-headshot {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin: 8px;
+}
+
+.sidebar-box {
+    margin-left: -5%;
+    text-align: justify;
+    width: 100%;
+}
+
+
+/* END */
+
+
+/* AVVO */
+
+
+/* END AVVO */

@@ -117,3 +117,7 @@ class Review_Lawyer(models.Model):
 
     class Meta:
         verbose_name_plural = 'Review Lawyer'
+
+def change_password(request):
+    print(request.user.id)
+    return render('client/change_password.html')

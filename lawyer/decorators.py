@@ -23,4 +23,3 @@ def check_recaptcha(view_func):
                 # messages.error(request, 'Invalid reCAPTCHA. Please try again.')
         return view_func(request, *args, **kwargs)
     return _wrapped_view
-

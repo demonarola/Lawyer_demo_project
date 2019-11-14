@@ -1,5 +1,11 @@
-{% extends 'client/base.html' %} {% block body_block %}
-<div class='container'>
+{% extends 'client/base.html' %} {% block body_block %} {% load calculate_experience %}
+
+<style>
+
+</style>
+
+<body>
+    <!-- <div class='container'>
 
     <table class="table table-stripped table-bordered">
         <thead>
@@ -55,9 +61,334 @@
 
 <div class='container paginator-margin-top'>
     {% if user.is_authenticated and user.is_staff %}
-        <a href='{% url "review_lawyer" lawyer1.user.id %}'>Review Lawyer</a>
-    {% endif %}
-</div>
+    <a href='{% url "review_lawyer" lawyer1.user.id %}'>Review Lawyer</a> {% endif %}
+</div> -->
 
+
+
+    <div class="container" style='margin-top:3%'>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="u-spacer-half"></div>
+                <div>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-4 v-lawyer-card-wrapper" style="height: 750px;">
+                            <div class="v-lawyer-card" style="width:366px;">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <section id="" data-reactroot="">
+                                            <div class="profile-card" style="">
+                                                <div class="gtm-context overridable-lawyer-phone" data-gtm-context="profile hero" data-lawyer-id="2059304">
+                                                    <div class="row">
+                                                        <div class="col-xs-4 col-sm-2 col-md-4 remove-right-gutter">
+                                                            <img itemprop="image" class="v-js-headshot img-responsive u-bg-cool-gray" src="{{ MEDIA_URL }}/{{ lawyer1.profile_image }}" style="width: 112px;"></div>
+                                                        <div class="col-xs-8 col-sm-10 col-md-8">
+                                                            <h1 class="u-vertical-margin-0"><span itemprop="name" class="profile-text">{{lawyer1.user.first_name}} {{lawyer1.user.last_name}}</span></h1>
+
+                                                            <div class="row">
+                                                                <div class="col-xs-12 col-sm-6 col-md-12">
+                                                                    <div class='rating-stars' style='margin-left:-16%;margin-top:3%;'>
+
+                                                                        <ul id='stars'>
+
+                                                                            <li class='star' title='Poor' data-value='1' value='Poor'>
+                                                                                <i class='fa fa-star fa-fw'></i>
+                                                                            </li>
+                                                                            <li class='star' title='Fair' data-value='2'>
+                                                                                <i class='fa fa-star fa-fw'></i>
+                                                                            </li>
+                                                                            <li class='star' title='Good' data-value='3'>
+                                                                                <i class='fa fa-star fa-fw'></i>
+                                                                            </li>
+                                                                            <li class='star' title='Excellent' data-value='4'>
+                                                                                <i class='fa fa-star fa-fw'></i>
+                                                                            </li>
+                                                                            <li class='star' title='WOW!!!' data-value='5'>
+                                                                                <i class='fa fa-star fa-fw'></i>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style='margin-top: -5%;'>
+                                                                <div class="col-xs-12 col-sm-6 col-md-12">
+                                                                    <ul class="icon-list" style="margin-left:0">
+                                                                        <li style="margin-left:6px;margin-top: 3%;" id='mapaddress'><i class="fa fa-map-marker"></i><span style='padding-left: 5px;'>{{lawyer1.address1}}</span></li>
+                                                                        <li style="margin-left:6px;margin-top: 3%;"><i class="fa fa-university"></i><span style='padding-left: 5px;'>Licensed for {{lawyer1.year_admitted|experience}} years</span></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="col-sm-6 col-md-12" style="margin-bottom:10px;margin-top:8%;">
+                                                            <div class="js-v-profile-card-cta-message-wrapper" style="margin-top:3%;">
+                                                                <a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="">Message</a></div>
+
+                                                            <div class="js-v-profile-card-cta-message-wrapper" style="margin-top:3%;">
+                                                                <a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'review_lawyer' lawyer1.user.id %}">Review Lawyer</a>
+                                                                <div class="messaging-error-message-container "></div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                    </div>
+                                </div>
+
+                                </section>
+
+                            </div>
+                        </div>
+
+
+                        <!-- TABS -->
+                        <div class="col-xs-12 col-md-8 v-profile-layout">
+                            <div class="v-striped-sections">
+                                <div data-react-class="components/Upsellable" data-react-props="{&quot;lawyer_claimed_by&quot;:333633,&quot;enabled_hide_pro_upsell&quot;:true,&quot;unverified&quot;:false,&quot;upsell_url&quot;:&quot;https://www.avvo.com/for-lawyers/avvo-pro&quot;}"
+                                    data-hydrate="t"></div>
+                                <div class="v-internal-nav-wrapper" style="height: 52px;position: relative;">
+                                    <div class="data-scroll">
+                                        <div class="v-internal-nav u-bg-white" style="width: 756px;">
+                                            <div class="subnav" id="list-example">
+                                                <div class="subnav-content">
+                                                    <div class="text-center nav-items"><a class="nav-item js-v-profile-subnav-about js-v-profile-subnav-item nav-item-active" href="#about" data-gtm="{&quot;target_url&quot;:&quot;https://www.avvo.com/attorneys/98110-wa-charles-shane-2059304.html#about&quot;,&quot;target_domain&quot;:&quot;www.avvo.com&quot;,&quot;target_path&quot;:&quot;/attorneys/98110-wa-charles-shane-2059304.html&quot;,&quot;target_querystring&quot;:&quot;&quot;,&quot;link_text&quot;:&quot;About&quot;,&quot;link_pagesection&quot;:&quot;body&quot;,&quot;link_context&quot;:&quot;&quot;,&quot;link_subcontext&quot;:&quot;&quot;}">About</a>
+                                                        <a class="nav-item js-v-profile-subnav-contact-variant js-v-profile-subnav-item" href="#contact" data-gtm="{&quot;target_url&quot;:&quot;https://www.avvo.com/attorneys/98110-wa-charles-shane-2059304.html#contact&quot;,&quot;target_domain&quot;:&quot;www.avvo.com&quot;,&quot;target_path&quot;:&quot;/attorneys/98110-wa-charles-shane-2059304.html&quot;,&quot;target_querystring&quot;:&quot;&quot;,&quot;link_text&quot;:&quot;Contact&quot;,&quot;link_pagesection&quot;:&quot;body&quot;,&quot;link_context&quot;:&quot;&quot;,&quot;link_subcontext&quot;:&quot;&quot;}">Contact</a>
+                                                        <a class="nav-item js-v-profile-subnav-reviews js-v-profile-subnav-item" href="#client_reviews" data-gtm="{&quot;target_url&quot;:&quot;https://www.avvo.com/attorneys/98110-wa-charles-shane-2059304.html#client_reviews&quot;,&quot;target_domain&quot;:&quot;www.avvo.com&quot;,&quot;target_path&quot;:&quot;/attorneys/98110-wa-charles-shane-2059304.html&quot;,&quot;target_querystring&quot;:&quot;&quot;,&quot;link_text&quot;:&quot;Reviews&quot;,&quot;link_pagesection&quot;:&quot;body&quot;,&quot;link_context&quot;:&quot;&quot;,&quot;link_subcontext&quot;:&quot;&quot;}">Reviews</a>
+                                                        <a class="nav-item js-v-profile-subnav-cost js-v-profile-subnav-item" href="#cost" data-gtm="{&quot;target_url&quot;:&quot;https://www.avvo.com/attorneys/98110-wa-charles-shane-2059304.html#payments&quot;,&quot;target_domain&quot;:&quot;www.avvo.com&quot;,&quot;target_path&quot;:&quot;/attorneys/98110-wa-charles-shane-2059304.html&quot;,&quot;target_querystring&quot;:&quot;&quot;,&quot;link_text&quot;:&quot;Cost&quot;,&quot;link_pagesection&quot;:&quot;body&quot;,&quot;link_context&quot;:&quot;&quot;,&quot;link_subcontext&quot;:&quot;&quot;}">Cost</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <section id="about" data-reactroot="">
+                                        <div class="profile-card">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <h2 class="u-margin-top-0 u-margin-bottom-half">Practice area</h2>
+                                                </div>
+                                            </div>
+                                            <p class="hero-text u-margin-top-0 u-text-color-coral js-context"><span class="js-context v-specialty-display"><td>
+                    {% for l2 in lawyer2 %} {{l2.practice_area}}:{{l2.sub_practice_area}} <br/>{% endfor %}
+                </td><br/></span></p>
+
+                                        </div>
+                                    </section>
+
+
+                                    <div>
+
+                                        <section id="contact" data-reactroot="">
+                                            <div class="profile-card">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-6">
+                                                        <h2 class="u-margin-top-0 u-margin-bottom-half">Contact</h2>
+                                                    </div>
+                                                </div>
+                                                <div class="js-context js-address">
+                                                    <div class="js-context js-map-container">
+                                                        <div class="row">
+                                                            <div class="col-xs-12 col-md-6">
+                                                                <div style="position:relative;margin-top:1em" class="map-container">
+                                                                    <div style="position:absolute;top:1em;left:1em;background:white;z-index:901;padding:0.5em;font-size:0.8em;font-weight:bold;box-shadow:1px 1px 1px #808080" class="map-address-card"><span class="js-v-google-map-text">{{lawyer1.address1|slice:":15"}}</span></div>
+
+                                                                    <a id='map1' href="https://maps.google.com/maps?q=''" target="_blank" class="js-v-google-map-link" data-gtm="{&quot;target_url&quot;:&quot;https://maps.google.com/maps?q=2728+N+Harwood+St+Ste+500%2C+Dallas%2C+TX%2C+75201-1743&quot;,&quot;target_domain&quot;:&quot;maps.google.com&quot;,&quot;target_path&quot;:&quot;/maps&quot;,&quot;target_querystring&quot;:&quot;?q=2728+N+Harwood+St+Ste+500%2C+Dallas%2C+TX%2C+75201-1743&quot;,&quot;link_text&quot;:&quot;&quot;,&quot;link_pagesection&quot;:&quot;body&quot;,&quot;link_context&quot;:&quot;&quot;,&quot;link_subcontext&quot;:&quot;&quot;}"><img data-src="https://maps.googleapis.com/maps/api/staticmap?size=476x309&amp;maptype=roadmap&amp;markers=size%3Amid%7Ccolor%3A0xf27760%7C2728%2BN%2BHarwood%2BSt%2BSte%2B500%252C%2BDallas%252C%2BTX%252C%2B75201-1743&amp;q=2728%2BN%2BHarwood%2BSt%2BSte%2B500%252C%2BDallas%252C%2BTX%252C%2B75201-1743&amp;zoom=16&amp;scale=2&amp;key=AIzaSyCg-zcQ_9B5WhhYh1Asw-rKA-pkIMk24ck&amp;signature=04lKTvtYdeNwDiRIO9U3W8r6mNk="
+                                                                            width="100%" height="85%" alt="address map" class="js-context js-v-google-map" data-location-id="31704" src="https://maps.googleapis.com/maps/api/staticmap?size=476x309&amp;maptype=roadmap&amp;markers=size%3Amid%7Ccolor%3A0xf27760%7C2728%2BN%2BHarwood%2BSt%2BSte%2B500%252C%2BDallas%252C%2BTX%252C%2B75201-1743&amp;q=2728%2BN%2BHarwood%2BSt%2BSte%2B500%252C%2BDallas%252C%2BTX%252C%2B75201-1743&amp;zoom=16&amp;scale=2&amp;key=AIzaSyCg-zcQ_9B5WhhYh1Asw-rKA-pkIMk24ck&amp;signature=04lKTvtYdeNwDiRIO9U3W8r6mNk="></a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-6">
+                                                                <div class="row">
+                                                                    <div class="col-xs-12">
+                                                                        <div class="u-vertical-padding-half">
+                                                                            <div style="padding-right:0;padding-left:0" class="js-context js-address col-xs-12">
+                                                                                <div class="u-vertical-padding-half">
+                                                                                    <div class="v-lawyer-address">
+                                                                                        <div class="js-v-address"><span>
+                                                                                                
+                                                                                                <p class="u-vertical-margin-0"><i class='fa fa-map-marker'></i>Address1 : {{lawyer1.address1}}</p>
+                                                                                                <br/><p class="u-vertical-margin-0">Address2 : {{lawyer1.address2}}</p>
+                                                                                                <br/><p class="u-vertical-margin-0">{{lawyer1.city}},{{lawyer1.state}} - {{lawyer1.zipcode}}</p>
+                                                                                                <br/><p class="u-vertical-margin-0"><i class='fa fa-phone'></i>{{lawyer1.phone_number}} </p> </p>
+                                                                                                <br/><p class="u-vertical-margin-0"><i class='fa fa-envelope'></i>{{lawyer1.user.email}}</i> </p>
+                                                                                                
+                                                                                            <p>
+
+                                                                                            </p>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+
+
+                                                                            <div class="messaging-error-message-container"></div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="u-spacer-half"></div>
+                                                                    <div id="js-v-hidden-addresses" class="row collapse js-context js-address-container">
+                                                                        <div class="col-xs-12 u-vertical-padding-half">
+                                                                            <div class="row">
+                                                                                <div></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    </section>
+                                </div>
+
+                                <div data-react-class="components/ReviewsSection" data-react-props="{&quot;lawyer&quot;:{&quot;id&quot;:2059304,&quot;claimed_by&quot;:333633,&quot;display_reviews&quot;:true,&quot;status&quot;:{&quot;deceased&quot;:false,&quot;judge&quot;:false,&quot;retired&quot;:false,&quot;official&quot;:false,&quot;unverified&quot;:false,&quot;displayable&quot;:true,&quot;sanctioned&quot;:false,&quot;rateable&quot;:true},&quot;firstname&quot;:&quot;Charles&quot;,&quot;lastname&quot;:&quot;Shane&quot;,&quot;client_review_count&quot;:92,&quot;aggregate_client_review_score&quot;:4.923913043478261,&quot;histogram_rows&quot;:[{&quot;rating&quot;:5,&quot;amount&quot;:88},{&quot;rating&quot;:4,&quot;amount&quot;:3},{&quot;rating&quot;:3,&quot;amount&quot;:0},{&quot;rating&quot;:2,&quot;amount&quot;:0},{&quot;rating&quot;:1,&quot;amount&quot;:1}],&quot;licenses&quot;:[{&quot;id&quot;:2066537,&quot;state&quot;:&quot;OR&quot;,&quot;status&quot;:&quot;Resigned&quot;,&quot;status_type&quot;:&quot;NOT_AUTHORIZED_TO_PRACTICE_OTHER&quot;,&quot;license_date&quot;:1260172800,&quot;licensing_authority_id&quot;:39,&quot;last_updated&quot;:1572764400,&quot;rateable&quot;:false,&quot;displayable&quot;:false},{&quot;id&quot;:2066536,&quot;state&quot;:&quot;ID&quot;,&quot;status&quot;:&quot;Former Member - Resigned&quot;,&quot;status_type&quot;:&quot;NOT_AUTHORIZED_TO_PRACTICE_ADMINISTRATIVE&quot;,&quot;license_date&quot;:1170316800,&quot;licensing_authority_id&quot;:14,&quot;last_updated&quot;:1572591600,&quot;rateable&quot;:false,&quot;displayable&quot;:false},{&quot;id&quot;:33843,&quot;state&quot;:&quot;WA&quot;,&quot;status&quot;:&quot;Active&quot;,&quot;status_type&quot;:&quot;AUTHORIZED_TO_PRACTICE&quot;,&quot;license_date&quot;:1038297600,&quot;licensing_authority_id&quot;:51,&quot;last_updated&quot;:1572940800,&quot;rateable&quot;:true,&quot;displayable&quot;:true}]},&quot;featured_reviews&quot;:[{&quot;id&quot;:1900406,&quot;specialty_id&quot;:null,&quot;review&quot;:{&quot;id&quot;:1900406,&quot;lawyer_id&quot;:2059304,&quot;title&quot;:&quot;Best Lawyer I have ever had.&quot;,&quot;body&quot;:&quot;Charlie Shane is a fantastic lawyer. I have unfortunately retained quite a few of them in my lifetime and Charlie is by far the best for many reasons. One of those reasons is that from the very beginning of my interactions with Charlie; he was very pleasant, knowledgeable, confident, open, honest, and trustworthy. I hired Charlie to help me with my parenting case that began with supervised visitations for me an in only a short and quite painless couple of months a victorious resolution was reached. The victor being my 2 year old daughter who Charlie made sure was always the focus of this process. He honored and validated my feelings, but always maintained his integrity of focusing on what was in the best interest of my child. This is the character of Charlie Shane that truly earned my trust and respect. He is also very skilled in the ins and outs of the court system and family law. Every communication between his awesome paralegal Nicolette Michaels, himself, and me were always pleasant, efficient, and done in a timely manner. I am super blessed and impressed by the outcome of my case in only a couple months time. Thank you so much Charlie Shane and Nicolette Michaels.&quot;,&quot;recommended&quot;:true,&quot;specialty_id&quot;:null,&quot;anonymous&quot;:false,&quot;approval_status&quot;:2,&quot;display_name&quot;:&quot;Brian&quot;,&quot;created_at&quot;:1573341431,&quot;created_by&quot;:6130286,&quot;updated_at&quot;:1573451974,&quot;updated_by&quot;:511392,&quot;notes&quot;:null,&quot;ip_address&quot;:&quot;73.53.22.65&quot;,&quot;review_type&quot;:&quot;HIRED&quot;,&quot;verified&quot;:false,&quot;cache_key&quot;:&quot;professional_review/1900406/2ff27eb5-e82c-43a8-a88f-3a067d2d70f0&quot;,&quot;ratings&quot;:{&quot;overall&quot;:5,&quot;trustworthy&quot;:null,&quot;responsive&quot;:null,&quot;knowledgeable&quot;:null,&quot;communication&quot;:null}}},{&quot;id&quot;:1884654,&quot;specialty_id&quot;:null,&quot;review&quot;:{&quot;id&quot;:1884654,&quot;lawyer_id&quot;:2059304,&quot;title&quot;:&quot;Honest and Good communicator&quot;,&quot;body&quot;:&quot;Charlie helped me through my case and communicated clearly throughout the process which was very important to me.  He was honest and fair with his charges as well as with his counsel.  I would hire him again.&quot;,&quot;recommended&quot;:true,&quot;specialty_id&quot;:null,&quot;anonymous&quot;:true,&quot;approval_status&quot;:2,&quot;display_name&quot;:null,&quot;created_at&quot;:1570299345,&quot;created_by&quot;:6063752,&quot;updated_at&quot;:1570421369,&quot;updated_by&quot;:511392,&quot;notes&quot;:null,&quot;ip_address&quot;:&quot;24.113.200.107&quot;,&quot;review_type&quot;:&quot;HIRED&quot;,&quot;verified&quot;:false,&quot;cache_key&quot;:&quot;professional_review/1884654/e6d5c204-e37c-4d66-b9e3-28c9bd7d870c&quot;,&quot;ratings&quot;:{&quot;overall&quot;:5,&quot;trustworthy&quot;:null,&quot;responsive&quot;:null,&quot;knowledgeable&quot;:null,&quot;communication&quot;:null}}}],&quot;reviews_url&quot;:&quot;/attorneys/98110-wa-charles-shane-2059304/reviews.html&quot;,&quot;write_review_url&quot;:&quot;https://www.avvo.com/attorney-reviews/98110-wa-charles-shane-2059304/write_review.html&quot;,&quot;edit_comment_url&quot;:&quot;https://www.avvo.com/comment/review_comment/edit&quot;,&quot;create_comment_url&quot;:&quot;https://www.avvo.com/comment/review_comment/create&quot;,&quot;hide_ads&quot;:true,&quot;mobile&quot;:false}"
+                                    data-hydrate="t">
+                                    <section id="client_reviews" data-reactroot="">
+                                        <div class="profile-card">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <h2 class="u-margin-top-0 u-margin-bottom-half" style="display:inline">Reviews</h2>
+                                                    </span>
+                                                    <div id="histogram-section">
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <hr/>
+                                            <div class="row">
+                                                <div class="col-xs-12">
+
+                                                    <div class="u-vertical-margin-1">
+                                                        <div class="row" itemscope="" itemtype="" itemprop="review">
+                                                            <div class="col-xs-12" id="review-id-1884654">
+                                                                <div class="row u-vertical-margin-0">
+                                                                    <div class="col-xs-12 col-md-9 pull-right">
+                                                                        <h3 class="u-vertical-margin-0" itemprop="headline" style='margin-left: 6%;font-size: 24px'>{{review_lawyer.title}}</h3>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-3">
+                                                                        <h2 class="u-vertical-margin-0">
+                                                                            <div class='rating-stars' style='margin-left:-37%;'>
+                                                                                <ul>
+                                                                                    {% for i in "x"|rjust:review_lawyer.rating %}
+                                                                                    <li class='star'>
+                                                                                        <i class='star fa fa-star fa-fw' style='font-size:0.7em;'></i>
+                                                                                    </li>
+                                                                                    {% endfor %}
+                                                                                </ul>
+                                                                            </div>
+                                                                        </h2>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col-xs-12 col-md-3">
+                                                                        <p class="u-vertical-padding-0" style="margin-left:24%;"><small><span class="text-muted">Posted by</span> {{review_lawyer.user}}<br class="hidden-xs"><span class="text-muted">{{review_lawyer.date}}</span></small></p>
+                                                                        <div class="small"></div>
+                                                                    </div>
+                                                                    <div class="col-xs-12 col-md-9">
+                                                                        <div class="sidebar-box">{{review_lawyer.review}}</div>
+
+                                                                        <div class="u-spacer-half"></div>
+                                                                        <div class="clearfix"></div>
+                                                                        <div class="text-center">
+                                                                            <div class="u-spacer-half"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-left:0%">
+                                                <div class="col-xs-12 text-center">
+                                                    <div class="text-center"><a class="strong" href="{% url 'viewall_review_lawyer'  review_lawyer.lawyer_id.user.id %}">See all reviews<svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right fa-w-10 fa-lg u-text-color-blue icon" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="padding-left:5px;vertical-align:-.185em"><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path></svg></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div data-react-class="components/CostsSection" data-react-props="{&quot;phone_number&quot;:true,&quot;payment_types&quot;:[&quot;Cash&quot;,&quot;Check&quot;,&quot;Credit Card&quot;],&quot;probono_contribution&quot;:0,&quot;free_consultation&quot;:null,&quot;fees&quot;:[]}"
+                                    data-hydrate="t">
+                                    <section id="cost" data-reactroot="">
+                                        <div class="profile-card">
+                                            <div class="row">
+                                                <div class="col-xs-12 col-sm-6">
+                                                    <h2 class="u-margin-top-0 u-margin-bottom-half">Cost</h2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-7"><span class="cta-heading">RATES</span>
+                                                    <ul class="unstyled-list">
+                                                        <li class="unstyled-list"><strong><a class="js-v-profile-call-hourly-rate-cta" href="#contact" data-gtm="{&quot;target_url&quot;:&quot;https://www.avvo.com/attorneys/98110-wa-charles-shane-2059304.html#contact&quot;,&quot;target_domain&quot;:&quot;www.avvo.com&quot;,&quot;target_path&quot;:&quot;/attorneys/98110-wa-charles-shane-2059304.html&quot;,&quot;target_querystring&quot;:&quot;&quot;,&quot;link_text&quot;:&quot;Contact for details&quot;,&quot;link_pagesection&quot;:&quot;body&quot;,&quot;link_context&quot;:&quot;&quot;,&quot;link_subcontext&quot;:&quot;&quot;}">Contact for details</a></strong></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <section id="recent-lawyers" class="v-js-recent-lawyers">
+                                    <div class="u-vertical-margin-half"></div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div data-react-class="components/profile/ClaimAdvert" data-react-props="{&quot;lawyer&quot;:{&quot;id&quot;:2059304,&quot;claimed_by&quot;:333633,&quot;status&quot;:{&quot;deceased&quot;:false,&quot;judge&quot;:false,&quot;retired&quot;:false,&quot;official&quot;:false,&quot;unverified&quot;:false,&quot;displayable&quot;:true,&quot;sanctioned&quot;:false,&quot;rateable&quot;:true},&quot;licenses&quot;:[{&quot;id&quot;:2066537,&quot;state&quot;:&quot;OR&quot;,&quot;status&quot;:&quot;Resigned&quot;,&quot;status_type&quot;:&quot;NOT_AUTHORIZED_TO_PRACTICE_OTHER&quot;,&quot;license_date&quot;:1260172800,&quot;licensing_authority_id&quot;:39,&quot;last_updated&quot;:1572764400,&quot;rateable&quot;:false,&quot;displayable&quot;:false},{&quot;id&quot;:2066536,&quot;state&quot;:&quot;ID&quot;,&quot;status&quot;:&quot;Former Member - Resigned&quot;,&quot;status_type&quot;:&quot;NOT_AUTHORIZED_TO_PRACTICE_ADMINISTRATIVE&quot;,&quot;license_date&quot;:1170316800,&quot;licensing_authority_id&quot;:14,&quot;last_updated&quot;:1572591600,&quot;rateable&quot;:false,&quot;displayable&quot;:false},{&quot;id&quot;:33843,&quot;state&quot;:&quot;WA&quot;,&quot;status&quot;:&quot;Active&quot;,&quot;status_type&quot;:&quot;AUTHORIZED_TO_PRACTICE&quot;,&quot;license_date&quot;:1038297600,&quot;licensing_authority_id&quot;:51,&quot;last_updated&quot;:1572940800,&quot;rateable&quot;:true,&quot;displayable&quot;:true}],&quot;firstname&quot;:&quot;Charles&quot;,&quot;middlename&quot;:&quot;P.&quot;,&quot;lastname&quot;:&quot;Shane&quot;,&quot;suffix&quot;:null},&quot;claim_professional_url&quot;:&quot;https://www.avvo.com/claim_profile/claim/2059304.html&quot;,&quot;write_review_url&quot;:&quot;https://www.avvo.com/attorney-reviews/98110-wa-charles-shane-2059304/write_review.html&quot;}"
+                    data-hydrate="t"></div>
+            </div>
+            <!-- END -->
+
+        </div>
+
+
+
+
+        <!-- TABS -->
+        <!-- END TABS -->
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+  
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="http://code.highcharts.com/highcharts.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var q = encodeURIComponent($('#mapaddress').text());
+            $('#map')
+                .attr('src',
+                    'https://www.google.com/maps?q=' + q);
+
+            $('#map1')
+                .attr('href',
+                    'https://www.google.com/maps?q=' + q);
+
+        });
+    </script>
+
+
+    
+</body>
 
 {% endblock %}

@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load crispy_forms_tags %} 
 
+
 <head>
 
     <link href='{% static "css/bootstrap.css" %}' rel='stylesheet' />
@@ -11,7 +12,13 @@
     {% comment %} <link href='{% static "css/client_register.css" %}' rel='stylesheet' /> {% endcomment %}
     <!-- <link href='{% static "css/font-awesome.css" %}' rel='stylesheet' /> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <style>
+        #scrollable {
+        height: 400px;
+        overflow: scroll;
+        position: relative;
+    }
+    </style>
 </head>
 
 <body>

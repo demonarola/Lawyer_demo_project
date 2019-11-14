@@ -269,12 +269,14 @@
                                 <div class="col-sm-12 u-margin-top-half">
                                     <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' l.lawyer_id.user.id %}">View All Reviews</a></div>
                             </div>
+                               {% if user.is_authenticated and user.is_staff %}
                              <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
                                     <div class="u-spacer-half"></div><a rel="nofollow" data-id="{{ l.lawyer_id.user.id }}" class="btn-message btn-outline-review message_button" data-toggle="modal" data-target="#myModal1" data-whatever="@getbootstrap" style='background-color: #0040ff;text-decoration: none;width: 94%;border-radius: 5px;'
                                         href="">Write Message</a></div>
 
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
