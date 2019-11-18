@@ -100,11 +100,12 @@
                    
                     <div class='row'> 
                     <div class="card-body">
-                    <div style='max-height:120px;overflow:hidden;'>
+                    <div style='height:150px'>
                     {% for r in review_lawyer %}
                         
                     {% if l.user.id == r.lawyer_id.user.id %}
-                
+                        {% ifchanged l.user.id %} 
+
                      {% comment %} {% if forloop.counter == forloop.parentloop.counter %} {% endcomment %}
                       
                  
@@ -126,10 +127,16 @@
                         </ul>
                     </div>
                     <div class='text-muted-review'>By {{r.user.first_name}} <span class='text-muted-review'> {{r.date}}</span></div>
+                    
+                    </div>
+                    <div>
+                    {{r.review|slice:':120'}}....
                     </div>
                 </section>
                    
+                   {% endifchanged %}
                    {% endif %}
+                   
                     {% endfor %}
                     </div>
                         

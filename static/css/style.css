@@ -714,7 +714,7 @@ svg:not(:root).svg-inline--fa {
 
 .isSticky {
     position: fixed;
-    top: 0;
+    top: 10;
 }
 
 .u-bg-white {
@@ -749,6 +749,15 @@ svg:not(:root).svg-inline--fa {
     margin-left: -5%;
     text-align: justify;
     width: 100%;
+}
+
+.sub_area {
+    list-style-type: none;
+    font-size: 16px;
+}
+
+.sub_area_text {
+    font-size: 24px;
 }
 
 

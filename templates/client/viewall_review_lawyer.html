@@ -6,12 +6,12 @@
 <div class="container u-vertical-padding-1">
     <div class="row">
         <div class="col-xs-4 col-xs-offset-4 col-sm-1 col-sm-offset-0 remove-right-gutter">
-            <div class="text-right text-center-xs"><img class="img-responsive u-bg-cool-gray" style="width: 112px;" src="{{ MEDIA_URL }}/{{ lawyer.profile_image }}">
+            <div class="text-right text-center-xs"><a href='{% url "lawyer_profile" lawyer.user.id %}'><img class="img-responsive u-bg-cool-gray" style="width: 112px;" src="{{ MEDIA_URL }}/{{ lawyer.profile_image }}"></a>
                 <div class="u-spacer-half"></div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-11 text-center-xs">
-            <h1 class="u-vertical-margin-0 name-review">{{lawyer.user.first_name}} {{lawyer.user.last_name}} reviews</h1>
+            <h1 class="u-vertical-margin-0 name-review"><a href='{% url "lawyer_profile" lawyer.user.id %}'>{{lawyer.user.first_name}} {{lawyer.user.last_name}} </a>    Reviews</h1>
 
             <p class="h2 u-vertical-margin-0 rating-stars">
                 {% comment %} <div class='rating-stars' style='margin-left:-4%;'>
@@ -43,6 +43,15 @@
                 <li class='star' title='WOW!!!' data-value='5'>
                     <i class='fa fa-star fa-fw'></i>
                 </li>
+                <li class='star'>
+                  {% for c in review_count %}
+                  <small>total {{c.dcount}} reviews</small>
+                  {% endfor %}
+                </li>
+                
+                                                                       
+                                                                      
+                                                                            
             </ul>
         </div>
             </p>

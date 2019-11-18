@@ -186,7 +186,7 @@
                                                                         {% for c in review_count %}
                                                                        
                                                                         {% if p.lawyer_id.user_id == c.lawyer_id__user_id%}
-                                                                            {{c.dcount}}<small> reviews</small>
+                                                                            <small>total {{c.dcount}} reviews</small>
                                                                         {% endif %}
                                                                         {% endfor %}
                                                                 </li> 
@@ -203,13 +203,7 @@
                                             <span class="small text-muted-lawyer"> {{ p.lawyer_id.year_admitted|experience }} years licensed</span></div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 remove-right-gutter">
-                                <div class="row lawyer-row">
-                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
-                                        <h3 class="u-vertical-margin-0 lawyer-email">{{ p.lawyer_id.user.email}}</h3>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <div class="col-xs-12 remove-right-gutter">
                                 <div class="row lawyer-row">
                                     <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
@@ -250,11 +244,23 @@
 
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
-                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a></div>
+                                    <div class="u-spacer-half"></div>
+                                    {% if user.is_staff %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>
+                                    {% else %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" data-toggle="modal" data-target="#profile" data-whatever="@getbootstrap"  style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>
+
+                                    {% endif %}
+                                    </div>
                             </div>
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
+                                {% if user.is_staff %}
                                     <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
+                                {% else %}
+                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review"  data-toggle="modal" data-target="#review" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
+
+                                {% endif %}
                             </div>
                             {% if user.is_authenticated and user.is_staff %}
                             <div class="row small text-center">
@@ -324,6 +330,21 @@
     </div>
 
 
+{% comment %} <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="profile" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  
+                </div>
+                <div class="modal-body">
+                   Please Login first .. <a href="{% url 'login' %}">Login</a>
+                </div>
+               
+            </div>
+        </div>
+    </div> {% endcomment %}
+
+    {% include 'client/login_modal.html' %}
 
 
 </div>

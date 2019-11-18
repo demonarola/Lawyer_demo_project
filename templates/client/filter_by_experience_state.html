@@ -1,8 +1,8 @@
  {% extends 'client/base.html' %} {% load calculate_experience %} {% block body_block %}
 
-<div class='container' style='margin-top:0%;'>
+<div class='container' style='margin-top:3%;'>
  <header style='margin-left:-2.3%'>
-        <h1 class="u-margin-top-0"><span id="lawyer-serp-title">{% if sub_area == 'all' %} {{lawyer_state}} {{pname }} {% else %} {{lawyer_state }} {{sub_area}}{% endif %}</span></h1>
+        <h1 class="u-margin-top-0"><span id="lawyer-serp-title"> {{lawyer_state}} {{pname }} Lawyers</span></h1>
         <p class="text-muted">Compare {{sub_area}} lawyers near you. Read reviews and contact them directly.</p>
     </header>
     <div class="row margin-lawyer-top" id='myTable1'>
@@ -192,7 +192,7 @@
                 <div class="col-xs-9 col-sm-10">
                     <div class="row">
                         <div class="col-xs-12 col-md-8">
-                            <a href=''>
+                            <a href='{% url "lawyer_profile" p.lawyer_id.user.id %}'>
                                 <h3 class="u-vertical-margin-0 lawyer-text">{{p.lawyer_id.user.first_name}} {{p.lawyer_id.user.last_name}}</h3>
                             </a>
 
@@ -201,7 +201,7 @@
                                     <div class="u-margin-bottom-0 u-font-size-small">
                                         <p class="visible-xs">
                                             <span class="u-text-color-yellow"></span>
-                                            <div class='rating-stars' style='margin-left:-14%;margin-top:-12%;'>
+                                            <div class='rating-stars' style='margin-left:-14%;margin-top:-11%;'>
                                                 <ul id='stars'>
 
                                                     <li class='star' title='Poor' data-value='1' value='Poor'>
@@ -219,6 +219,13 @@
                                                     <li class='star' title='WOW!!!' data-value='5'>
                                                         <i class='fa fa-star fa-fw'></i>
                                                     </li>
+                                                     <li class='star'>
+                                                         {% for c in review_count %}     
+                                                            {% if .lawyer_id.user_id == c.lawyer_id__user_id%}
+                                                                <small> total {{c.dcount}} reviews</small>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </li> 
                                                 </ul>
                                             </div>
                                         </p>
@@ -232,13 +239,7 @@
                                         <span class="small text-muted-lawyer"> {{ p.lawyer_id.year_admitted|experience }} years licensed</span></div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 remove-right-gutter">
-                                <div class="row lawyer-row">
-                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
-                                        <h3 class="u-vertical-margin-0 lawyer-email">{{ p.lawyer_id.user.email}}</h3>
-                                    </div>
-                                </div>
-                            </div>
+                        
                             <div class="col-xs-12 remove-right-gutter">
                                 <div class="row lawyer-row">
                                     <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
@@ -276,11 +277,23 @@
 
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
-                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a></div>
+                                    <div class="u-spacer-half"></div>
+                                    {% if user.is_staff %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>
+                                    {% else %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" data-toggle="modal" data-target="#profile" data-whatever="@getbootstrap"  style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>
+
+                                    {% endif %}
+                                    </div>
                             </div>
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
+                                {% if user.is_staff %}
                                     <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
+                                {% else %}
+                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review"  data-toggle="modal" data-target="#review" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
+
+                                {% endif %}
                             </div>
                                {% if user.is_authenticated and user.is_staff %}
                          <div class="row small text-center">
@@ -355,6 +368,9 @@
 
 </div>
 </div>
+
+{% include 'client/login_modal.html' %}
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $('.message_button').click(function() {

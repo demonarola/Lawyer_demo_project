@@ -27,6 +27,7 @@ urlpatterns = [
     path('logout/',views.user_logout,name='logout'),
     path('view_lawyers/',views.view_lawyer,name='view_lawyers'),
     path('lawyer_register/',views.lawyer,name='lawyer_register'),
+    
     # path('dropdown/',views.dropdown,name='dropdown'),
     path('filter_by_practice/',views.subarea_dependent_dropdown,name='area_dropdown'),
     path('add_practice_area/',views.add_practice_area,name='add_practice_area'),

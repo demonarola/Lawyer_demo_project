@@ -113,7 +113,7 @@ class Review_Lawyer(models.Model):
     date = models.DateField(blank=False, null=False,auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.lawyer_id.user.username
 
     class Meta:
         verbose_name_plural = 'Review Lawyer'
