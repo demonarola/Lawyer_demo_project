@@ -1,8 +1,8 @@
 <html>
 {% load staticfiles %}
 {% load crispy_forms_tags %} 
-
-
+{% load practice_menu %} 
+{% load profile_tag %} 
 <head>
 
     <link href='{% static "css/bootstrap.css" %}' rel='stylesheet' />
@@ -27,7 +27,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Lawyer 
-       
+  
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <span class="navbar-toggler-icon"></span>
@@ -47,40 +47,36 @@
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">By Practice Area</a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{% url 'view_lawyers' %}?practice_area=Animal Law">Animal Law</a></li>
-                                <li><a class="dropdown-item" href="{% url 'view_lawyers' %}?practice_area=Bankrupty and Debt">Bankrupty and Debt</a></li>
-                                <li><a class="dropdown-item" href="{% url 'view_lawyers' %}?practice_area=Bussiness">Bussiness</a></li>
-                                <li><a class="dropdown-item" href="{% url 'view_lawyers' %}?practice_area=Employement and Labour">Employement & Labour</a></li>
-                                <li><a class="dropdown-item" href="{% url 'view_lawyers' %}?practice_area=FAMILY">FAMILY</a></li>
+                            
+                            {% practice_area as practice %}
+                                {% for i in practice %}
+                                <li><a class="dropdown-item" href="{% url 'view_lawyers' %}?practice_area={{i.practice}}">{{i.practice}}</a></li>
+                                {% endfor %}
                             </ul>
                         </li>
                         
                         <li><a class="dropdown-item" href="{% url 'state_list' %}">By State</a></li>
-                        {% comment %} <li><a class="dropdown-item" href="">By City</a></li> {% endcomment %}
+                       
                     </ul>
                 </li>
                 
                   {% if user.is_superuser %}
-                   <li class="nav-item">
-                    <a class="nav-link" href="{% url "lawyer_profile" user.id  %}">View Profile<span class="sr-only"></span></a>
-                </li>
-                   <li class="nav-item">
-                    <a class="nav-link" href="{% url 'lawyer_edit_profile' %}">Edit Profile<span class="sr-only"></span></a>
-                </li>
+                 
                         <li class="nav-item">
                     <a class="nav-link" href="{% url 'add_practice_area' %}">Add Practice Area<span class="sr-only"></span></a>
                 </li>
                
                   {% endif %}
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and user.is_staff %}
                  <li class="nav-item">
                     <a class="nav-link" href="{% url 'change_password' %}">Change Password<span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Sign Out <span class="sr-only"></span></a>
                 </li>
-                {% else %}
-                <li class="nav-item">
+             
+                {% elif not user.is_authenticated %}
+                   <li class="nav-item">
                     <a class="nav-link" href="{% url 'login' %}">Sign In <span class="sr-only"></span></a>
                 </li>
                 {% endif %}
@@ -89,10 +85,25 @@
                     <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li> -->
             </ul>
-            <!-- <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form> -->
+         <form class="form-inline my-2 my-lg-0">
+            {% if  request.user.is_superuser %}
+              {{request.user.first_name}} {{request.user.last_name}}&nbsp;
+             <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" style='padding:0 0;' href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src='{{MEDIA_URL}}{{ request.user.id|profile_menu }}' height='40' width='40' style='border-radius:50%;'/>   
+                   </a>
+                    <div class="dropdown-menu" style='margin-left: -200%;' aria-labelledby="navbarDropdownMenuLink">
+                     <a class="dropdown-item" href="{% url 'change_password' %}" style='font-size: 14px;'>Change Password<span class="sr-only"></span></a>
+                     <a class="dropdown-item" href="{% url "lawyer_profile" user.id  %}" style='font-size: 14px;'>View Profile<span class="sr-only"></span></a>
+                   <a class="dropdown-item" href="{% url 'lawyer_edit_profile' %}" style='font-size: 14px;'>Edit Profile<span class="sr-only"></span></a>
+                    <a class="dropdown-item" href="{% url 'logout' %}" style='font-size: 14px;'>Sign Out <span class="sr-only"></span></a>
+                    </div>
+                </li>   
+            </ul> 
+            {% endif %} 
+                
+            </form>
         </div>
     </nav>
     {% block body_block %} {% endblock %}
@@ -100,57 +111,42 @@
 
 
   <!-- Site footer -->
-<footer class="site-footer">
+<footer class="site-footer" style='margin-top:3%;'>
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-6">
                 <h6>About</h6>
-                <p class="text-justify">Scanfcode.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative to help the upcoming programmers with the code. Scanfcode focuses on providing the most efficient code or snippets as the code wants to be simple. We will help programmers
-                    build up concepts in different programming languages that include C, C++, Java, HTML, CSS, Bootstrap, JavaScript, PHP, Android, SQL and Algorithm.</p>
+                <p class="text-justify">Lawyer Project is an initiative to help the client or users who are facing difficulties to find a appropriate for their issues. 
+                Lawyer Project helps to client to find the suitable lawyer for them, by providing their profiles and other details..
+
+                </p>
+                <p>
+                    
+                </p>
             </div>
 
             <div class="col-xs-6 col-md-3">
                 <h6>Categories</h6>
                 <ul class="footer-links">
-                    <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
-                    <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
-                    <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
-                    <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
-                    <li><a href="http://scanfcode.com/category/android/">Android</a></li>
-                    <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+                 {% practice_area as practice %}
+                    {% for i in practice %}
+                     <li><a class="dropdown-item-footer" href="{% url 'view_lawyers' %}?practice_area={{i.practice}}">{{i.practice}}</a></li>           
+                 {% endfor %}
                 </ul>
+
             </div>
 
             <div class="col-xs-6 col-md-3">
-                <h6>Quick Links</h6>
-                <ul class="footer-links">
-                    <li><a href="http://scanfcode.com/about/">About Us</a></li>
-                    <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
-                    <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
-                    <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
-                    <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+                <h6 style='margin-left:4%;'>Quick Links</h6>
+               <ul class="social-icons">
+                    <li><a class="facebook" href="https://www.facebook.com/"><i class="fa fa-facebook" style='margin-top:35%;'></i></a></li>
+                    <li><a class="twitter" href="https://www.twitter.com/"><i class="fa fa-twitter" style='margin-top:35%;'></i></a></li>
+                    <li><a class="dribbble" href="https://www.dribble.com/"><i class="fa fa-dribbble" style='margin-top:35%;'></i></a></li>
+                    <li><a class="linkedin" href="https://www.linkedin.com/"><i class="fa fa-linkedin" style='margin-top:35%;'></i></a></li>
                 </ul>
             </div>
         </div>
-        <hr>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-sm-6 col-xs-12">
-                <p class="copyright-text">Copyright &copy; 2017 All Rights Reserved by
-                    <a href="#">Scanfcode</a>.
-                </p>
-            </div>
-
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                <ul class="social-icons">
-                    <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-                    <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-                    <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-                    <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-                </ul>
-            </div>
-        </div>
+       
     </div>
 </footer>
    

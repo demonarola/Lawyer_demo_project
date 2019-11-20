@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse,render_to_response
 
 # Create your views here.
 from django.shortcuts import render,HttpResponse,HttpResponseRedirect,reverse,redirect
@@ -15,17 +15,24 @@ from django.core.mail import get_connection, send_mail
 from django.contrib.auth.decorators import login_required,user_passes_test
 from hashlib import sha1
 from django.contrib.auth.hashers import check_password
+import datetime
+from dateutil.relativedelta import relativedelta
+
 # from django.core.mail.message import EmailMessage
+
 # Create your views here.
 
+
+def base(request):
+    practice = Practice_area.objects.all()
+    return render_to_response('client/base.html',{'practice':practice})
 
 def index(request):
     ''' Dashboard '''
     lawyer = Lawyer.objects.all()
     review_lawyer = Review_Lawyer.objects.all()
-    
     review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
-   
+    
     return render(request,'client/index.html',{'lawyer':lawyer,'review_lawyer':review_lawyer,'review_count':review_count})
 
 
@@ -33,7 +40,7 @@ def user_login(request):
     ''' User Login '''
     form = LoginForm()
     msg = ''
-
+    
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -54,9 +61,9 @@ def user_login(request):
                 else:
                     msg = 'Plz Login First...'
             else:
-                msg = "Invalid login details supplied."
+                msg = "Invalid Login details supplied."
         except:
-            msg = "Invalid login details supplied."
+            msg = "Invalid Login details supplied."
 
     return render(request,'client/login.html',{'form':form,'msg':msg})
 
@@ -114,6 +121,7 @@ def view_lawyer(request):
     except EmptyPage:
         practice_area = paginator.page(paginator.num_pages)
     return render(request,'client/view_lawyers.html',{'practice_area':practice_area,'sub_practice_area':sub_practice_area,'pname':pname,'review_count':review_count})
+
 
 
 @login_required(login_url='/login/')

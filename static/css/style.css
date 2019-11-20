@@ -830,10 +830,6 @@ svg:not(:root).svg-inline--fa {
     display: inline-block
 }
 
-.site-footer .social-icons {
-    text-align: right
-}
-
 .site-footer .social-icons a {
     width: 40px;
     height: 40px;
@@ -940,7 +936,7 @@ svg:not(:root).svg-inline--fa {
 
 /* END FOOTER */
 
-.dashboard-review {
+.dashboard-review-footer {
     margin-top: -1%;
     margin-bottom: 3%;
     font-size: 0.9em;
@@ -950,4 +946,26 @@ svg:not(:root).svg-inline--fa {
 a:hover {
     text-emphasis: none;
     text-decoration: none;
+}
+
+.dropdown-item-footer:hover {
+    width: 100%;
+}
+
+.dropdown-submenu-footer {
+    position: relative;
+}
+
+.dropdown-submenu a::after {
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 6px;
+    top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+    margin-right: .1rem;
 }

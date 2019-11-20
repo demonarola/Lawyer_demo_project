@@ -182,9 +182,8 @@
             </div>
         </div>
         <div class="col-xs-12 col-md-8">
-    
-            {% if lawyer %} {% for p in lawyer %} {% if p.lawyer_id.year_admitted|experience >= r1 and p.lawyer_id.year_admitted|experience <= r2 %}
-             <div class="row" style='margin-top:5%;'>
+
+            {% if lawyer %} {% for p in lawyer %} {% if p.lawyer_id.year_admitted|experience >= r1 and p.lawyer_id.year_admitted|experience <= r2 %} <div class="row" style='margin-top:5%;'>
 
                 <div class="col-xs-3 col-sm-2 remove-right-gutter">
                     <div class="labeled-img u-font-size-xs">
@@ -291,14 +290,18 @@
                         <div class="row small text-center">
                             <div class="col-sm-12 u-margin-top-half">
                                 <div class="u-spacer-half"></div><a rel="nofollow" data-id="{{ p.lawyer_id.user.id }}" class="btn-message btn-outline-review message_button" data-toggle="modal" data-target="#myModal1" data-whatever="@getbootstrap" style='background-color: #0040ff;text-decoration: none;width: 94%;border-radius: 5px;'
-                                    href="">Write Message</a></div>
+                                    href="">Write Message</a>
+                            </div>
 
                         </div>
                         {% endif %}
                     </div>
-            {% endif %} {% endfor %} 
-          
-        <ul class="pagination">
+                </div>
+        </div>
+    </div>
+    {% endif %} {% endfor %}
+
+    <ul class="pagination">
 
         {% if lawyer.has_previous %}
         <li class="page-item"><a class="page-link" href="{% url 'filter_by_experience' %}?practice_area={{pname}}&range={{experience_id}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
@@ -316,18 +319,13 @@
         {% endif %}
     </ul>
 
-         
-            {% endif %}
-                </div>
-        </div>
-    </div>
 
-
-   
-
-  
-
+    {% endif %}
 </div>
+</div>
+</div>
+
+
 
 
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1" aria-hidden="true">
