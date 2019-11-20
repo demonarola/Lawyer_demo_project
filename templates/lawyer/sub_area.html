@@ -1,10 +1,11 @@
-
-<select class="chosen-select" multiple tabindex="6" name='sub_practice_area' >
+<div class="col-md-8">
 <label>Select Sub Practice area</label>
+<select class="chosen-select" multiple tabindex="6" name='sub_practice_area'>
 {% for s in sub_area  %}
     <option>{{s.practice_type}}</option>
 {% endfor %}
 </select>
+</div>
 <script>
     $(function() {
         $('.chosen-select').chosen();

@@ -3,7 +3,6 @@
     .rating-stars ul {
         list-style-type: none;
         padding-left: -50px;
-       
     }
     
     .rating-stars ul>li.star {
@@ -17,11 +16,10 @@
         color: #FF912C;
         /* Color on idle state */
     }
-    
 </style>
 <div class="jumbotron jumbotron bg-cover">
     <div class="overlay"></div>
-    <h1>Experienced lawyers area</h1>
+    <h1>Experienced Lawyers are</h1>
     <h1>ready to help</h1>
     <p></p>
 </div>
@@ -50,7 +48,7 @@
 
         <!--First slide-->
         <div class="carousel-item active">
-        {% for l in lawyer  %}
+            {% for l in lawyer %}
             <div class="col-md-4">
                 <div class="card mb-2">
                     <div class='row'>
@@ -60,102 +58,94 @@
 
                         <div class='col-sm-8'>
                             <h2 class='lawyer_name_review'><a href='{% url "lawyer_profile" l.user.id %}'>{{l.user.first_name}} {{l.user.last_name}}</a></h2>
-                            <div class='rating-stars'  style='margin-left:-18%;margin-top:-1%;'>
-                                                  
-                                                                <ul id='stars'>
-                                                                 
-                                                                   <li class='star' title='Poor' data-value='1' value='Poor'>
-                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                    </li>
-                                                                    <li class='star' title='Fair' data-value='2'>
-                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                    </li>
-                                                                    <li class='star' title='Good' data-value='3'>
-                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                    </li>
-                                                                    <li class='star' title='Excellent' data-value='4'>
-                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                    </li>
-                                                                    <li class='star' title='WOW!!!' data-value='5'>
-                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                    </li> 
-                                                                    <li class='star'>
+                            <div class='rating-stars' style='margin-left:-18%;margin-top:-1%;'>
 
-                                                                        {% for c in review_count %}
-                                                                       
-                                                                        {% if l.user_id == c.lawyer_id__user_id%}
-                                                                            {{c.dcount}}<small> reviews</small>
-                                                                        {% endif %}
-                                                                        {% endfor %}
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                             <i class="fa fa-map-marker marker-icon-css"></i><strong class='lawyer_address_review'>{{l.address1}}</strong>
+                                <ul id='stars'>
 
-                                                
+                                    <li class='star' title='Poor' data-value='1' value='Poor'>
+                                        <i class='fa fa-star fa-fw'></i>
+                                    </li>
+                                    <li class='star' title='Fair' data-value='2'>
+                                        <i class='fa fa-star fa-fw'></i>
+                                    </li>
+                                    <li class='star' title='Good' data-value='3'>
+                                        <i class='fa fa-star fa-fw'></i>
+                                    </li>
+                                    <li class='star' title='Excellent' data-value='4'>
+                                        <i class='fa fa-star fa-fw'></i>
+                                    </li>
+                                    <li class='star' title='WOW!!!' data-value='5'>
+                                        <i class='fa fa-star fa-fw'></i>
+                                    </li>
+                                    <li class='star'>
+
+                                        {% for c in review_count %} {% if l.user_id == c.lawyer_id__user_id%}
+                                        <small>Total {{c.dcount}} reviews</small> {% endif %} {% endfor %}
+                                    </li>
+                                </ul>
+                            </div>
+                            <i class="fa fa-map-marker marker-icon-css"></i><strong class='lawyer_address_review'>{{l.address1}}</strong>
+
+
                         </div>
                     </div>
 
                     <hr>
-                   
-                    <div class='row'> 
-                    <div class="card-body">
-                    <div style='height:150px'>
-                    {% for r in review_lawyer %}
-                        
-                    {% if l.user.id == r.lawyer_id.user.id %}
-                        {% ifchanged l.user.id %} 
 
-                     {% comment %} {% if forloop.counter == forloop.parentloop.counter %} {% endcomment %}
-                      
-                 
-                        <strong>{{r.title}}</strong>
-                    
-                        <section class='rating-widget'>
-                            
-                    <!-- Rating Stars Box -->
                     <div class='row'>
-                   
-                    <div class='rating-stars' style='margin-left:-6%;'>
+                        <div class="card-body">
+                            <div style='height:150px'>
+                                {% for r in review_lawyer %} {% if l.user.id == r.lawyer_id.user.id %} {% ifchanged l.user.id %} {% comment %} {% if forloop.counter == forloop.parentloop.counter %} {% endcomment %}
 
-                        <ul>
-                        {% for i in "x"|rjust:r.rating %}
-                            <li class='star'>
-                                <i class='star fa fa-star fa-fw'></i>
-                            </li>
-                        {% endfor %}
-                        </ul>
+
+                                <strong>{{r.title}}</strong>
+
+                                <section class='rating-widget'>
+
+                                    <!-- Rating Stars Box -->
+                                    <div class='row'>
+
+                                        <div class='rating-stars' style='margin-left:-6%;'>
+
+                                            <ul>
+                                                {% for i in "x"|rjust:r.rating %}
+                                                <li class='star'>
+                                                    <i class='star fa fa-star fa-fw'></i>
+                                                </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <div class='text-muted-review'>By {{r.user.first_name}} <span class='text-muted-review'> {{r.date}}</span></div>
+
+                                    </div>
+                                    <div>
+                                        <p class='text-muted dashboard-review'>
+                                            {{r.review|slice:':120'}}....
+                                            <p>
+                                    </div>
+                                </section>
+
+                                {% endifchanged %} {% endif %} {% endfor %}
+                            </div>
+
+                            <a class="btn btn-primary" href='{% url "viewall_review_lawyer" l.user.id %}'>View All Reviews</a>
+                        </div>
                     </div>
-                    <div class='text-muted-review'>By {{r.user.first_name}} <span class='text-muted-review'> {{r.date}}</span></div>
-                    
-                    </div>
-                    <div>
-                    {{r.review|slice:':120'}}....
-                    </div>
-                </section>
-                   
-                   {% endifchanged %}
-                   {% endif %}
-                   
-                    {% endfor %}
-                    </div>
-                        
-                        <a class="btn btn-primary" href='{% url "viewall_review_lawyer" l.user.id %}'>View All Reviews</a>
-                    </div>
-                    </div>
-                 </div>
+                </div>
             </div>
             {% if forloop.counter|divisibleby:3 and not forloop.last %}
+        </div>
+        <div class="carousel-item">
+            {% endif %} {% endfor %}
+            <!--/.Slides-->
+        </div>
     </div>
-     <div class="carousel-item">
-
-
-
-     {% endif %}
-     
-     {% endfor %}
-    <!--/.Slides-->
 </div>
+
+
+
+
+
 <!--/.Carousel Wrapper-->
 
 {% endblock %}

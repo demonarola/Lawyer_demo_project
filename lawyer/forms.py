@@ -5,6 +5,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.validators import RegexValidator
 
 class LoginForm(forms.ModelForm):
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}),required=True,validators=[
+        RegexValidator(regex='(^[a-zA-Z]+[a-zA-Z0-9-.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',message='Enter Valid Email Address..')
+    ])
+    password=forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}),required=True,validators=[
+        RegexValidator(regex='.{6,10}',message='Password must be between 6 to 10 characters long')
+    ])
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
@@ -79,6 +85,7 @@ class LawyerForm(forms.ModelForm):
         if phone and User.objects.filter(phone_number=phone).count():
             raise forms.ValidationError(_("Phone Number already exists"))
         return phone
+
 
 
 class User_EditForm(forms.ModelForm):

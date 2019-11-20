@@ -43,7 +43,6 @@ def user_login(request):
             user = authenticate(username=username,password=password)
             if user:
                 if user.is_active and user.is_staff:
-                    print('hello')
                     login(request,user)
                     request.session['id'] = user.id
                     return HttpResponseRedirect(reverse('index'))
@@ -150,6 +149,7 @@ def send_messages(request):
         #     return render(request, 'client/send_message.html', {'msg':msg})
     else:
         user_id = request.GET.get('user_id')
+   
         try:
             lawyer_message = Lawyer.objects.get(user_id=user_id)
             
@@ -303,15 +303,14 @@ def view_lawyer_by_state(request):
         state_wise_lawyer = paginator.page(paginator.num_pages)
     return render(request,'client/view_lawyer_by_state.html',{'state_wise_lawyer':state_wise_lawyer,'review_count':review_count,'pname':practice,'sub_practice_area':sub_practice_area,'state':state,'lawyer_state':lawyer_state})
 
+
 @login_required(login_url='/login/')
 def lawyer_profile(request,lid):
     lawyer1 = Lawyer.objects.get(user_id=lid) 
     lawyer2 = Lawyer_practice_area.objects.filter(lawyer_id__user_id=lid)
     review_lawyer = Review_Lawyer.objects.filter(lawyer_id__user_id=lid).first()
     review_count = Review_Lawyer.objects.filter(lawyer_id__user_id=lid).values('lawyer_id__user_id').annotate(dcount=Count('review'))
-   
-    practice_chart = Lawyer_practice_area.objects.filter(lawyer_id__user_id=lid).values('practice_area__practice').annotate(count=Count('practice_area'))
-    return render(request,'lawyer/lawyer_profile.html',{'lawyer1':lawyer1,'lawyer2':lawyer2,'review_lawyer':review_lawyer,'practice_chart':practice_chart,'review_count':review_count})
+    return render(request,'lawyer/lawyer_profile.html',{'lawyer1':lawyer1,'lawyer2':lawyer2,'review_lawyer':review_lawyer,'review_count':review_count})
 
 
 
@@ -321,7 +320,7 @@ def lawyer_profile(request,lid):
 def review_lawyer(request,lid):
     review_form = Review_lawyer_form()
     lawyer1 = Lawyer.objects.get(user_id=lid) 
-   
+    lawyer_practicearea = Lawyer_practice_area.objects.filter(lawyer_id__user_id=lid)
     msg = ''
     if request.method == 'POST':
         review_form = Review_lawyer_form(data=request.POST)
@@ -339,21 +338,13 @@ def review_lawyer(request,lid):
             review = review_form.save(commit=False)
             review.lawyer_id = lawyer
             review.user = user
-
-
-        
-        # if review_form.is_valid():
-        #     review = review_form.save(commit=False)
-        #     review.lawyer_id = lawyer
-        #     review.user = user
-
+            
             if request.recaptcha_is_valid:
                 review.save()
-                msg = 'Invalid Recaptcha'
-                # return HttpResponseRedirect(reverse('viewall_review_lawyer'))
+                return HttpResponseRedirect(reverse('viewall_review_lawyer', kwargs={'lid':lid}))
             else:
                 msg= 'Invalid reCAPTCHA. Please try again.'
-    return render(request,'client/review_lawyer.html',{'lawyer1':lawyer1,'review_form':review_form,'msg':msg})
+    return render(request,'client/review_lawyer.html',{'lawyer1':lawyer1,'lawyer_practicearea':lawyer_practicearea,'review_form':review_form,'msg':msg})
 
 
 @login_required(login_url='/login/')
@@ -545,9 +536,17 @@ def filter_by_rating_state(request):
     rating = request.GET['rating']
     state = request.GET['state']
     lawyer_state = State.objects.get(id=state)
-    lawyer_rating_wise = Review_Lawyer.objects.filter(rating__gte=rating,lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__state=state).values('lawyer_id__user_id'))).order_by('-rating')
-    # project.objects.filter(id__in=Subquery(
-    #             project_assingment.objects.all().values('project')))
+    lawyer_rating_wise_unique = Review_Lawyer.objects.filter(rating__gte=rating,lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__state=state).values('lawyer_id__user_id'))).order_by('-rating')
+    
+    lawyer_rating_wise = []
+    lawyer_exists_ids = []
+  
+
+    for item in lawyer_rating_wise_unique:
+        if item.lawyer_id.user_id not in lawyer_exists_ids:
+            lawyer_rating_wise.append(item)
+            lawyer_exists_ids.append(item.lawyer_id.user_id)
+
     page = request.GET.get('page',1)
     paginator = Paginator(lawyer_rating_wise,5)
     
@@ -560,6 +559,7 @@ def filter_by_rating_state(request):
     except EmptyPage:
         lawyer_rating_wise = paginator.page(paginator.num_pages)
     return render(request,'client/filter_by_rating_state.html',{'lawyer_rating_wise':lawyer_rating_wise,'pname':pname,'sub_practice_area':sub_practice_area,'review_count':review_count,'rating':rating,'state':state,'lawyer_state':lawyer_state})
+
 
 @login_required(login_url='/login/')
 def change_password(request):   
@@ -582,5 +582,3 @@ def change_password(request):
         
     return render(request,'client/change_password.html')
 
-def password_reset(request):
-    return render(request,'registration/password_reset_form.html')

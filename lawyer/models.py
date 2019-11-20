@@ -72,8 +72,6 @@ class Lawyer(models.Model):
 
 
 
-
-
 class Practice_area(models.Model):
     practice = models.CharField(max_length=128,blank=True, null=True)
     
@@ -118,6 +116,3 @@ class Review_Lawyer(models.Model):
     class Meta:
         verbose_name_plural = 'Review Lawyer'
 
-def change_password(request):
-    print(request.user.id)
-    return render('client/change_password.html')

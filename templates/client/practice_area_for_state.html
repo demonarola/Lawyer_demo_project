@@ -1,13 +1,18 @@
 {% extends 'client/base.html' %} {% block body_block %}
-<div class='container'>
-   
 
 
-    <div class='container' style='margin-top:5%'>
-        <div class='row'>
-            <div class='col-md-6'>
-               {% for p in practice_area %}
-                <div><a href='{% url "view_lawyer_by_state" %}?state={{state}}&practice={{p.practice}}'>{{p.practice}}</a></div><br/> {% endfor %}
-                <div>
-                </div>
+
+<div class='container' style='margin-top:5%'>
+    <div class='row'>
+        <div class='col-md-6'>
+            {% for p in practice_area %}
+            <div>
+                <a href='{% url "view_lawyer_by_state" %}?state={{state}}&practice={{p.practice}}'>{{p.practice}}</a>
+            </div><br/> {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
 {% endblock %}

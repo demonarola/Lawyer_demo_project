@@ -1,6 +1,4 @@
-{% extends 'client/base.html' %}
-
- {% load staticfiles %} {% block body_block %}
+{% extends 'client/base.html' %} {% load staticfiles %} {% block body_block %}
 
 <link href='https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.css'>
 
@@ -477,41 +475,56 @@
             background-repeat: no-repeat !important;
         }
     }
+    
+    .center {
+        margin: auto;
+        width: 50%;
+        padding: 5px;
+    }
+    
+    .label-text {
+        font-family: "Arial", Times, serif;
+        font-weight: 200;
+    }
 </style>
 
 
 <form name='' method="POST">
     {% csrf_token %}
-    <div class="container">
-    <div class='row'>
+    <div class="container" style='margin-top: 3%;'>
+        <div class='center'>
+            <div class='row'>
+                <div class="col-md-8">
+                    <label class="label-text">Select Practice area:</label>
+                    <select data-placeholder="Select" class='form-control' tabindex="6" name='practice_area' id='practice_area' required>
+                    <option value="--select--">--SELECT--</option>
+                    {% for p in practice_area %}
+                    <option value="{{p.id}}">{{p.practice}}</option>
+                    {% endfor %}
+                </select>
+                </div>
+            </div>
+            <br/>
+            <div class="row" id='sub_practice_area1'>
+                <div class="col-md-8">
+                    <label class="label-text">Select Sub Practice area:</label>
+                    <select class="chosen-select form-control" multiple tabindex="6" name='sub_practice_area' required>
+                    <option value="--select--">--SELECT--</option>
+                    </select>
+                    <br/>
+                </div>
+            </div>
+            <div class='row'>
+                <div class="col-md-4">
+                    <input type='hidden' name='uid' value='{{user.id}}' class='form-control'>
 
-    <label>Select Practice area</label>
-        <select data-placeholder="Select" class='form-control' tabindex="6" name='practice_area' id='practice_area' required>
-                        <option value="--select--">--SELECT--</option>
-           {% for p in practice_area %}
-           <option value="{{p.id}}">{{p.practice}}</option>
-           {% endfor %}
-    </select>
-    </div>
-    
-    <div class="row" id='sub_practice_area1'>
-     <label>Select Sub Practice area</label>
-        <select class="chosen-select form-control" multiple tabindex="6" name='sub_practice_area' required>
-                <option value="--select--">--SELECT--</option>
-                
-        </select>
-        <br/>
+                    <input type="submit" class="btn btn-primary btn-block" value="Submit" style='margin-left:0%;'>
+                </div>
+            </div>
+        </div>
 
     </div>
-    </div>
-    
-    <br/>
-    <div class="container">
-        <input type='hidden' name='uid' value='{{user.id}}' class='form-control'>
-        <br/>
-        <input type="submit" class="btn btn-success" value="Submit">
-    </div>
- </div>
+
 </form>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>

@@ -30,6 +30,29 @@
         color: #FF912C;
     }
 </style>
+
+<div class="container u-vertical-padding-1">
+    <div class="row">
+        <div class="col-xs-4 col-xs-offset-4 col-sm-1 col-sm-offset-0 remove-right-gutter">
+            <div class="text-right text-center-xs"><a href=''><img class="img-responsive u-bg-cool-gray" style="width: 112px;" src="{{ MEDIA_URL }}/{{ lawyer1.profile_image }}"></a>
+                <div class="u-spacer-half"></div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-11 text-center-xs">
+            <h1 class="u-vertical-margin-0 name-review"><a href='{% url 'lawyer_profile' lawyer1.user.id %}'>{{lawyer1.user.first_name}} {{lawyer1.user.last_name}} </a></h1>
+            <h3 class="u-vertical-margin-0 name-review">{% for p in lawyer_practicearea %}
+                <strong style='font-size:14px;'>{{p.practice_area}},</strong>
+            {% endfor %}</h3>
+            <h3 class="u-vertical-margin-0 name-review">
+                <strong style='font-size:14px;'><i class='fa fa-map-marker  marker-icon-css'></i>{{lawyer1.state}}</strong>
+          </h3>
+          <h3 class="u-vertical-margin-0 name-review">
+                <strong style='font-size:14px;'><i class='fa fa-suitcase  marker-icon-css'></i>LICENSE IN {{lawyer1.license_in}}</strong>
+          </h3>
+            <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;' href="{% url 'lawyer_profile' lawyer1.user.id %}">View Profile</a></div>
+    </div>
+</div>
+<hr/>
 <div class='container' style='margin-top:5%;'>
     <form name="" method="POST">
         {% csrf_token %}
