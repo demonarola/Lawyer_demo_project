@@ -1,4 +1,5 @@
 {% extends 'client/base.html' %} {% block body_block %} {% load calculate_experience %}
+{% load subarea_filter %}
 
 <style>
     {
@@ -35,7 +36,7 @@
                                                 <div class="gtm-context overridable-lawyer-phone" data-gtm-context="profile hero" data-lawyer-id="2059304">
                                                     <div class="row">
                                                         <div class="col-xs-4 col-sm-2 col-md-4 remove-right-gutter">
-                                                            <img itemprop="image" class="v-js-headshot img-responsive u-bg-cool-gray" src="{{ MEDIA_URL }}/{{ lawyer1.profile_image }}" style="width: 112px;"></div>
+                                                            <img itemprop="image" class="v-js-headshot img-responsive u-bg-cool-gray" src="{{ MEDIA_URL }}/{{ lawyer1.profile_image }}" style="width: 112px;height: 150px;"></div>
                                                         <div class="col-xs-8 col-sm-10 col-md-8">
                                                             <h1 class="u-vertical-margin-0"><span itemprop="name" class="profile-text">{{lawyer1.user.first_name}} {{lawyer1.user.last_name}}</span></h1>
 
@@ -80,16 +81,18 @@
                                                             </div>
                                                         </div>
 
-
+                                                        {% if user.is_staff %}
                                                         <div class="col-sm-6 col-md-12" style="margin-bottom:10px;margin-top:8%;">
                                                             <div class="js-v-profile-card-cta-message-wrapper" style="margin-top:3%;">
                                                                 <a rel="nofollow" class="btn-message btn-outline-review message_button" data-id="{{ lawyer1.user.id }}" data-toggle="modal" data-target="#myModal1" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;border-radius: 5px;' href="">Message</a></div>
 
                                                             <div class="js-v-profile-card-cta-message-wrapper" style="margin-top:3%;">
+                                                            
                                                                 <a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'review_lawyer' lawyer1.user.id %}">Review Lawyer</a>
                                                                 <div class="messaging-error-message-container "></div>
                                                             </div>
                                                         </div>
+                                                            {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
@@ -105,7 +108,7 @@
                                     data-hydrate="t"></div>
                                 <div class="v-internal-nav-wrapper" style="height: 52px;position: relative;">
                                     <div class="data-scroll">
-                                        <div class="v-internal-nav u-bg-white isSticky" style="width: 756px;margin-top:7%">
+                                        <div class="v-internal-nav u-bg-white" style="width: 756px;margin-top:5%">
                                             <div class="subnav" id="list-example">
                                                 <div class="subnav-content">
                                                     <div class="text-center nav-items">
@@ -144,9 +147,15 @@
                                                         <ul>
                                                             {% for l2 in lawyer2 %}
                                                             <li class='sub_area'>
-                                                                <p class="u-margin-top-0 u-text-color-coral js-context" style="margin-left: -10%;"><span class="js-context v-specialty-display"> {{l2.sub_practice_area}}</span> <br/> {% endfor %}
+                                                                <p class="u-margin-top-0 u-text-color-coral js-context" style="margin-left: -10%;"><span class="js-context v-specialty-display"> 
+                            
+                                                                {% for i in l2.sub_practice_area|subarea_list %}
+                                                                    {{i}},
+                                                                {% endfor %}
+                                                                </span> <br/> {% endfor %}
                                                         </ul>
                                                     </div>
+                                                    
                                                     <div class="col-xs-12 col-sm-12">
                                                         <h2 class="u-margin-top-0 u-margin-bottom-half">License Details</h2>
                                                     </div>
@@ -318,12 +327,14 @@
                                             <div class="profile-card">
                                                 <div class="row">
                                                     <div class="col-xs-12 col-sm-6">
+                                                      
                                                         <h2 class="u-margin-top-0 u-margin-bottom-half">Cost</h2>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-7"><span class="cta-heading">RATES</span>
                                                         <ul class="unstyled-list">
+                                                            <li>  No data provided for cost..</li>
                                                             <li class="unstyled-list"><strong><a class="js-v-profile-call-hourly-rate-cta" href="#contact" data-gtm="{&quot;target_url&quot;:&quot;https://www.avvo.com/attorneys/98110-wa-charles-shane-2059304.html#contact&quot;,&quot;target_domain&quot;:&quot;www.avvo.com&quot;,&quot;target_path&quot;:&quot;/attorneys/98110-wa-charles-shane-2059304.html&quot;,&quot;target_querystring&quot;:&quot;&quot;,&quot;link_text&quot;:&quot;Contact for details&quot;,&quot;link_pagesection&quot;:&quot;body&quot;,&quot;link_context&quot;:&quot;&quot;,&quot;link_subcontext&quot;:&quot;&quot;}">Contact for details</a></strong></li>
                                                         </ul>
                                                     </div>

@@ -17,7 +17,7 @@ from hashlib import sha1
 from django.contrib.auth.hashers import check_password
 import datetime
 from dateutil.relativedelta import relativedelta
-
+from django.contrib.admin.views.decorators import staff_member_required
 # from django.core.mail.message import EmailMessage
 
 # Create your views here.
@@ -50,13 +50,11 @@ def user_login(request):
             if user:
                 if user.is_active and user.is_staff:
                     login(request,user)
-                    request.session['id'] = user.id
                     return HttpResponseRedirect(reverse('index'))
 
                 elif user.is_active and user.is_superuser:
                     login(request,user)
-                    request.session['id'] = user.id
-                    return HttpResponseRedirect(reverse('lawyer_edit_profile'))
+                    return HttpResponseRedirect(reverse('index'))
                 else:
                     msg = 'Plz Login First...'
             else:
@@ -152,8 +150,7 @@ def send_messages(request):
     if request.method == 'POST':
         lawyer_email = request.POST.get('lawyer_email')
         client_email = request.POST.get('client_email')
-        lawyer_first_name = request.POST.get('lawyer_first_name')
-        lawyer_last_name = request.POST.get('lawyer_last_name')
+       
         password = request.POST.get('password')
         message = request.POST.get('message')
 
@@ -170,7 +167,7 @@ def send_messages(request):
                                     use_tls=EMAIL_USE_TLS) 
 
         subject = 'Lawyer'
-        message = message
+        message = 'From:'+ message
         recipient_list = [lawyer_email,]
         # send_mail(subject, message, EMAIL_HOST_USER, recipient_list, connection=connection)
         # if request.recaptcha_is_valid:
@@ -277,7 +274,7 @@ def add_practice_area(request):
 @login_required(login_url='/login/')
 @check_recaptcha
 def lawyer_edit_profile(request):
-    uid = request.session.get('id')
+    uid = request.user.id
     user = User.objects.get(id=uid)
     lawyer = Lawyer.objects.get(user_id=uid)
 
@@ -297,6 +294,7 @@ def lawyer_edit_profile(request):
                 lawyer_edit = lawyer_form.save(commit=False)
                 lawyer_edit.user = user
                 lawyer_edit.save()
+                return HttpResponseRedirect(reverse('lawyer_profile', kwargs={'lid':uid}))
             else:
                 msg= 'Invalid reCAPTCHA. Please try again.'
         else:
@@ -340,6 +338,7 @@ def lawyer_profile(request,lid):
     review_lawyer = Review_Lawyer.objects.filter(lawyer_id__user_id=lid).first()
     review_count = Review_Lawyer.objects.filter(lawyer_id__user_id=lid).values('lawyer_id__user_id').annotate(dcount=Count('review'))
     return render(request,'lawyer/lawyer_profile.html',{'lawyer1':lawyer1,'lawyer2':lawyer2,'review_lawyer':review_lawyer,'review_count':review_count})
+
 
 
 
@@ -517,7 +516,7 @@ def filter_by_rating(request):
     pname = request.GET['practice_area']
     rating = request.GET['rating']
 
-    lawyer_rating_wise_unique = Review_Lawyer.objects.filter(rating__gte=rating,lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname).values('lawyer_id__user_id'))).order_by('-rating')
+    lawyer_rating_wise_unique = Review_Lawyer.objects.filter(rating__gte=rating,lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname).values('lawyer_id__user_id'))).order_by('rating')
     
     lawyer_rating_wise = []
     lawyer_exists_ids = []
@@ -575,7 +574,8 @@ def filter_by_rating_state(request):
 @login_required(login_url='/login/')
 def change_password(request):   
     status =''
-    mag = ''
+    msg = ''
+    status = 0
     if request.method == 'POST':
         old_password = request.POST['old_password']
         new_password = request.POST['new_password']
@@ -584,9 +584,13 @@ def change_password(request):
             if new_password == confirm_password:
                 request.user.set_password(new_password)
                 request.user.save()
+                status = 1
+                msg = 'Password change successfully..'
             else:
+                status = 0
                 msg = 'Password and Confirm Password must be same..'
         else:
+            status = 0
             msg = 'Enter Valid Old Password..'     
-    return render(request,'client/change_password.html')
+    return render(request,'client/change_password.html',{'status':status,'msg':msg})
 

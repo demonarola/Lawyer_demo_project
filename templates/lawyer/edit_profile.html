@@ -1,7 +1,10 @@
-{% extends 'client/base.html' %} {% load crispy_forms_tags %} {% block body_block %}
+{% extends 'client/base.html' %} {% load crispy_forms_tags %}{% load staticfiles %} 
+
+{% block body_block %}
+{% load profile_tag %} 
 <form name='' method='POST' enctype="multipart/form-data" action='{% url "lawyer_edit_profile" %}'>
     {% csrf_token %}
-    <div class="container">
+    {% comment %} <div class="container">
 
         <div class="card" style='justify-content: center !important;margin-top:5%;'>
             <div class='panel panel-success'>
@@ -64,9 +67,136 @@
                 </div>
             </div>
         </div>
+    </div> {% endcomment %}
+
+
+
+<div class="main">
+    <div class="main-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 col-lg-3">
+                    <div class="sidebar">
+                        <div class="widget">
+                            <div class="user-photo">
+                                <a href="{% url 'lawyer_profile' request.user.id %}">
+                                    <img src="{{MEDIA_URL}}{{ request.user.id|profile_menu }}" alt="User Photo">
+                                    
+                                    
+                                     
+                                </a>
+                            </div>
+                            {{lawyer_editform.profile_image|as_crispy_field}}
+                            <!-- /.user-photo -->
+                        </div>
+                        <!-- /.widget -->
+
+
+
+                        <!-- /.widget -->
+
+                    </div>
+                    <!-- /.sidebar -->
+                </div>
+                <!-- /.col-* -->
+
+                <div class="col-sm-8 col-lg-9">
+                    <div class="content">
+                        <div class="page-title">
+                            <h1>Edit Profile</h1>
+                        </div>
+                        <!-- /.page-title -->
+
+                        <div class="background-white p20 mb30">
+                            <h3 class="page-title h3">
+                                <i class='fa fa-user '> </i> Contact Information
+
+                                
+                            </h3>
+
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                   
+                                   {{user_editform.username|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+
+                                <div class="form-group col-sm-6">
+                                    
+                                   {{user_editform.first_name|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+
+                                <div class="form-group col-sm-6">
+                                      {{user_editform.last_name|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+
+                                <div class="form-group col-sm-6">
+                                     {{user_editform.email|as_crispy_field}}
+                                </div>
+                                <div class="form-group col-sm-6">
+                                   {{lawyer_editform.phone_number|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+
+                        
+                        <!-- /.background-white -->
+
+                        <div class="background-white p20 mb30">
+                            <h3 class="page-title h3">
+                             <i class='fa fa-address-card '> </i>  Address
+                            </h3>
+
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    {{lawyer_editform.address1|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+
+                                <div class="form-group col-sm-6">
+                                    
+                                    {{lawyer_editform.address2|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+
+                                <div class="form-group col-sm-6">
+                                    {{lawyer_editform.state|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+
+                                <div class="form-group col-sm-3">
+                                     {{lawyer_editform.city|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+
+                                <div class="form-group col-sm-3">
+                                   
+                                   {{lawyer_editform.zipcode|as_crispy_field}}
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <div class="form-group col-sm-6">
+                            <div class="g-recaptcha" data-sitekey="6LdnKbYUAAAAAI9SCXcoi8k4jE6xcHJTv0Pyi393" style='margin-left: -6%;'></div>
+                            </div>
+                            
+                            <!-- /.row -->
+                        </div>
+                    <input type='submit' value='Edit' class='btn btn-primary' style='margin-left:0%'>
+                     
+                    </div>
+                    <!-- /.content -->
+                </div>
+                <!-- /.col-* -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
     </div>
-
-
+    <!-- /.main-inner -->
+</div>
 </form>
-
 {% endblock %}

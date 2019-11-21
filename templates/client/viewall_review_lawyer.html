@@ -53,8 +53,9 @@
             </p>
 
             </span>
-
+            {% if user.is_staff %}
             <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;' href="{% url "review_lawyer" lawyer.user.id %}">Review {{lawyer.user.first_name}} {{lawyer.user.last_name}}</a></div>
+            {% endif %}
     </div>
 </div>
 

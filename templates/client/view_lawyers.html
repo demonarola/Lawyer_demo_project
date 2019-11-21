@@ -2,7 +2,6 @@
 
 <!-- START -->
 <div class='container' style='margin-top:3%;'>
-<h3>This is main view_lawyer page</h3>
     <header style='margin-left:-2.3%'>
     {% if sub_area %}
          <h1 class="u-margin-top-0"><span id="lawyer-serp-title"> {{lawyer_state}} {% if sub_area == 'all' %}{{pname}}{% else %}{{sub_area}}{% endif %}  Lawyers</span></h1>
@@ -317,7 +316,7 @@
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
                                     <div class="u-spacer-half"></div>
-                                    {% if user.is_staff %}
+                                    {% if user.is_authenticated %}
                                         <a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>
                                     {% else %}
                                         <a rel="nofollow" class="btn-message btn-outline-review" data-toggle="modal" data-target="#profile" data-whatever="@getbootstrap"  style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>
@@ -327,7 +326,7 @@
                             </div>
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
-                                {% if user.is_staff %}
+                                {% if user.is_authenticated %}
                                     <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
                                 {% else %}
                                     <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review"  data-toggle="modal" data-target="#review" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
