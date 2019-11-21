@@ -4,7 +4,6 @@ from lawyer.models import Lawyer
 
 register = template.Library()
 
-
 def profile_menu(lid):
     print(lid)
     try:
