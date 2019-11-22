@@ -45,6 +45,7 @@ urlpatterns = [
     path('filter_by_experience_state/',views.filter_by_experience_state,name='filter_by_experience_state'),
     path('filter_by_rating/',views.filter_by_rating,name='filter_by_rating'),
     path('filter_by_rating_state/',views.filter_by_rating_state,name='filter_by_rating_state'),
+    path('fitler_by_subarea_rating_experience/',views.fitler_by_subarea_rating_experience,name='fitler_by_subarea_rating_experience'),
     path('send_messages/',views.send_messages,name="send_messages"),
     path('change_password/',views.change_password,name="change_password"),
     path('', include('django.contrib.auth.urls')),

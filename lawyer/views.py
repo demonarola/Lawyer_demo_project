@@ -338,8 +338,6 @@ def lawyer_profile(request,lid):
 
 
 
-
-
 @login_required(login_url='/login/')
 @check_recaptcha
 def review_lawyer(request,lid):
@@ -591,3 +589,9 @@ def change_password(request):
             msg = 'Enter Valid Old Password..'     
     return render(request,'client/change_password.html',{'status':status,'msg':msg})
 
+
+def fitler_by_subarea_rating_experience(request):
+    pname = request.GET['pname']
+    experience = request.GET['range']
+    print(pname,experience)
+    return render(request,'client/view_lawyers.html')
