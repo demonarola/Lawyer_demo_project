@@ -37,17 +37,14 @@
             <form method='POST' action='{% url "send_messages" %}'>
                 {% csrf_token %}
                 <div class="form-group">
-
                     <input type='hidden' class="form-control" name='lawyer_email' value='{{lawyer_message.user.email}}' id="message-text">
                     <input type='hidden' class="form-control" name='lawyer_first_name' value='{{lawyer_message.user.first_name}}' id="message-text">
                     <input type='hidden' class="form-control" name='lawyer_last_name' value='{{lawyer_message.user.last_name}}' id="message-text">
                 </div>
                 <div class="form-group">
-
                     <input type='email' class="form-control" name='client_email' value='{{user.email}}' id="message-text" required>
                 </div>
                 <div class="form-group">
-
                     <input type='password' class="form-control" name='password' value='' id="message-text" placeholder='Enter Password..' required>
                 </div>
                 <div class="form-group">
@@ -56,10 +53,7 @@
                     <textarea class="form-control" id="message-text" name='message' onkeyup="countChar(this)" required></textarea>
                 </div>
 
-                {% comment %}
-                <div class="form-group">
-                    <div class="g-recaptcha" data-sitekey="6LdnKbYUAAAAAI9SCXcoi8k4jE6xcHJTv0Pyi393"></div>
-                </div> {% endcomment %}
+    
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <input type="submit" class="btn btn-primary" value='Send message' />

@@ -44,10 +44,10 @@ class RegisterForm(forms.ModelForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class':'form-control'}),required=True,validators=[
         RegexValidator(regex='(^[a-zA-Z]+[a-zA-Z0-9-.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)',message='Enter Valid Email Address..')
     ])
-    password=forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}),required=True,validators=[
+    password=forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','id':'checkpassword'}),required=True,validators=[
         RegexValidator(regex='.{6,10}',message='Password must be between 6 to 10 characters long')
     ])
-    confirm_password=forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}),required=True,validators=[
+    confirm_password=forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','id':'checkconfirmpassword'}),required=True,validators=[
         RegexValidator(regex='.{6,10}',message='Confirm Password must be between 6 to 10 characters long')
     ])
     class Meta:

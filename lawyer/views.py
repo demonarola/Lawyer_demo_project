@@ -23,14 +23,10 @@ from django.contrib.admin.views.decorators import staff_member_required
 # Create your views here.
 
 
-def base(request):
-    practice = Practice_area.objects.all()
-    return render_to_response('client/base.html',{'practice':practice})
-
 def index(request):
     ''' Dashboard '''
-    lawyer = Lawyer.objects.all()
-    review_lawyer = Review_Lawyer.objects.all()
+    lawyer = Lawyer.objects.all()[:10]
+    review_lawyer = Review_Lawyer.objects.all()[:10]
     review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
     
     return render(request,'client/index.html',{'lawyer':lawyer,'review_lawyer':review_lawyer,'review_count':review_count})
@@ -210,6 +206,7 @@ def lawyer(request):
                     lawyer = lawyer_form.save(commit=False)
                     lawyer.user = user
                     lawyer.save()
+                    return HttpResponseRedirect(reverse('login'))
                 else:
                     msg = 'Password and Confirm Passwords Must be same...'
             else:
@@ -585,7 +582,7 @@ def change_password(request):
                 request.user.set_password(new_password)
                 request.user.save()
                 status = 1
-                msg = 'Password change successfully..'
+                msg = 'Password change successfully.. \n You have to login again with new password..'
             else:
                 status = 0
                 msg = 'Password and Confirm Password must be same..'

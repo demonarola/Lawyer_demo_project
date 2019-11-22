@@ -37,13 +37,15 @@
                     <div class="row align-items-center mt-4">
                         <div class="col" style="margin-top: -4%;">
                             {{form.password|as_crispy_field}}
+                            <strong style='font-size:13px;'><span id="passwordlength" class="fa fa-close" style="color:#FF0004;"></span> Password must be 6-10 characters long<br></strong>
                         </div>
                         <div class="col" style="margin-top: -4%;">
                             {{form.confirm_password|as_crispy_field}}
+                            <strong style='font-size:13px;'><span id="pwmatch" class="fa fa-close" style="color:#FF0004;"></span> Password Match</strong>
                         </div>
                     </div>
                     <div class="row align-items-center mt-4">
-                        <div class="col" style="margin-top: -4%;">
+                        <div class="col" style="margin-top: 0%;">
                             <div class="g-recaptcha" data-sitekey="6LdnKbYUAAAAAI9SCXcoi8k4jE6xcHJTv0Pyi393"></div>
                         </div>
 
@@ -57,5 +59,38 @@
             </div>
         </form>
 </section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $("input[type=password]").keyup(function() {
+        if($("#checkpassword").val().length >= 6 && $("#checkpassword").val().length <= 10)
+        {
+            $("#passwordlength").removeClass("fa-close");
+            $("#passwordlength").addClass("fa-check");
+            $("#passwordlength").css("color","#00A41E");
+        }
+        else{
 
+            $("#passwordlength").removeClass("fa-check");
+            $("#passwordlength").addClass("fa-close");
+            $("#passwordlength").css("color","#FF0004");
+        }
+        if($("#checkpassword").val() == '' &&  $("#checkconfirmpassword").val() == ''){
+            $("#pwmatch").removeClass("fa-check");
+            $("#pwmatch").addClass("fa-close");
+            $("#pwmatch").css("color","#FF0004");
+        }
+        else if($("#checkpassword").val() == $("#checkconfirmpassword").val()){
+            $("#pwmatch").removeClass("fa-close");
+            $("#pwmatch").addClass("fa-check");
+            $("#pwmatch").css("color","#00A41E");
+        }
+    
+        else {
+            $("#pwmatch").removeClass("fa-check");
+            $("#pwmatch").addClass("fa-close");
+            $("#pwmatch").css("color","#FF0004");
+        }
+
+    });
+</script>
 {% endblock %}
