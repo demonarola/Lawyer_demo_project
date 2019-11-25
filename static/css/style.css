@@ -936,6 +936,11 @@ svg:not(:root).svg-inline--fa {
 
 /* END FOOTER */
 
+.dashboard-review {
+    font-style: italic;
+    font-size: 14px;
+}
+
 .dashboard-review-footer {
     margin-top: -1%;
     margin-bottom: 3%;
