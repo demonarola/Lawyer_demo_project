@@ -80,7 +80,7 @@
                         <div class="widget">
                             <div class="user-photo">
                                 <a href="{% url 'lawyer_profile' request.user.id %}">
-                                    <img src="{{MEDIA_URL}}{{ request.user.id|profile_menu }}" alt="User Photo">
+                                    <img src="{{MEDIA_URL}}{{ request.user.id|profile_menu }}" alt="User Photo" id='profile'>
 
                                 </a>
                             </div>
@@ -88,7 +88,7 @@
                             <div class="file-select">
                                 <div class="file-select-button" id="fileName">Choose File</div>
                                 <div class="file-select-name" id="noFile">No file chosen...</div>
-                                <input type="file" name='profile_image' name="chooseFile" id="chooseFile">
+                                <input type="file" name='profile_image' name="chooseFile" id="chooseFile"  onchange="upload_img(this);">
                             </div>
                         </div>
                             {% comment %} {{lawyer_editform.profile_image|as_crispy_field}} {% endcomment %}
@@ -216,5 +216,23 @@
             $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
         }
     });
+    
 </script>
+<script type="text/javascript">
+
+
+        function upload_img(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function (e) {
+                    
+                    $('#profile').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
 {% endblock %}
