@@ -1,6 +1,6 @@
 {% extends 'client/base.html' %} {% load crispy_forms_tags %} {% block body_block %}
 
-<form name='' method='POST' enctype="multipart/form-data">
+<form name='' method='POST' enctype="multipart/form-data" autocomplete='off'>
     {% csrf_token %}
     <div class="container">
         {% if msg %}

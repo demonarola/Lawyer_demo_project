@@ -3,12 +3,17 @@ from django.contrib.auth.models import User,AbstractUser
 from django.conf import settings
 from django.core.validators import RegexValidator
 from django_resized import ResizedImageField
+import datetime
 # from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
 
 # title_valid = '^[A-Za-z]+|,| |/|{2}[a-z0-9]{1,30}'
 # title_review = '^[A-Za-z0-9]+|,| |/|[A-Za-z]+)+[A-Za-z0-9]+|,| |$'
+
+
+
+
 
 class State(models.Model):
     state_name = models.CharField(max_length=400,null=True,blank=True)
@@ -18,29 +23,17 @@ class State(models.Model):
 
 
 class Lawyer(models.Model):
-    YEAR = (
-        ('2019', '2019'),
-        ('2018', '2018'),
-        ('2017', '2017'),
-        ('2016', '2016'),
-        ('2015', '2015'),
-        ('2014', '2014'),
-        ('2013', '2013'),
-        ('2012', '2012'),
-        ('2011', '2011'),
-        ('2010', '2010'),
-        ('2009', '2009'),
-        ('2008', '2008'),
-        ('2007', '2007'),
-        ('2006', '2006'),
-        ('2005', '2005'),
-        ('2004', '2004'),
-        ('2003', '2003'),
-        ('2002', '2002'),
-        ('2001', '2001'),
-        ('2000', '2000'),
-        
-    )
+
+    year = datetime.datetime.today().year
+    year_list = range(datetime.datetime.today().year,1960,-1)
+
+    tupple_list = []
+
+    for year in year_list:
+        tupple_list.append((str(year), str(year)))
+
+    YEAR = tuple(tupple_list)
+    
     
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     address1 = models.CharField(max_length=400,blank=False,null=False,validators=[
@@ -57,7 +50,7 @@ class Lawyer(models.Model):
         RegexValidator(regex='^[0-9]{6}$',message='Enter Valid Zipcode')
     ])
     phone_number = models.CharField(max_length=128,blank=False,null=False,validators=[
-        RegexValidator(regex='^[6|7|8|9]+[0-9]{9}$',message='Enter 10 digit number')
+        RegexValidator(regex='^[6|7|8|9]+[0-9]{9}$',message='Enter 10 digit number or must start with 6,7,8,9 digit')
     ])
     license_in = models.ForeignKey(State,on_delete=models.CASCADE,blank=False,null=False,related_name='license_id')
     license_id = models.CharField(max_length=128,blank=False,null=False,validators=[
@@ -65,7 +58,7 @@ class Lawyer(models.Model):
     ])
     year_admitted = models.CharField(choices=YEAR,max_length=128,blank=False,null=False,)
     profile_image = models.ImageField(upload_to='profile_images',blank=False,null=False,)
-    
+    # profile_image = ResizedImageField(upload_to='profile_images',blank=False,null=False)
 
     
     def __str__(self):
