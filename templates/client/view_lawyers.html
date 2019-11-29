@@ -1,4 +1,4 @@
- {% extends 'client/base.html' %} {% block body_block %} {% load staticfiles %} {% load calculate_experience %}
+{% extends 'client/base.html' %} {% block body_block %} {% load staticfiles %} {% load calculate_experience star_filter %}
 
 
 <!-- START -->
@@ -11,12 +11,14 @@
     <!-- HEADER START -->
     <header style='margin-left:-2.3%'>
         {% if sub_area %}
-        <h1 class="u-margin-top-0"><span id="lawyer-serp-title"> {{lawyer_state}} {% if sub_area == 'ALL' %}{{pname}}{% else %}{{sub_area}}{% endif %}  Lawyers</span></h1>
+        <h1 class="u-margin-top-0"><span id="lawyer-serp-title"> {{lawyer_state}}
+                {% if sub_area == 'ALL' %}{{pname}}{% else %}{{sub_area}}{% endif %} Lawyers</span></h1>
         <p class="text-muted">Compare {{lawyer_state}} {% if sub_area == 'all' %}{{pname}}{% else %}{{sub_area}}{% endif %} lawyers near you. Read reviews and contact them directly.</p>
         {% else %}
 
         <h1 class="u-margin-top-0"><span id="lawyer-serp-title">{{lawyer_state}} {{pname}} Lawyers</span></h1>
-        <p class="text-muted">Compare {{lawyer_state}} {{pname}} lawyers near you. Read reviews and contact them directly.</p>
+        <p class="text-muted">Compare {{lawyer_state}} {{pname}} lawyers near you. Read reviews and contact them directly.
+        </p>
         {% endif %}
     </header>
     <!-- END HEADER -->
@@ -40,8 +42,6 @@
         <!-- FIRST COLUMN FOR FILTER -->
         <div class="col-xs-12 col-md-4">
             <form name='' method='GET' action='{% url "fitler_by_subarea_rating_experience" %}'>
-
-
                 <input type='hidden' type='text' name='practice_area' value='{{pname}}' />
                 <input type='hidden' type='text' name='state' value='{{state}}' /> {% comment %} {% if not sub_area %}
                 <input type='hidden' type='text' name='sub_area' value='ALL' /> {% endif %} {% endcomment %}
@@ -49,29 +49,25 @@
                 <!-- SUB PRACTICE AREA FILTER -->
                 <div class='row' style='margin-top:10%;'>
                     <div class='col-xs-6'>
-
                         <section>
-
-
                             <label>Select Sub Practice Area</label>
                             <select name='sub_area' class='form-control' id='show_area' onchange="this.form.submit()">
-                            <option value='ALL'>--ALL--</option>
-                            {% if sub_area %}
-                            {% if sub_area != 'ALL' %}
-                                 <option value='{{sub_area}}' selected='selected'>{{sub_area}}</option>
-                            {% endif %}
-                                 {% for p in sub_practice_area %}
-                                        {% if p.practice_type != sub_area %}
-                                            <option value='{{p.practice_type}}'>{{p.practice_type}}</option>
-                                        {% endif %}
-                                 {% endfor %}
-                            {% else %}
-                                 {% for p in sub_practice_area %}
-                                        <option value='{{p.practice_type}}'>{{p.practice_type}}</option>
-                                 {% endfor %}
-                            {% endif %}
-                        </select>
-
+                                <option value='ALL'>--ALL--</option>
+                                {% if sub_area %}
+                                {% if sub_area != 'ALL' %}
+                                <option value='{{sub_area}}' selected='selected'>{{sub_area}}</option>
+                                {% endif %}
+                                {% for p in sub_practice_area %}
+                                {% if p.practice_type != sub_area %}
+                                <option value='{{p.practice_type}}'>{{p.practice_type}}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                {% for p in sub_practice_area %}
+                                <option value='{{p.practice_type}}'>{{p.practice_type}}</option>
+                                {% endfor %}
+                                {% endif %}
+                            </select>
                         </section>
                     </div>
 
@@ -82,15 +78,9 @@
                 <div class='row' style='margin-top:10%;'>
                     <div class='col-xs-6'>
                         <section>
-
-
                             <label>REVIEW</label>
-
                             <div class='rating-stars' style='margin-left:-11%;'>
-
-
                                 <input type="hidden" name='rating' value='0' />
-
                                 <ul id='stars'>
                                     {% if rating == '5' %}
                                     <li><input type="radio" class="form-check-input" name="rating" id='' value='5' onclick="this.form.submit()" checked></li>
@@ -100,8 +90,10 @@
                                     <li class='star' title='Poor' data-value='1' value='Poor'> <i class='fa fa-star fa-fw'></i></li>
                                     <li class='star' title='Fair' data-value='2'> <i class='fa fa-star fa-fw'></i></li>
                                     <li class='star' title='Good' data-value='3'> <i class='fa fa-star fa-fw'></i> </li>
-                                    <li class='star' title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i> </li>
-                                    <li class='star' title='WOW!!!' data-value='5'> <i class='fa fa-star fa-fw'></i> </li>
+                                    <li class='star' title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i>
+                                    </li>
+                                    <li class='star' title='WOW!!!' data-value='5'> <i class='fa fa-star fa-fw'></i>
+                                    </li>
                                 </ul>
                             </div>
                             <div class='rating-stars' style='margin-left:-11%;'>
@@ -114,7 +106,8 @@
                                     <li class='star' title='Poor' data-value='1' value='Poor'> <i class='fa fa-star fa-fw'></i></li>
                                     <li class='star' title='Fair' data-value='2'> <i class='fa fa-star fa-fw'></i></li>
                                     <li class='star' title='Good' data-value='3'> <i class='fa fa-star fa-fw'></i> </li>
-                                    <li class='star' title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i> </li>
+                                    <li class='star' title='Excellent' data-value='4'> <i class='fa fa-star fa-fw'></i>
+                                    </li>
                                     <li class='star' title='WOW!!!' data-value='5'> <i class='fa fa-star fa-fw' style='color: black;'></i> </li>
                                     <li class='star'>& More</i>
                                     </li>
@@ -168,9 +161,7 @@
                                     </li>
                                 </ul>
                             </div>
-
                         </section>
-
                     </div>
                 </div>
                 <!-- END OF RATING FILTER -->
@@ -178,15 +169,10 @@
                 <!-- EXPERIENCE FILTER -->
                 <div class='row' style='margin-top:10%;'>
                     <div class='col-xs-6'>
-
                         <section>
-
-
                             <label>EXPERIENCE
-                        </label>
-
+                            </label>
                             <input type="hidden" name='range' value='>0' />
-
                             <div class='rating-stars' style='margin-left:-18%;font-size:15px;'>
                                 <ul id='stars'>
                                     {% if experience_id == '>20' %}
@@ -218,7 +204,6 @@
                                     {% endif %}
                                 </ul>
                             </div>
-
                         </section>
                     </div>
                 </div>
@@ -230,34 +215,479 @@
 
         <!-- SECOND COLUMN FOR DISPLAY FILTERED DATA -->
         <div class="col-xs-12 col-md-8">
-            {% if lawyer %} {% for p in lawyer %}
 
-            <div class="row" style='margin-top:5%;'>
-                <div class="col-xs-3 col-sm-2 remove-right-gutter">
-                    <div class="labeled-img u-font-size-xs">
 
-                        <img class="img-responsive-lawyer loaded" src="{{ MEDIA_URL }}/{{p.lawyer_id.profile_image}}">
+
+        {% if lawyer %} 
+            {% for p in lawyer %} 
+               {% if status == 1 %} 
+               
+                    {% if p.avg >= rate1 and p.avg <= rate2 %}
+                    <div class="row" style='margin-top:5%;'>
+                    <div class="col-xs-3 col-sm-2 remove-right-gutter">
+                        <div class="labeled-img u-font-size-xs">
+                            <a href='{% url "lawyer_profile"  p.lawyer_id__user_id %}'>
+                                <img class="img-responsive-lawyer loaded" src="{{ MEDIA_URL }}/{{p.lawyer_id__profile_image}}"></a>
+                        </div>
                     </div>
+                    <div class="col-xs-9 col-sm-10">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-8">
+                                <a href='{% url "lawyer_profile"  p.lawyer_id__user_id %}'>
+                                    <h3 class="u-vertical-margin-0 lawyer-text">{{p.lawyer_id__user__first_name}} {{p.lawyer_id__user__last_name}}
+                                    </h3>
+                                </a>
+                                <div class="row lawyer-row">
+                                    <div class="col-xs-6">
+                                        <div class="u-margin-bottom-0 u-font-size-small">
+                                            <p class="visible-xs">
+                                                <span class="u-text-color-yellow">
+                                                    <div class='rating-stars' style='margin-left:-11%;margin-top:-9%;'>
+                                                        <ul id='stars'>
+                                                            <li class='star' title='Poor' data-value='1' value='Poor'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            {% if status == 1 %}
+                                                            {% if  p.lawyer_id__user_id|rates > 1.0 and p.lawyer_id__user_id|rates <= 1.5 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star-half-o fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if  p.lawyer_id__user_id|rates > 2.0 and  p.lawyer_id__user_id|rates <= 2.5 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star-half-o fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star-half-o fa-fw'
+                                                                    style='color: black;'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if  p.lawyer_id__user_id|rates > 3.0 and p.lawyer_id__user_id|rates <= 3.5 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star-half-o fa-fw'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if p.lawyer_id__user_id|rates > 4.0 and p.lawyer_id__user_id|rates <= 4.5 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star-half-o fa-fw'></i></li>
+                                                            {% endif %}
 
+                                                            <!-- SECOND -->
+                                                            {% if p.lawyer_id__user_id|rates > 1.5 and p.lawyer_id__user_id|rates < 2.0 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if p.lawyer_id__user_id|rates > 2.5 and p.lawyer_id__user_id|rates < 3.0 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if p.lawyer_id__user_id|rates > 3.5 and p.lawyer_id__user_id|rates < 4.0 %}
+
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if p.lawyer_id__user_id|rates > 4.5 and p.lawyer_id__user_id|rates < 5.0 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            {% endif %}
+
+                                                            <!-- THird-->
+                                                            {% if p.lawyer_id__user_id|rates == 1.0 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if  p.lawyer_id__user_id|rates == 2.0 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+                                                            {% if  p.lawyer_id__user_id|rates == 3.0 %}
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw' </i> </li> <li class='star'
+                                                                    title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i>
+                                                            </li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+
+                                                            {% if  p.lawyer_id__user_id|rates == 4.0  %}
+                                                            
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                            {% endif %}
+
+                                                            {% if  p.lawyer_id__user_id|rates == 5.0  %}
+
+                                                            <li class='star' title='Fair' data-value='2'> <i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Good' data-value='3'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='Excellent' data-value='4'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            <li class='star' title='WOW!!!' data-value='5'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            {% endif %}
+
+
+                                                            {% else %}
+                                                            <li class='star' title='Fair' data-value='2'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Good' data-value='3'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='Excellent' data-value='4'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            <li class='star' title='WOW!!!' data-value='5'>
+                                                                <i class='fa fa-star fa-fw'></i>
+                                                            </li>
+                                                            {% endif %}
+                                                            
+
+
+                                                            
+                                                            <li class='star'>
+                                                                {% for c in review_count %}
+                                                                {% if  p.lawyer_id__user_id == c.lawyer_id__user_id%}
+                                                                <small>total {{c.dcount}} reviews</small> {% endif %}
+                                                                {% endfor %}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+                                        <div
+                                            class="col-xs-12 hidden-xs hidden-sm remove-right-gutter v-js-serp-lawyer-licensed">
+                                            <i class="svg-inline--fa fa fa-university fa-w-16 u-text-color-dark-gray"></i>
+                                            <span class="small text-muted-lawyer">
+                                                {{ p.lawyer_id__year_admitted|experience }} years licensed</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            <h3 class="u-vertical-margin-0 lawyer-email">{{ p.lawyer_id__state__state_name}}, {{p.lawyer_id__city}}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            {% if pname %}
+                                            <h3 class="u-vertical-margin-0 lawyer-email">{{ pname }}</h3>
+                                            {% else %}
+                                            <h3 class="u-vertical-margin-0 lawyer-email">{{ p.practice_area.practice }}</h3>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            <h3 class="u-vertical-margin-0 lawyer-email" id='mapaddress'><i class="fa fa-map-marker marker-icon-css"></i> {{ p.lawyer_id__address1 }}
+
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            <div style='max-height: 83px;overflow:hidden;'>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-4 v-optimizely-card hidden-xs hidden-sm v-js-serp-lawyer-ctas">
+
+                                <div class="row small text-center">
+                                    <div class="col-sm-12 u-margin-top-half">
+                                        <div class="u-spacer-half"></div>
+                                        {% if user.is_authenticated %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile'  p.lawyer_id__user_id %}">View Profile</a> {% else %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" data-toggle="modal" data-target="#profile" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;border-radius: 5px;' href="">View Profile</a>                                    {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row small text-center">
+                                    <div class="col-sm-12 u-margin-top-half">
+                                        {% if user.is_authenticated %}
+                                        <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer'  p.lawyer_id__user_id %}">View All
+                                            Reviews</a></div>
+                                    {% else %}
+                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" data-toggle="modal" data-target="#review" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;' href="">View All Reviews</a>
+                                </div>
+
+                                {% endif %}
+                            </div>
+                            {% if user.is_authenticated and user.is_staff %}
+                            <div class="row small text-center">
+                                <div class="col-sm-12 u-margin-top-half">
+                                    <div class="u-spacer-half"></div><a rel="nofollow" data-id="{{ p.lawyer_id__user_id }}" class="btn-message btn-outline-review message_button" data-toggle="modal" data-target="#myModal1" data-whatever="@getbootstrap" style='background-color: #0040ff;text-decoration: none;width: 94%;border-radius: 5px;'
+                                        href="">Write Message</a>
+                                </div>
+
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-9 col-sm-10">
-                    <div class="row">
-                        <div class="col-xs-12 col-md-8">
+            </div>
+            {% endif %} 
+                  
+            {% else %}
+
+                <!-- SECOND PART -->
+                <div class="row" style='margin-top:5%;'>
+                    <div class="col-xs-3 col-sm-2 remove-right-gutter">
+                        <div class="labeled-img u-font-size-xs">
                             <a href='{% url "lawyer_profile" p.lawyer_id.user.id %}'>
-                                <h3 class="u-vertical-margin-0 lawyer-text">{{p.lawyer_id.user.first_name}} {{p.lawyer_id.user.last_name}}</h3>
-                            </a>
-                            <div class="row lawyer-row">
-                                <div class="col-xs-6">
-                                    <div class="u-margin-bottom-0 u-font-size-small">
-                                        <p class="visible-xs">
-                                            <span class="u-text-color-yellow">
-                                                    <div class='rating-stars'  style='margin-left:-11%;margin-top:-9%;'>
-                                              
-                                                            <ul id='stars'>
-                                                          
-                                                                    <li class='star' title='Poor' data-value='1' value='Poor'>
-                                                                    <i class='fa fa-star fa-fw'></i>
+                                <img class="img-responsive-lawyer loaded" src="{{ MEDIA_URL }}/{{p.lawyer_id.profile_image}}"></a>
+                        </div>
+                    </div>
+                    <div class="col-xs-9 col-sm-10">
+                        <div class="row">
+                            <div class="col-xs-12 col-md-8">
+                                <a href='{% url "lawyer_profile" p.lawyer_id.user.id %}'>
+                                    <h3 class="u-vertical-margin-0 lawyer-text">{{p.lawyer_id.user.first_name}} {{p.lawyer_id.user.last_name}}
+                                    </h3>
+                                </a>
+                                <div class="row lawyer-row">
+                                    <div class="col-xs-6">
+                                        <div class="u-margin-bottom-0 u-font-size-small">
+                                            <p class="visible-xs">
+                                                <span class="u-text-color-yellow">
+                                                    <div class='rating-stars' style='margin-left:-11%;margin-top:-9%;'>
+                                                        <ul id='stars'>
+                                                            <li class='star' title='Poor' data-value='1' value='Poor'><i
+                                                                    class='fa fa-star fa-fw'></i></li>
+                                                            {% if status == 1 %}
+                                                                {% if p.lawyer_id.user.id|rates > 1.0 and p.lawyer_id.user.id|rates <= 1.5 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star-half-o fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates > 2.0 and p.lawyer_id.user.id|rates <= 2.5 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star-half-o fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star-half-o fa-fw'
+                                                                        style='color: black;'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates > 3.0 and p.lawyer_id.user.id|rates <= 3.5 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star-half-o fa-fw'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates > 4.0 and p.lawyer_id.user.id|rates <= 4.5 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star-half-o fa-fw'></i></li>
+                                                                {% endif %}
+
+                                                            <!-- SECOND -->
+                                                                {% if p.lawyer_id.user.id|rates > 1.5 and p.lawyer_id.user.id|rates < 2.0 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates > 2.5 and p.lawyer_id.user.id|rates < 3.0 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates > 3.5 and p.lawyer_id.user.id|rates < 4.0 %}
+
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates > 4.5 and p.lawyer_id.user.id|rates < 5.0 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                {% endif %}
+
+                                                            <!-- THird-->
+                                                                {% if p.lawyer_id.user.id|rates == 1.0 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates == 2.0 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates == 3.0 %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw' </i> </li> <li class='star'
+                                                                        title='Excellent' data-value='4'><i
+                                                                            class='fa fa-star fa-fw' style='color: black;'></i>
                                                                 </li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates == 4.0  %}
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw' style='color: black;'></i></li>
+                                                                {% endif %}
+
+                                                                {% if p.lawyer_id.user.id|rates == 5.0  %}
+
+                                                                <li class='star' title='Fair' data-value='2'> <i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Good' data-value='3'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='Excellent' data-value='4'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                <li class='star' title='WOW!!!' data-value='5'><i
+                                                                        class='fa fa-star fa-fw'></i></li>
+                                                                {% endif %}
+
+
+                                                            {% else %}
                                                                 <li class='star' title='Fair' data-value='2'>
                                                                     <i class='fa fa-star fa-fw'></i>
                                                                 </li>
@@ -269,177 +699,187 @@
                                                                 </li>
                                                                 <li class='star' title='WOW!!!' data-value='5'>
                                                                     <i class='fa fa-star fa-fw'></i>
-                                                                </li> 
-                                                              
-                                                               
-                                                                <li class='star'>
-                                                                        {% for c in review_count %}
-                                                                       
-                                                                        {% if p.lawyer_id.user_id == c.lawyer_id__user_id%}
-                                                                            <small>total {{c.dcount}} reviews</small>
-                                                                        {% endif %}
-                                                                        {% endfor %}
-                                                                </li> 
-                                                            </ul>
-                                                        </div>
+                                                                </li>
+                                                            {% endif %}
+                                                            
+                                                            <li class='star'>
+                                                                {% for c in review_count %}
+                                                                {% if p.lawyer_id.user_id == c.lawyer_id__user_id%}
+                                                                <small>total {{c.dcount}} reviews</small> {% endif %}
+                                                                {% endfor %}
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 remove-right-gutter">
                                     <div class="row lawyer-row">
-                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter v-js-serp-lawyer-licensed">
+                                        <div
+                                            class="col-xs-12 hidden-xs hidden-sm remove-right-gutter v-js-serp-lawyer-licensed">
                                             <i class="svg-inline--fa fa fa-university fa-w-16 u-text-color-dark-gray"></i>
-                                            <span class="small text-muted-lawyer"> {{ p.lawyer_id.year_admitted|experience }} years licensed</span></div>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 remove-right-gutter">
-                                <div class="row lawyer-row">
-                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
-                                        <h3 class="u-vertical-margin-0 lawyer-email">{{ p.lawyer_id.state}}, {{p.lawyer_id.city}}</h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 remove-right-gutter">
-                                <div class="row lawyer-row">
-                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
-                                        {% if pname %}
-                                        <h3 class="u-vertical-margin-0 lawyer-email">{{ pname }}</h3>
-                                        {% else %}
-                                        <h3 class="u-vertical-margin-0 lawyer-email">{{ p.practice_area.practice }}</h3>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-xs-12 remove-right-gutter">
-                                <div class="row lawyer-row">
-                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
-                                        <h3 class="u-vertical-margin-0 lawyer-email" id='mapaddress'><i class="fa fa-map-marker marker-icon-css"></i> {% comment %} <a href="https://maps.google.com/maps?q=''" target="_blank" class="js-v-google-map-link map1"> {% endcomment %}
-                                        {{ p.lawyer_id.address1 }}
-                                        {% comment %} </a> {% endcomment %}
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 remove-right-gutter">
-                                <div class="row lawyer-row">
-
-                                    <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
-                                        <div style='max-height: 83px;overflow:hidden;'>
-
+                                            <span class="small text-muted-lawyer">
+                                                {{ p.lawyer_id.year_admitted|experience }} years licensed</span>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            <h3 class="u-vertical-margin-0 lawyer-email">{{ p.lawyer_id.state}}, {{p.lawyer_id.city}}
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            {% if pname %}
+                                            <h3 class="u-vertical-margin-0 lawyer-email">{{ pname }}</h3>
+                                            {% else %}
+                                            <h3 class="u-vertical-margin-0 lawyer-email">{{ p.practice_area.practice }}</h3>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            <h3 class="u-vertical-margin-0 lawyer-email" id='mapaddress'><i class="fa fa-map-marker marker-icon-css"></i> {{ p.lawyer_id.address1 }}
+
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 remove-right-gutter">
+                                    <div class="row lawyer-row">
+
+                                        <div class="col-xs-12 hidden-xs hidden-sm remove-right-gutter">
+                                            <div style='max-height: 83px;overflow:hidden;'>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <div class="col-xs-12 col-md-4 v-optimizely-card hidden-xs hidden-sm v-js-serp-lawyer-ctas">
+                            <div class="col-xs-12 col-md-4 v-optimizely-card hidden-xs hidden-sm v-js-serp-lawyer-ctas">
 
-                            <div class="row small text-center">
-                                <div class="col-sm-12 u-margin-top-half">
-                                    <div class="u-spacer-half"></div>
-                                    {% if user.is_authenticated %}
-                                    <a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a> {% else %}
-                                    <a rel="nofollow" class="btn-message btn-outline-review" data-toggle="modal" data-target="#profile" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>                                    {% endif %}
+                                <div class="row small text-center">
+                                    <div class="col-sm-12 u-margin-top-half">
+                                        <div class="u-spacer-half"></div>
+                                        {% if user.is_authenticated %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a> {% else %}
+                                        <a rel="nofollow" class="btn-message btn-outline-review" data-toggle="modal" data-target="#profile" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;border-radius: 5px;' href="{% url 'lawyer_profile' p.lawyer_id.user.id %}">View Profile</a>                                    {% endif %}
+                                    </div>
                                 </div>
+                                <div class="row small text-center">
+                                    <div class="col-sm-12 u-margin-top-half">
+                                        {% if user.is_authenticated %}
+                                        <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All
+                                            Reviews</a></div>
+                                    {% else %}
+                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" data-toggle="modal" data-target="#review" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a>
+                                </div>
+
+                                {% endif %}
                             </div>
+                            {% if user.is_authenticated and user.is_staff %}
                             <div class="row small text-center">
                                 <div class="col-sm-12 u-margin-top-half">
-                                    {% if user.is_authenticated %}
-                                    <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
-                                {% else %}
-                                <div class="u-spacer-half"></div><a rel="nofollow" class="btn-review btn-outline-review" data-toggle="modal" data-target="#review" data-whatever="@getbootstrap" style='text-decoration: none;width: 94%;' href="{% url 'viewall_review_lawyer' p.lawyer_id.user.id %}">View All Reviews</a></div>
+                                    <div class="u-spacer-half"></div><a rel="nofollow" data-id="{{ p.lawyer_id.user.id }}" class="btn-message btn-outline-review message_button" data-toggle="modal" data-target="#myModal1" data-whatever="@getbootstrap" style='background-color: #0040ff;text-decoration: none;width: 94%;border-radius: 5px;'
+                                        href="">Write Message</a>
+                                </div>
 
+                            </div>
                             {% endif %}
                         </div>
-                        {% if user.is_authenticated and user.is_staff %}
-                        <div class="row small text-center">
-                            <div class="col-sm-12 u-margin-top-half">
-                                <div class="u-spacer-half"></div><a rel="nofollow" data-id="{{ p.lawyer_id.user.id }}" class="btn-message btn-outline-review message_button" data-toggle="modal" data-target="#myModal1" data-whatever="@getbootstrap" style='background-color: #0040ff;text-decoration: none;width: 94%;border-radius: 5px;'
-                                    href="">Write Message</a></div>
-
-                        </div>
-                        {% endif %}
                     </div>
                 </div>
-
             </div>
 
-        </div>
-        {% endfor %}
-        <hr/>
-
-        <!-- START PAGINATION -->
-        <ul class="pagination">
-
-            {% if sub_area and rating and experience_id %} {% if lawyer.has_previous %}
-            <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-            {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
-            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
-            </li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endfor %} {% if data.has_next %}
-            <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-            {% endif %} {% elif state and sub_area and rating and experience_id %} {% if lawyer.has_previous %}
-            <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?state={{state}}&practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-            {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
-            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
-            </li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?state={{state}}&practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endfor %} {% if data.has_next %}
-            <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?state={{state}}&practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-            {% endif %} {% elif state %} {% if lawyer.has_previous %}
-            <li class="page-item"><a class="page-link" href="?state={{state}}&practice_area={{pname}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-            {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
-            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
-            </li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="?state={{state}}&practice_area={{pname}}&page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endfor %} {% if data.has_next %}
-            <li class="page-item"><a class="page-link" href="?state={{state}}&practice_area={{pname}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-            {% endif %} {% else %} {% if lawyer.has_previous %}
-            <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
-            {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
-            <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
-            </li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ i }}">{{ i }}</a></li>
-            {% endif %} {% endfor %} {% if data.has_next %}
-            <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
-            {% else %}
-            <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
-            {% endif %} {% endif %}
-        </ul>
-        <!-- END OF PAGINATION -->
+                <!-- END  -->
+                {% endif %}  
+            {% endfor %}
+    <hr />
+    <!-- START PAGINATION -->
+    <ul class="pagination">
+        {% if sub_area and rating and experience_id %} {% if lawyer.has_previous %}
+        <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.previous_page_number }}">&laquo;</a>
+        </li>
         {% else %}
-        <div class='container' style='margin-top:3%'>
-            <div class="alert alert-danger">
-                <strong>Oooop's!</strong> No Lawyers available...
-            </div>
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ i }}">{{ i }}</a>
+        </li>
+        {% endif %} {% endfor %} {% if data.has_next %}
+        <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.next_page_number }}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %} {% elif state and sub_area and rating and experience_id %} {% if lawyer.has_previous %}
+        <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?state={{state}}&practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.previous_page_number }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?state={{state}}&practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ i }}">{{ i }}</a>
+        </li>
+        {% endif %} {% endfor %} {% if data.has_next %}
+        <li class="page-item"><a class="page-link" href="{% url 'fitler_by_subarea_rating_experience' %}?state={{state}}&practice_area={{pname}}&sub_area={{sub_area}}&rating={{rating}}&range={{experience_id}}&page={{ lawyer.next_page_number }}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %} {% elif state %} {% if lawyer.has_previous %}
+        <li class="page-item"><a class="page-link" href="?state={{state}}&practice_area={{pname}}&page={{ lawyer.previous_page_number }}">&laquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?state={{state}}&practice_area={{pname}}&page={{ i }}">{{ i }}</a></li>
+        {% endif %} {% endfor %} {% if data.has_next %}
+        <li class="page-item"><a class="page-link" href="?state={{state}}&practice_area={{pname}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %} {% else %} {% if lawyer.has_previous %}
+        <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ lawyer.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+        {% endif %} {% for i in lawyer.paginator.page_range %} {% if lawyer.number == i %}
+        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span></span>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ i }}">{{ i }}</a></li>
+        {% endif %} {% endfor %} {% if data.has_next %}
+        <li class="page-item"><a class="page-link" href="?practice_area={{pname}}&page={{ lawyer.next_page_number }}">&raquo;</a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+        {% endif %} {% endif %}
+    </ul>
+    <!-- END OF PAGINATION -->
+    {% else %}
+    <div class='container' style='margin-top:3%'>
+        <div class="alert alert-danger">
+            <strong>Oooop's!</strong> No Lawyers available...
         </div>
-        {% endif %}
     </div>
-    <!-- END ROW -->
+    {% endif %}
+</div>
+<!-- END ROW -->
 </div>
 <!-- END CONTAINER -->
 
@@ -451,7 +891,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Message {{p.lawyer_id.user.first_name}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -502,34 +942,5 @@
     });
 </script>
 
-<script>
-    jQuery(function($) {
-        $(document).ajaxSend(function() {
-            $("#overlay").fadeIn(300);　
-        });
 
-        $(document).ready(function() {
-            $.ajax({
-                type: 'GET',
-                success: function(data) {
-                    console.log(data);
-                }
-            }).done(function() {
-                setTimeout(function() {
-                    $("#overlay").fadeOut(300);
-                }, 500);
-            });
-        });
-    });
-</script>
-{% comment %}
-<script>
-    $(document).ready(function() {
-        var q = encodeURIComponent($('#mapaddress').text());
-        console.log(q)
-
-        $('.map1').attr('href', 'https://www.google.com/maps?q=' + q);
-        console.log($('#map1').attr('href', 'https://www.google.com/maps?q=' + q))
-
-    });
-</script> {% endcomment %} {% endblock %}
+{% endblock %}

@@ -81,12 +81,17 @@
                             <div class="user-photo">
                                 <a href="{% url 'lawyer_profile' request.user.id %}">
                                     <img src="{{MEDIA_URL}}{{ request.user.id|profile_menu }}" alt="User Photo">
-                                    
-                                    
-                                     
+
                                 </a>
                             </div>
-                            {{lawyer_editform.profile_image|as_crispy_field}}
+                             <div class="file-upload">
+                            <div class="file-select">
+                                <div class="file-select-button" id="fileName">Choose File</div>
+                                <div class="file-select-name" id="noFile">No file chosen...</div>
+                                <input type="file" name='profile_image' name="chooseFile" id="chooseFile">
+                            </div>
+                        </div>
+                            {% comment %} {{lawyer_editform.profile_image|as_crispy_field}} {% endcomment %}
                             <!-- /.user-photo -->
                         </div>
                         <!-- /.widget -->
@@ -199,4 +204,17 @@
     <!-- /.main-inner -->
 </div>
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $('#chooseFile').bind('change', function() {
+        var filename = $("#chooseFile").val();
+        if (/^\s*$/.test(filename)) {
+            $(".file-upload").removeClass('active');
+            $("#noFile").text("No file chosen...");
+        } else {
+            $(".file-upload").addClass('active');
+            $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
+        }
+    });
+</script>
 {% endblock %}

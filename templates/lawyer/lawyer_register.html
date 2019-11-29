@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-sm-4">
                         {{user_form.password|as_crispy_field}}
-                         <strong style='font-size:13px;'><span id="passwordlength" class="fa fa-close" style="color:#FF0004;"></span> Password must be 6-10 characters long<br></strong>
+                        <strong style='font-size:13px;'><span id="passwordlength" class="fa fa-close" style="color:#FF0004;"></span> Password must be 6-10 characters long<br></strong>
                     </div>
                     <div class="col-sm-4">
                         {{user_form.confirm_password|as_crispy_field}}
@@ -72,7 +72,15 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        {{lawyer_form.profile_image|as_crispy_field}}
+                        {% comment %} {{lawyer_form.profile_image|as_crispy_field}} {% endcomment %}
+                            <label>Upload photo:<abbr><i style='color:red;'>*</i></abbr></label>
+                        <div class="file-upload">
+                            <div class="file-select">
+                                <div class="file-select-button" id="fileName">Choose File</div>
+                                <div class="file-select-name" id="noFile">No file chosen...</div>
+                                <input type="file" name='profile_image' name="chooseFile" id="chooseFile" required>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -88,35 +96,44 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script>
     $("input[type=password]").keyup(function() {
-        if($("#checkpassword").val().length >= 6 && $("#checkpassword").val().length <= 10)
-        {
+        if ($("#checkpassword").val().length >= 6 && $("#checkpassword").val().length <= 10) {
             $("#passwordlength").removeClass("fa-close");
             $("#passwordlength").addClass("fa-check");
-            $("#passwordlength").css("color","#00A41E");
-        }
-        else{
+            $("#passwordlength").css("color", "#00A41E");
+        } else {
 
             $("#passwordlength").removeClass("fa-check");
             $("#passwordlength").addClass("fa-close");
-            $("#passwordlength").css("color","#FF0004");
+            $("#passwordlength").css("color", "#FF0004");
         }
-        if($("#checkpassword").val() == '' &&  $("#checkconfirmpassword").val() == ''){
+        if ($("#checkpassword").val() == '' && $("#checkconfirmpassword").val() == '') {
             $("#pwmatch").removeClass("fa-check");
             $("#pwmatch").addClass("fa-close");
-            $("#pwmatch").css("color","#FF0004");
-        }
-        else if($("#checkpassword").val() == $("#checkconfirmpassword").val()){
+            $("#pwmatch").css("color", "#FF0004");
+        } else if ($("#checkpassword").val() == $("#checkconfirmpassword").val()) {
             $("#pwmatch").removeClass("fa-close");
             $("#pwmatch").addClass("fa-check");
-            $("#pwmatch").css("color","#00A41E");
-        }
-    
-        else {
+            $("#pwmatch").css("color", "#00A41E");
+        } else {
             $("#pwmatch").removeClass("fa-check");
             $("#pwmatch").addClass("fa-close");
-            $("#pwmatch").css("color","#FF0004");
+            $("#pwmatch").css("color", "#FF0004");
         }
 
+    });
+</script>
+
+
+<script>
+    $('#chooseFile').bind('change', function() {
+        var filename = $("#chooseFile").val();
+        if (/^\s*$/.test(filename)) {
+            $(".file-upload").removeClass('active');
+            $("#noFile").text("No file chosen...");
+        } else {
+            $(".file-upload").addClass('active');
+            $("#noFile").text(filename.replace("C:\\fakepath\\", ""));
+        }
     });
 </script>
 {% endblock %}

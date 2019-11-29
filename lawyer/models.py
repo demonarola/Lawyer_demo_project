@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User,AbstractUser
 from django.conf import settings
 from django.core.validators import RegexValidator
+from django_resized import ResizedImageField
 # from django.contrib.postgres.fields import ArrayField
 # Create your models here.
 
@@ -45,7 +46,7 @@ class Lawyer(models.Model):
     address1 = models.CharField(max_length=400,blank=False,null=False,validators=[
         RegexValidator(regex='(^[A-Za-z0-9]+|,| |/|[A-Za-z]+)+[A-Za-z0-9]+|,| |$',message='Enter Valid Address1')
     ])
-    address2 = models.CharField(max_length=400,blank=False,null=False,validators=[
+    address2 = models.CharField(max_length=400,blank=True,null=True,validators=[
         RegexValidator(regex='(^[A-Za-z0-9]+|,| |/|[A-Za-z]+)+[A-Za-z0-9]+|,| |$',message='Enter Valid Address2')
     ])
     city = models.CharField(max_length=128,blank=False,null=False,validators=[

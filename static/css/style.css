@@ -116,6 +116,7 @@ p {
     float: none !important;
     margin-left: auto;
     margin-right: auto;
+    width: 55%;
 }
 
 label.required abbr[title="required"] {
@@ -1563,6 +1564,91 @@ a:hover {
     font-size: 20px;
     font-weight: 200;
 }
+
+
+/* END */
+
+
+/* HIDE/SHOW PASSWORD */
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: #337ab7;
+    /*display: none;*/
+    /*font-size: .9em;*/
+    font-weight: 600;
+    /*padding: .5em;*/
+    position: absolute;
+    right: .75em;
+    z-index: 9;
+}
+
+.btn {
+    margin-top: 1.75em;
+}
+
+.eye {
+    position: absolute;
+    z-index: 1;
+    margin-top: -175%;
+    margin-left: -122%;
+    font-size: 17px;
+}
+
+
+/* FILE UPLOAD CSS */
+
+.file-upload {
+    display: block;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.file-upload .file-select {
+    display: block;
+    border: 2px solid #dce4ec;
+    color: #34495e;
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+    text-align: left;
+    background: #FFFFFF;
+    overflow: hidden;
+    position: relative;
+}
+
+.file-upload .file-select .file-select-button {
+    background: #dce4ec;
+    padding: 0 10px;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+}
+
+.file-upload .file-select .file-select-name {
+    line-height: 40px;
+    display: inline-block;
+    padding: 0 10px;
+}
+
+.file-upload .file-select input[type=file] {
+    z-index: 100;
+    cursor: pointer;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+
+/* END OF FILE UPLOAD CSS */
 
 
 /* END */

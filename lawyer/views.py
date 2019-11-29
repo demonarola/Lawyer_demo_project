@@ -18,6 +18,7 @@ from django.contrib.auth.hashers import check_password
 import datetime
 from dateutil.relativedelta import relativedelta
 from django.contrib.admin.views.decorators import staff_member_required
+from django_resized import ResizedImageField
 # from django.core.mail.message import EmailMessage
 
 # Create your views here.
@@ -25,7 +26,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 def index(request):
     ''' Dashboard '''
-    lawyer = Lawyer.objects.all()
+    lawyer = Lawyer.objects.all()[:9]
     review_lawyer = Review_Lawyer.objects.all()
     review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
     
@@ -133,7 +134,7 @@ def send_messages(request):
         subject = 'Lawyer'
         message = 'From:'+ message
         recipient_list = [lawyer_email,]
-        # send_mail(subject, message, EMAIL_HOST_USER, recipient_list, connection=connection)
+        send_mail(subject, message, EMAIL_HOST_USER, recipient_list, connection=connection)
         # if request.recaptcha_is_valid:
         # else:
         #     msg= 'Invalid reCAPTCHA. Please try again.'
@@ -179,6 +180,7 @@ def lawyer(request):
                     msg = 'Password and Confirm Passwords Must be same...'
             else:
                 msg= 'Invalid reCAPTCHA. Please try again.'
+        
     return render(request,'lawyer/lawyer_register.html',{'user_form':user_form,'lawyer_form':lawyer_form,'msg':msg})
 
 
@@ -376,7 +378,7 @@ def change_password(request):
                 msg = 'Password and Confirm Password must be same..'
         else:
             status = 0
-            msg = 'Enter Valid Old Password..'     
+            msg = 'Enter Valid Current Password..'     
     return render(request,'client/change_password.html',{'status':status,'msg':msg})
 
 
@@ -389,11 +391,17 @@ def fitler_by_subarea_rating_experience(request):
     r2 = ''
     state = ''
     lawyer_state = ''
+    rate1 = ''
+    rate2 = ''
     try:
         pname = request.GET['practice_area']
         sub_area = request.GET['sub_area']
         experience_id = request.GET['range']
         rating = request.GET['rating']
+        if rating != '0':
+            status = 1
+        else:
+            status = 0
         state = request.GET['state']
         
     except Exception as e:
@@ -429,24 +437,45 @@ def fitler_by_subarea_rating_experience(request):
             lawyer_filter_data = Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__state=lawyer_state,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1,lawyer_id__user_id__in=Subquery(Review_Lawyer.objects.filter(rating__gte=rating).values('lawyer_id__user_id')))
         else:
             lawyer_filter_data = Lawyer_practice_area.objects.filter(practice_area__practice=pname,sub_practice_area__contains=sub_area,lawyer_id__state=lawyer_state,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1,lawyer_id__user_id__in=Subquery(Review_Lawyer.objects.filter(rating__gte=rating).values('lawyer_id__user_id')))
-
     else:
         if sub_area == 'ALL':
-            lawyer_filter_data = Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1,lawyer_id__user_id__in=Subquery(Review_Lawyer.objects.filter(rating__gte=rating).values('lawyer_id__user_id')))
+            lawyer_filter_data = Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1,lawyer_id__user_id__in=Subquery(Review_Lawyer.objects.all().values('lawyer_id__user_id')))
         else:
-            lawyer_filter_data = Lawyer_practice_area.objects.filter(practice_area__practice=pname,sub_practice_area__contains=sub_area,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1,lawyer_id__user_id__in=Subquery(Review_Lawyer.objects.filter(rating__gte=rating).values('lawyer_id__user_id')))
+            lawyer_filter_data = Lawyer_practice_area.objects.filter(practice_area__practice=pname,sub_practice_area__contains=sub_area,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1,lawyer_id__user_id__in=Subquery(Review_Lawyer.objects.all().values('lawyer_id__user_id')))
+          
+    if status == 1:
+        if rating == '5':
+            rate1 = 5.0
+            rate2 = 6.0
+        elif rating == '4':
+            rate1 = 4.0
+            rate2 = 5.0
+        elif rating == '3':
+            rate1 = 3.0
+            rate2 = 5.0
+        elif rating == '2':
+            rate1 = 1.0
+            rate2 = 5.0
+        elif rating == '1':
+            rate1 = 0.0
+            rate2 = 5.0
+        if state:
+            if sub_area == 'ALL':
+                lawyer_filter_data = Review_Lawyer.objects.all().filter(lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__state=lawyer_state,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1).values('lawyer_id__user_id'))).values('lawyer_id__user_id','lawyer_id__user__first_name','lawyer_id__user__last_name','lawyer_id__state__state_name','lawyer_id__city','lawyer_id__year_admitted','lawyer_id__address1','lawyer_id__profile_image').annotate(avg=Avg('rating')).filter(avg__gte=rate1,avg__lte=rate2)
+            else:
+                lawyer_filter_data = Review_Lawyer.objects.all().filter(lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__state=lawyer_state,sub_practice_area__contains=sub_area,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1).values('lawyer_id__user_id'))).values('lawyer_id__user_id','lawyer_id__user__first_name','lawyer_id__user__last_name','lawyer_id__state__state_name','lawyer_id__city','lawyer_id__year_admitted','lawyer_id__address1','lawyer_id__profile_image').annotate(avg=Avg('rating')).filter(avg__gte=rate1,avg__lte=rate2)
+        else:
+            if sub_area == 'ALL':
+                lawyer_filter_data = Review_Lawyer.objects.all().filter(lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1).values('lawyer_id__user_id'))).values('lawyer_id__user_id','lawyer_id__user__first_name','lawyer_id__user__last_name','lawyer_id__state__state_name','lawyer_id__city','lawyer_id__year_admitted','lawyer_id__address1','lawyer_id__profile_image').annotate(avg=Avg('rating')).filter(avg__gte=rate1,avg__lte=rate2)
+            else:
+                lawyer_filter_data = Review_Lawyer.objects.all().filter(lawyer_id__user_id__in=Subquery(Lawyer_practice_area.objects.filter(practice_area__practice=pname,sub_practice_area__contains=sub_area,lawyer_id__year_admitted__gte=range2,lawyer_id__year_admitted__lte=range1).values('lawyer_id__user_id'))).values('lawyer_id__user_id','lawyer_id__user__first_name','lawyer_id__user__last_name','lawyer_id__state__state_name','lawyer_id__city','lawyer_id__year_admitted','lawyer_id__address1','lawyer_id__profile_image').annotate(avg=Avg('rating')).filter(avg__gte=rate1,avg__lte=rate2)
 
-
-    # lawyer_filter_data = []
-    # lawyer_exists_ids = []
-  
-    # for item in lawyer_filter_data_unique:
-    #     if item.lawyer_id.user_id not in lawyer_exists_ids:
-    #         lawyer_filter_data.append(item)
-    #         lawyer_exists_ids.append(item.lawyer_id.user_id)
+      
 
     review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
+       
 
+  
     ############### PAGINATION   ###############
     page = request.GET.get('page',1)
     paginator = Paginator(lawyer_filter_data, 3)
@@ -458,6 +487,6 @@ def fitler_by_subarea_rating_experience(request):
         lawyer_filter_data = paginator.page(paginator.num_pages)
     ###############   END   ###############
   
-    return render(request,'client/view_lawyers.html',{'lawyer':lawyer_filter_data,'pname':pname,'sub_practice_area':sub_practice_area,'sub_area':sub_area,'rating':rating,'experience_id':experience_id,'review_count':review_count,'lawyer_state':lawyer_state,'state':state})
+    return render(request,'client/view_lawyers.html',{'lawyer':lawyer_filter_data,'pname':pname,'sub_practice_area':sub_practice_area,'sub_area':sub_area,'rating':rating,'experience_id':experience_id,'review_count':review_count,'lawyer_state':lawyer_state,'state':state,'status':status,'rate1':rate1,'rate2':rate2,})
 
 
