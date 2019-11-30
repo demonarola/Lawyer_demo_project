@@ -132,7 +132,7 @@ def send_messages(request):
                                     use_tls=EMAIL_USE_TLS) 
 
         subject = 'Lawyer'
-        message = 'From:'+ message
+        message = '<h4>'+ message + '</h4>'
         recipient_list = [lawyer_email,]
         send_mail(subject, message, EMAIL_HOST_USER, recipient_list, connection=connection)
         # if request.recaptcha_is_valid:
