@@ -886,7 +886,7 @@
 
 <!-- START SEND MWSSAGE MODAL -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModal1" aria-hidden="true">
-    {% comment %} <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Message {{p.lawyer_id.user.first_name}}</h5>
@@ -908,7 +908,7 @@
                 <button type="button" class="btn btn-primary">Send message</button>
             </div>
         </div>
-    </div> {% endcomment %}
+    </div>
 </div>
 <!-- END OF SEND MESSAGE MODAL -->
 {% include 'client/login_modal.html' %}
