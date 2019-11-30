@@ -18,7 +18,7 @@ from django.contrib.auth.hashers import check_password
 import datetime
 from dateutil.relativedelta import relativedelta
 from django.contrib.admin.views.decorators import staff_member_required
-from django_resized import ResizedImageField
+
 # from django.core.mail.message import EmailMessage
 
 # Create your views here.
@@ -474,11 +474,9 @@ def fitler_by_subarea_rating_experience(request):
 
     review_count = Review_Lawyer.objects.values('lawyer_id__user_id').annotate(dcount=Count('review'))
        
-
-  
     ############### PAGINATION   ###############
     page = request.GET.get('page',1)
-    paginator = Paginator(lawyer_filter_data, 3)
+    paginator = Paginator(lawyer_filter_data, 10)
     try:
         lawyer_filter_data = paginator.page(page)
     except PageNotAnInteger:

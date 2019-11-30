@@ -22,9 +22,11 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',views.index,name='index'),
+
     path('login/',views.user_login,name='login'),
     path('client_signup/',views.client_signup,name='client_signup'),
     path('logout/',views.user_logout,name='logout'),
+
     path('view_lawyers/',views.view_lawyer,name='view_lawyers'),
     path('lawyer_register/',views.lawyer,name='lawyer_register'),
     path('filter_by_practice/',views.subarea_dependent_dropdown,name='area_dropdown'),
