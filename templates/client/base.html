@@ -101,6 +101,8 @@
                     </div>
                 </li>   
             </ul> 
+            {% else %}
+                {{request.user.first_name}} {{request.user.last_name}}&nbsp;
             {% endif %} 
                 
             </form>
