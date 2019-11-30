@@ -144,6 +144,7 @@ EMAIL_HOST_USER = 'ganga11497@gmail.com'
 EMAIL_HOST_PASSWORD = 'gangapalla400'
 
 
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # DJANGORESIZED_DEFAULT_SIZE = [112, 149]
 # DJANGORESIZED_DEFAULT_QUALITY = 75
