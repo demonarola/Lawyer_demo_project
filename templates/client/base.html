@@ -95,14 +95,14 @@
                    </a>
                     <div class="dropdown-menu" style='margin-left: -200%;' aria-labelledby="navbarDropdownMenuLink">
                      <a class="dropdown-item" href="{% url 'change_password' %}" style='font-size: 14px;'>Change Password<span class="sr-only"></span></a>
-                     <a class="dropdown-item" href="{% url "lawyer_profile" user.id  %}" style='font-size: 14px;'>View Profile<span class="sr-only"></span></a>
+                     <a class="dropdown-item" href="{% url 'lawyer_profile' user.id  %}" style='font-size: 14px;'>View Profile<span class="sr-only"></span></a>
                    <a class="dropdown-item" href="{% url 'lawyer_edit_profile' %}" style='font-size: 14px;'>Edit Profile<span class="sr-only"></span></a>
                     <a class="dropdown-item" href="{% url 'logout' %}" style='font-size: 14px;'>Sign Out <span class="sr-only"></span></a>
                     </div>
                 </li>   
             </ul> 
-            {% else %}
-                <b>Welcome, {{request.user.first_name}} {{request.user.last_name}}&nbsp;
+            {% elif  request.user.is_staff %}
+                <b>Welcome</b>, {{request.user.first_name}} {{request.user.last_name}}&nbsp;
             {% endif %} 
                 
             </form>
