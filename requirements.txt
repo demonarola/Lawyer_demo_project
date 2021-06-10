@@ -1,6 +1,6 @@
 certifi==2019.9.11
 chardet==3.0.4
-Django==2.2.6
+Django==2.2.24
 django-crispy-forms==1.7.2
 django-registration-redux==2.6
 django-resized==0.3.9
